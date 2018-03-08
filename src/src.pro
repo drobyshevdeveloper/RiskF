@@ -8,7 +8,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = src
+TARGET = RiskF
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
@@ -23,9 +23,47 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 
+
+LC_VERSION="1.0.1"
+VERSION=$${LC_VERSION}
+
+# Для работы отладочных функций закомментируйте следующую строку
+# иначе вывод отладочной информации будет заблокирован
+# DEFINES += QT_NO_DEBUG_OUTPUT
+
+
+# Store intermedia stuff somewhere else
+GENERATED_DIR = ../generated/RiskF
+
+
+# Store intermedia stuff somewhere else
+OBJECTS_DIR = $${GENERATED_DIR}/obj
+MOC_DIR = $${GENERATED_DIR}/moc
+RCC_DIR = $${GENERATED_DIR}/rcc
+UI_DIR = $${GENERATED_DIR}/ui
+UI_HEADERS_DIR = $${GENERATED_DIR}/ui
+UI_SOURCES_DIR = $${GENERATED_DIR}/ui
+
+
+INCLUDEPATH += \
+        lib \
+        lib/debug \
+        main
+
+
+
+
+##################################################################
+# main
 SOURCES += \
-        main.cpp \
-        mainwindow.cpp
+        main/main.cpp \
+        main/mainwindow.cpp
 
 HEADERS += \
-        mainwindow.h
+        main/mainwindow.h
+
+
+##################################################################
+# Library
+HEADERS += \
+        lib/debug/rl_debug.h
