@@ -19,6 +19,7 @@
 #define FL_SETTINGS_H
 
 #include <QSettings>
+#include <QString>
 
 /*******************************
  * FL_Settings - класс поддержки сохранения настроек приложения
