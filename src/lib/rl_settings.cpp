@@ -15,19 +15,38 @@
 **
 ****************************************************************************/
 
-#include "fl_settings.h"
+#include <QDebug>
+#include <QCoreApplication>
 
-FL_Settings* FL_Settings::uniqInstance = nullptr;
+#include "RL_settings.h"
 
-FL_Settings::FL_Settings()
+RL_Settings*         RL_Settings::uniqueInstance = nullptr;
+RL_SettingsDestroyer RL_Settings::destroyer;
+
+// Автоматическое разрушение объекта
+RL_SettingsDestroyer::~RL_SettingsDestroyer()
+{
+    delete instance;
+}
+
+void RL_SettingsDestroyer::initialize(RL_Settings *p)
+{
+    instance = p;
+}
+
+// RL_Settings
+RL_Settings::RL_Settings()
+    :QSettings( QCoreApplication::organizationName(),
+                QCoreApplication::applicationName() )
 {
 
 }
 
-FL_Settings* FL_Settings::instance()
+RL_Settings &RL_Settings::instance()
 {
     if (!uniqueInstance) {
-        uniqueInstance = new FL_Settings();
+        uniqueInstance = new RL_Settings();
+        destroyer.initialize( uniqueInstance );
     }
-    return uniqueInstance;
+    return *uniqueInstance;
 }

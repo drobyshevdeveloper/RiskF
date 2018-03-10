@@ -5,6 +5,6 @@
 
 #include <QDebug>
 
-#define FL_DEBUG qDebug()
+#define RL_DEBUG qDebug()
 
 #endif // RL_DEBUG_H

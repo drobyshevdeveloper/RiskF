@@ -24,7 +24,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 
-LC_VERSION="1.0.2"
+LC_VERSION="1.0.3"
 VERSION=$${LC_VERSION}
 
 # Для работы отладочных функций закомментируйте следующую строку
@@ -68,7 +68,7 @@ HEADERS += \
 # Library
 HEADERS += \
         lib/debug/rl_debug.h \
-        lib/fl_settings.h
+        lib/rl_settings.h
 
 SOURCES += \
-        lib/fl_settings.cpp
+        lib/rl_settings.cpp

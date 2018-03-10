@@ -15,31 +15,46 @@
 **
 ****************************************************************************/
 
-#ifndef FL_SETTINGS_H
-#define FL_SETTINGS_H
+#ifndef RL_SETTINGS_H
+#define RL_SETTINGS_H
 
 #include <QSettings>
 #include <QString>
 
-/*******************************
- * FL_Settings - класс поддержки сохранения настроек приложения
- *
- *******************************/
-class FL_Settings : public QSettings
+#define RL_SETTINGS RL_Settings::instance()
+
+class RL_Settings;  // Опережающее объявление
+
+/**
+ * @brief RL_SettingsDestroyer - класс автоматического разрушения объекта RL_Settings
+ */
+class RL_SettingsDestroyer
+{
+private:
+    RL_Settings* instance;
+public:
+    ~RL_SettingsDestroyer();
+    void initialize( RL_Settings* p );
+};
+
+/**
+ * @brief RL_Settings - класс поддержки сохранения настроек приложения
+ */
+class RL_Settings : public QSettings
 {
 public:
-    FL_Settings();
+    RL_Settings();
 
     /**
      * @brief instance
      * @return - возвращает единственный экземпляр объекта
      */
-    static FL_Settings* instance();
+    static RL_Settings& instance();
 
+    friend class RL_SettingsDestroyer;
 private:
-    static FL_Settings uniqInstance;
-
-
+    static RL_Settings* uniqueInstance;
+    static RL_SettingsDestroyer destroyer;
 };
 
-#endif // FL_SETTINGS_H
+#endif // RL_SETTINGS_H
