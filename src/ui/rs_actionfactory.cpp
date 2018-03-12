@@ -15,13 +15,11 @@
 **
 ****************************************************************************/
 
-#ifndef RL_DEBUG_H
-#define RL_DEBUG_H
+#include "rs_actionfactory.h"
 
-//void _fl_debug();
+RS_ActionFactory::RS_ActionFactory(QObject *parent, QObject *a_handler)
+    : QObject(parent)
+    , action_handler(a_handler)
+{
 
-#include <QDebug>
-
-#define RL_DEBUG qDebug()
-
-#endif // RL_DEBUG_H
+}

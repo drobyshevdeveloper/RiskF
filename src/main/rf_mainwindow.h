@@ -15,13 +15,29 @@
 **
 ****************************************************************************/
 
-#ifndef RL_DEBUG_H
-#define RL_DEBUG_H
+#ifndef RF_MAINWINDOW_H
+#define RF_MAINWINDOW_H
 
-//void _fl_debug();
+#include <QMainWindow>
 
-#include <QDebug>
+class RS_ActionHandler;
 
-#define RL_DEBUG qDebug()
+class RF_MainWindow : public QMainWindow
+{
+    Q_OBJECT
 
-#endif // RL_DEBUG_H
+public:
+    RF_MainWindow(QWidget *parent = 0);
+    ~RF_MainWindow();
+
+
+public slots:
+    void slotWindowActivated(QMdiSubWindow* w);
+private:
+    QMdiArea* mdiAreaCAD;
+
+    RS_ActionHandler* action_handler;
+
+};
+
+#endif // RF_MAINWINDOW_H

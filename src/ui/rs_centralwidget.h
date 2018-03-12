@@ -15,13 +15,21 @@
 **
 ****************************************************************************/
 
-#ifndef RL_DEBUG_H
-#define RL_DEBUG_H
+#ifndef RS_CENTRALWIDGET_H
+#define RS_CENTRALWIDGET_H
 
-//void _fl_debug();
+#include <QFrame>
+#include <QMdiArea>
 
-#include <QDebug>
+class RS_CentralWidget : public QFrame
+{
+public:
+    RS_CentralWidget(QWidget* parent);
+    QMdiArea* getMdiArea();
 
-#define RL_DEBUG qDebug()
+private:
 
-#endif // RL_DEBUG_H
+    QMdiArea* mdi_area;
+};
+
+#endif // RS_CENTRALWIDGET_H

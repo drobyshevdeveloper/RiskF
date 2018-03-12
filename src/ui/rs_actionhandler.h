@@ -15,13 +15,20 @@
 **
 ****************************************************************************/
 
-#ifndef RL_DEBUG_H
-#define RL_DEBUG_H
+#ifndef RS_ACTIONHANDLER_H
+#define RS_ACTIONHANDLER_H
 
-//void _fl_debug();
+#include <QObject>
 
-#include <QDebug>
+class RS_ActionHandler : public QObject
+{
+    Q_OBJECT
+public:
+    RS_ActionHandler(QObject *parent);
 
-#define RL_DEBUG qDebug()
+signals:
 
-#endif // RL_DEBUG_H
+public slots:
+};
+
+#endif // RS_ACTIONHANDLER_H

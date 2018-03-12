@@ -15,13 +15,10 @@
 **
 ****************************************************************************/
 
-#ifndef RL_DEBUG_H
-#define RL_DEBUG_H
+#include "rs_actionhandler.h"
 
-//void _fl_debug();
+RS_ActionHandler::RS_ActionHandler(QObject *parent)
+    : QObject(parent)
+{
 
-#include <QDebug>
-
-#define RL_DEBUG qDebug()
-
-#endif // RL_DEBUG_H
+}
