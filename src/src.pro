@@ -24,7 +24,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 
-LC_VERSION="1.0.4"
+LC_VERSION="1.0.5"
 VERSION=$${LC_VERSION}
 
 # Для работы отладочных функций закомментируйте следующую строку
@@ -49,9 +49,11 @@ INCLUDEPATH += \
         lib \
         lib/debug \
         main \
-        ui
+        ui \
+        ../res
 
 
+RESOURCES += ../res/icons/icons.qrc
 
 
 ##################################################################
@@ -61,13 +63,17 @@ SOURCES += \
         main/rf_mainwindow.cpp \
         ui/rs_centralwidget.cpp \
         ui/rs_actionfactory.cpp \
-        ui/rs_actionhandler.cpp
+        ui/rs_actionhandler.cpp \
+        ui/rs_actiongroupmanager.cpp \
+        ui/rs_widgetfactory.cpp
 
 HEADERS += \
         main/rf_mainwindow.h \
         ui/rs_centralwidget.h \
         ui/rs_actionfactory.h \
-        ui/rs_actionhandler.h
+        ui/rs_actionhandler.h \
+        ui/rs_actiongroupmanager.h \
+        ui/rs_widgetfactory.h
 
 
 ##################################################################

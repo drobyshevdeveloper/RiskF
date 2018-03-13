@@ -15,38 +15,32 @@
 **
 ****************************************************************************/
 
-#ifndef RF_MAINWINDOW_H
-#define RF_MAINWINDOW_H
+#include "rs_actiongroupmanager.h"
 
-#include <QMainWindow>
-#include <QMap>
+#include <QActionGroup>
 
-class QMdiArea;
-class QMdiSubWindow;
-class RS_ActionHandler;
-class RS_ActionGroupManager;
-
-class RF_MainWindow : public QMainWindow
+RS_ActionGroupManager::RS_ActionGroupManager(QObject *parent)
+    : QObject(parent)
+    , file( new QActionGroup(this))
+    , insert(new QActionGroup(this))
 {
-    Q_OBJECT
+    file->setObjectName(tr("file"));
+    insert->setObjectName(tr("insert"));
 
-public:
-    RF_MainWindow(QWidget *parent = 0);
-    ~RF_MainWindow();
+    foreach (auto ag, findChildren<QActionGroup*>()) {
+        ag->setExclusive(false);
+        // В будущем необходимо связать сигналами главное окно с QAction
+    }
+}
 
 
-public slots:
-    void slotWindowActivated(QMdiSubWindow* w);
+/*
+QList<QActionGroup*> RS_ActionGroupManager::toolGroup()
+{
+    QList<QActionGroup*> ag_list;
+    ag_list << file
+            << insert;
 
-    void slotFileNew();
-private:
-    QMdiArea* mdiAreaCAD;
-
-    RS_ActionHandler* action_handler;
-
-    QMap<QString, QAction*> a_map;
-    RS_ActionGroupManager* ag_manager;
-
-};
-
-#endif // RF_MAINWINDOW_H
+    return ag_list;
+}
+*/

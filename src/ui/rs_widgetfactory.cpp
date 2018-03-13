@@ -15,38 +15,18 @@
 **
 ****************************************************************************/
 
-#ifndef RF_MAINWINDOW_H
-#define RF_MAINWINDOW_H
+#include "rs_widgetfactory.h"
 
-#include <QMainWindow>
-#include <QMap>
+#include "rf_mainwindow.h"
+#include "rs_actiongroupmanager.h"
 
-class QMdiArea;
-class QMdiSubWindow;
-class RS_ActionHandler;
-class RS_ActionGroupManager;
-
-class RF_MainWindow : public QMainWindow
+RS_WidgetFactory::RS_WidgetFactory(RF_MainWindow* main_win,
+                                   QMap<QString,QAction*>& action_map,
+                                   RS_ActionGroupManager* agm)
+    : QObject(nullptr)
+    , main_window(main_win)
+    , a_map(action_map)
+    , ag_manager(agm)
 {
-    Q_OBJECT
 
-public:
-    RF_MainWindow(QWidget *parent = 0);
-    ~RF_MainWindow();
-
-
-public slots:
-    void slotWindowActivated(QMdiSubWindow* w);
-
-    void slotFileNew();
-private:
-    QMdiArea* mdiAreaCAD;
-
-    RS_ActionHandler* action_handler;
-
-    QMap<QString, QAction*> a_map;
-    RS_ActionGroupManager* ag_manager;
-
-};
-
-#endif // RF_MAINWINDOW_H
+}

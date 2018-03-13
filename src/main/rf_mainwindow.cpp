@@ -20,12 +20,15 @@
 #include <QStatusBar>
 
 #include "rl_debug.h"
+#include "rs_centralwidget.h"
 #include "rs_actionhandler.h"
 #include "rs_actionfactory.h"
+#include "rs_actiongroupmanager.h"
 
 RF_MainWindow::RF_MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , action_handler( new RS_ActionHandler(this) )
+    , ag_manager( new RS_ActionGroupManager(this) )
 {
 
     // Инициализация строки состояния
@@ -40,7 +43,8 @@ RF_MainWindow::RF_MainWindow(QWidget *parent)
     connect(mdiAreaCAD, SIGNAL(subWindowActivated(QMdiSubWindow*)),
             this, SLOT(slotWindowActivated(QMdiSubWindow*)));
 
-    auto a_factory = RS_ActionFactory(this, action_handler);
+    auto a_factory = new RS_ActionFactory(this, action_handler);
+    a_factory->fillActionContainer(a_map, ag_manager);
 
 
 
@@ -56,4 +60,11 @@ void RF_MainWindow::slotWindowActivated(QMdiSubWindow *w)
     RL_DEBUG << "RF_MainWindow::slotWindowActivate begin";
 
     RL_DEBUG << "RF_MainWindow::slotWindowActivate Ok";
+}
+
+void RF_MainWindow::slotFileNew()
+{
+    RL_DEBUG << "RF_MainWindow::slotFileNew begin";
+
+    RL_DEBUG << "RF_MainWindow::slotFileNew Ok";
 }

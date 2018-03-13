@@ -19,6 +19,11 @@
 #define RS_ACTIONFACTORY_H
 
 #include <QObject>
+#include <QMap>
+#include <QString>
+
+class QAction;
+class RS_ActionGroupManager;
 
 class RS_ActionFactory : public QObject
 {
@@ -26,8 +31,11 @@ class RS_ActionFactory : public QObject
 public:
     RS_ActionFactory(QObject *parent, QObject *a_handler);
 
+    void fillActionContainer(QMap<QString, QAction*>&a_map, RS_ActionGroupManager* agm);
+
 private:
     QObject* action_handler;
+    QObject* main_window;
 };
 
 #endif // RS_ACTIONFACTORY_H

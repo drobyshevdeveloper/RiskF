@@ -16,10 +16,13 @@
 ****************************************************************************/
 
 #include "rf_mainwindow.h"
-#include <QApplication>
 
-#include "../lib/debug/rl_debug.h"
-#include "../lib/rl_settings.h"
+#include <QApplication>
+#include <QMdiArea>
+#include <QMdiSubWindow>
+
+#include "rl_debug.h"
+#include "rl_settings.h"
 
 int main(int argc, char *argv[])
 {
