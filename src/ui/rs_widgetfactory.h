@@ -22,9 +22,10 @@
 #include <QMap>
 #include <QString>
 
+class QAction;
+class QMenuBar;
 class RF_MainWindow;
 class RS_ActionGroupManager;
-class QAction;
 
 class RS_WidgetFactory : public QObject
 {
@@ -34,10 +35,13 @@ public:
                               QMap<QString, QAction *> &action_map,
                               RS_ActionGroupManager* agm);
 
+    void createMenus(QMenuBar* menu_bar);
 private:
     RF_MainWindow* main_window;
     QMap<QString,QAction*>& a_map;
     RS_ActionGroupManager* ag_manager;
+
+    QList<QAction*> file_actions;
 };
 
 #endif // RS_WIDGETFACTORY_H
