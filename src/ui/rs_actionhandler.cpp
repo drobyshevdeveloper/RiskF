@@ -17,8 +17,26 @@
 
 #include "rs_actionhandler.h"
 
+#include "rl_debug.h"
+
 RS_ActionHandler::RS_ActionHandler(QObject *parent)
     : QObject(parent)
 {
 
+}
+
+// ==========================================
+// === Insert ===
+void RS_ActionHandler::slotInsertLine()
+{
+    RL_DEBUG << "RS_ActionHandler::slotInsertLine() Begin";
+
+    RL_DEBUG << "RS_ActionHandler::slotInsertLine() Ok";
+}
+
+void RS_ActionHandler::slotInsertRoom()
+{
+    RL_DEBUG << "RS_ActionHandler::slotInsertRoom() Begin";
+
+    RL_DEBUG << "RS_ActionHandler::slotInsertRoom() Ok";
 }

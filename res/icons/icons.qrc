@@ -1,5 +1,9 @@
 <RCC>
     <qresource prefix="/icons">
         <file>new.png</file>
+        <file>activity.svg</file>
+        <file>file.svg</file>
+        <file>file-plus.svg</file>
+        <file>square.svg</file>
     </qresource>
 </RCC>

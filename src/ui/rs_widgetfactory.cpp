@@ -17,6 +17,9 @@
 
 #include "rs_widgetfactory.h"
 
+#include <QMenu>
+#include <QMenuBar>
+
 #include "rf_mainwindow.h"
 #include "rs_actiongroupmanager.h"
 
@@ -30,10 +33,34 @@ RS_WidgetFactory::RS_WidgetFactory(RF_MainWindow* main_win,
 {
     file_actions
             << a_map["FileNew"];
+    insert_actions
+            << a_map["InsertLine"]
+            << a_map["InsertRoom"];
 
 }
 
-RS_WidgetFactory::createMenus(QMenuBar *menu_bar)
+void RS_WidgetFactory::createMenus(QMenuBar *menu_bar)
 {
+    QMenu* sub_menu;
+    
+    // == File ==
+    file_menu = new QMenu(RF_MainWindow::tr("&File"), menu_bar);
+    file_menu->setObjectName("File");
+    file_menu->setTearOffEnabled(false); // false - неоткрепляемое меню
+    file_menu->addActions(file_actions);
+
+    // == Insert ==
+    insert_menu = new QMenu(RF_MainWindow::tr("&Insert"), menu_bar);
+    insert_menu->setObjectName("Insert");
+    insert_menu->setTearOffEnabled(false);
+    insert_menu->addActions(insert_actions);
+
+
+    // ...
+
+
+    // ...
+    menu_bar->addMenu(file_menu);
+    menu_bar->addMenu(insert_menu);
 
 }

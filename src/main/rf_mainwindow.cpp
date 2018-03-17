@@ -24,6 +24,7 @@
 #include "rs_actionhandler.h"
 #include "rs_actionfactory.h"
 #include "rs_actiongroupmanager.h"
+#include "rs_widgetfactory.h"
 
 RF_MainWindow::RF_MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -45,6 +46,12 @@ RF_MainWindow::RF_MainWindow(QWidget *parent)
 
     auto a_factory = new RS_ActionFactory(this, action_handler);
     a_factory->fillActionContainer(a_map, ag_manager);
+
+    auto widget_factory = new RS_WidgetFactory(this, a_map, ag_manager);
+    widget_factory->createMenus(menuBar());
+
+    // Disable menu and toolbar items
+    //emit windowsChanged(false);
 
 
 

@@ -29,6 +29,9 @@ public:
 signals:
 
 public slots:
+    // === Insert ===
+    void slotInsertLine(); // временный инструмент
+    void slotInsertRoom();
 };
 
 #endif // RS_ACTIONHANDLER_H
