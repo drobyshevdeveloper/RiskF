@@ -17,6 +17,8 @@
 
 #include "rs_widgetfactory.h"
 
+#include <QToolBar>
+#include <QToolButton>
 #include <QMenu>
 #include <QMenuBar>
 
@@ -37,6 +39,18 @@ RS_WidgetFactory::RS_WidgetFactory(RF_MainWindow* main_win,
             << a_map["InsertLine"]
             << a_map["InsertRoom"];
 
+}
+
+void RS_WidgetFactory::createCategoriesToolBar()
+{
+    QSizePolicy toolBarPolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+
+    QToolBar* insert_toolbar = new QToolBar(RF_MainWindow::tr("Insert"), main_window);
+    insert_toolbar->setSizePolicy(toolBarPolicy);
+    insert_toolbar->setObjectName("insert_toolbar");
+    insert_toolbar->addActions(insert_actions);
+
+    main_window->addToolBar(Qt::LeftToolBarArea, insert_toolbar);
 }
 
 void RS_WidgetFactory::createMenus(QMenuBar *menu_bar)

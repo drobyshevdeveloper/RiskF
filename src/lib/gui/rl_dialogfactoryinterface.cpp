@@ -15,39 +15,5 @@
 **
 ****************************************************************************/
 
-#ifndef RS_WIDGETFACTORY_H
-#define RS_WIDGETFACTORY_H
+#include "rl_dialogfactoryinterface.h"
 
-#include <QObject>
-#include <QMap>
-#include <QString>
-
-class QAction;
-class QMenu;
-class QMenuBar;
-class RF_MainWindow;
-class RS_ActionGroupManager;
-
-class RS_WidgetFactory : public QObject
-{
-    Q_OBJECT
-public:
-    explicit RS_WidgetFactory(RF_MainWindow* main_win,
-                              QMap<QString, QAction *> &action_map,
-                              RS_ActionGroupManager* agm);
-
-    void createCategoriesToolBar();
-    void createMenus(QMenuBar* menu_bar);
-
-    QMenu* file_menu;
-    QMenu* insert_menu;
-private:
-    RF_MainWindow* main_window;
-    QMap<QString,QAction*>& a_map;
-    RS_ActionGroupManager* ag_manager;
-
-    QList<QAction*> file_actions;
-    QList<QAction*> insert_actions;
-};
-
-#endif // RS_WIDGETFACTORY_H

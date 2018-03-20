@@ -15,39 +15,16 @@
 **
 ****************************************************************************/
 
-#ifndef RS_WIDGETFACTORY_H
-#define RS_WIDGETFACTORY_H
+#ifndef RL_DIALOGFACTORYINTERFACE_H
+#define RL_DIALOGFACTORYINTERFACE_H
 
-#include <QObject>
-#include <QMap>
-#include <QString>
-
-class QAction;
-class QMenu;
-class QMenuBar;
-class RF_MainWindow;
-class RS_ActionGroupManager;
-
-class RS_WidgetFactory : public QObject
+/**
+ * @brief The RL_DialogFactoryInterface class - Класс интерфейса для вызова диалогов
+ */
+class RL_DialogFactoryInterface
 {
-    Q_OBJECT
 public:
-    explicit RS_WidgetFactory(RF_MainWindow* main_win,
-                              QMap<QString, QAction *> &action_map,
-                              RS_ActionGroupManager* agm);
-
-    void createCategoriesToolBar();
-    void createMenus(QMenuBar* menu_bar);
-
-    QMenu* file_menu;
-    QMenu* insert_menu;
-private:
-    RF_MainWindow* main_window;
-    QMap<QString,QAction*>& a_map;
-    RS_ActionGroupManager* ag_manager;
-
-    QList<QAction*> file_actions;
-    QList<QAction*> insert_actions;
+    virtual ~RL_DialogFactoryInterface() = default;
 };
 
-#endif // RS_WIDGETFACTORY_H
+#endif // RL_DIALOGFACTORYINTERFACE_H

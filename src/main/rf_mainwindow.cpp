@@ -25,12 +25,17 @@
 #include "rs_actionfactory.h"
 #include "rs_actiongroupmanager.h"
 #include "rs_widgetfactory.h"
+#include "rl_dialogfactoryinterface.h"
 
 RF_MainWindow::RF_MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , action_handler( new RS_ActionHandler(this) )
     , ag_manager( new RS_ActionGroupManager(this) )
 {
+    setCorner(Qt::TopLeftCorner, Qt::LeftDockWidgetArea);
+    setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
+    setCorner(Qt::TopRightCorner, Qt::RightDockWidgetArea);
+    setCorner(Qt::BottomRightCorner, Qt::RightDockWidgetArea);
 
     // Инициализация строки состояния
     QStatusBar* status_bar = statusBar();
@@ -49,6 +54,7 @@ RF_MainWindow::RF_MainWindow(QWidget *parent)
 
     auto widget_factory = new RS_WidgetFactory(this, a_map, ag_manager);
     widget_factory->createMenus(menuBar());
+    widget_factory->createCategoriesToolBar();
 
     // Disable menu and toolbar items
     //emit windowsChanged(false);

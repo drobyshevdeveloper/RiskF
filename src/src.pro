@@ -24,7 +24,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 
-LC_VERSION="1.0.6"
+LC_VERSION="1.0.7"
 VERSION=$${LC_VERSION}
 
 # Для работы отладочных функций закомментируйте следующую строку
@@ -46,41 +46,56 @@ UI_SOURCES_DIR = $${GENERATED_DIR}/ui
 
 
 INCLUDEPATH += \
-        lib \
-        lib/debug \
-        main \
-        ui \
+        lib         \
+        lib/debug   \
+        lib/gui     \
+        main        \
+        ui          \
         ../res
 
 
 RESOURCES += ../res/icons/icons.qrc
+
+##################################################################
+# Library
+HEADERS += \
+        lib/debug/rl_debug.h \
+        lib/rl_settings.h \
+        lib/gui/rl_dialogfactoryinterface.h \
+    main/ru_dialogfactory.h
+
+SOURCES += \
+        lib/rl_settings.cpp \
+    main/ru_dialogfactory.cpp
+#        lib/gui/rl_dialogfactoryinterface.cpp
+
+
+##################################################################
+# User Interface
+HEADERS += \
+        ui/rs_centralwidget.h \
+        ui/rs_actionfactory.h \
+        ui/rs_actionhandler.h \
+        ui/rs_actiongroupmanager.h \
+        ui/rs_widgetfactory.h \
+        ui/rs_dialogfactory.h
+
+SOURCES += \
+        ui/rs_centralwidget.cpp \
+        ui/rs_actionfactory.cpp \
+        ui/rs_actionhandler.cpp \
+        ui/rs_actiongroupmanager.cpp \
+        ui/rs_widgetfactory.cpp \
+        ui/rs_dialogfactory.cpp
 
 
 ##################################################################
 # main
 SOURCES += \
         main/main.cpp \
-        main/rf_mainwindow.cpp \
-        ui/rs_centralwidget.cpp \
-        ui/rs_actionfactory.cpp \
-        ui/rs_actionhandler.cpp \
-        ui/rs_actiongroupmanager.cpp \
-        ui/rs_widgetfactory.cpp
+        main/rf_mainwindow.cpp
 
 HEADERS += \
-        main/rf_mainwindow.h \
-        ui/rs_centralwidget.h \
-        ui/rs_actionfactory.h \
-        ui/rs_actionhandler.h \
-        ui/rs_actiongroupmanager.h \
-        ui/rs_widgetfactory.h
+        main/rf_mainwindow.h
 
 
-##################################################################
-# Library
-HEADERS += \
-        lib/debug/rl_debug.h \
-        lib/rl_settings.h
-
-SOURCES += \
-        lib/rl_settings.cpp
