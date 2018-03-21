@@ -24,7 +24,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 
-LC_VERSION="1.0.7"
+LC_VERSION="1.0.8"
 VERSION=$${LC_VERSION}
 
 # Для работы отладочных функций закомментируйте следующую строку
@@ -61,12 +61,12 @@ RESOURCES += ../res/icons/icons.qrc
 HEADERS += \
         lib/debug/rl_debug.h \
         lib/rl_settings.h \
-        lib/gui/rl_dialogfactoryinterface.h \
-    main/ru_dialogfactory.h
+        lib/gui/rl_dialogfactoryinterface.h\
+        lib/gui/rl_dialogfactory.h
 
 SOURCES += \
         lib/rl_settings.cpp \
-    main/ru_dialogfactory.cpp
+        lib/gui/rl_dialogfactory.cpp
 #        lib/gui/rl_dialogfactoryinterface.cpp
 
 
@@ -93,9 +93,11 @@ SOURCES += \
 # main
 SOURCES += \
         main/main.cpp \
-        main/rf_mainwindow.cpp
+        main/rf_mainwindow.cpp \
+        main/ru_dialogfactory.cpp
 
 HEADERS += \
-        main/rf_mainwindow.h
+        main/rf_mainwindow.h \
+        main/ru_dialogfactory.h
 
 

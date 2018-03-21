@@ -25,12 +25,14 @@
 #include "rs_actionfactory.h"
 #include "rs_actiongroupmanager.h"
 #include "rs_widgetfactory.h"
-#include "rl_dialogfactoryinterface.h"
+#include "ru_dialogfactory.h"
+#include "rl_dialogfactory.h"
 
 RF_MainWindow::RF_MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , action_handler( new RS_ActionHandler(this) )
     , ag_manager( new RS_ActionGroupManager(this) )
+    , dialogFactory (nullptr)
 {
     setCorner(Qt::TopLeftCorner, Qt::LeftDockWidgetArea);
     setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
@@ -56,6 +58,17 @@ RF_MainWindow::RF_MainWindow(QWidget *parent)
     widget_factory->createMenus(menuBar());
     widget_factory->createCategoriesToolBar();
 
+    // ===============================================
+    // Dialog Factory
+    RL_DEBUG << "create DialogFactory";
+    dialogFactory = new RU_DialogFactory(this, widget_factory->option_toolbar);
+    if (dialogFactory) {
+        RL_DialogFactory::instance()->setFactoryObject(dialogFactory);
+        RL_DEBUG << "create DialogFactory Ok";
+    }
+
+
+
     // Disable menu and toolbar items
     //emit windowsChanged(false);
 
@@ -65,7 +78,7 @@ RF_MainWindow::RF_MainWindow(QWidget *parent)
 
 RF_MainWindow::~RF_MainWindow()
 {
-
+    if (dialogFactory) delete dialogFactory;
 }
 
 void RF_MainWindow::slotWindowActivated(QMdiSubWindow *w)

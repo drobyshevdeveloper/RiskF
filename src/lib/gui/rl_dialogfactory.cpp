@@ -15,40 +15,18 @@
 **
 ****************************************************************************/
 
-#ifndef RF_MAINWINDOW_H
-#define RF_MAINWINDOW_H
+#include "rl_dialogfactory.h"
 
-#include <QMainWindow>
-#include <QMap>
+RL_DialogFactory* RL_DialogFactory::uniqInstance = nullptr;
 
-class QMdiArea;
-class QMdiSubWindow;
-class RS_ActionHandler;
-class RS_ActionGroupManager;
-class RU_DialogFactory;
-
-class RF_MainWindow : public QMainWindow
+RL_DialogFactory::RL_DialogFactory()
+    :factoryObject( nullptr )
 {
-    Q_OBJECT
+}
 
-public:
-    RF_MainWindow(QWidget *parent = 0);
-    ~RF_MainWindow();
-
-
-public slots:
-    void slotWindowActivated(QMdiSubWindow* w);
-
-    void slotFileNew();
-private:
-    QMdiArea* mdiAreaCAD;
-
-    RS_ActionHandler* action_handler;
-    RU_DialogFactory* dialogFactory;
-
-    QMap<QString, QAction*> a_map;
-    RS_ActionGroupManager* ag_manager;
-
-};
-
-#endif // RF_MAINWINDOW_H
+RL_DialogFactory* RL_DialogFactory::instance(void)
+{
+    if (!uniqInstance)
+        uniqInstance = new RL_DialogFactory();
+    return uniqInstance;
+}

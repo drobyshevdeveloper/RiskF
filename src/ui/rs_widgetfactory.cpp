@@ -51,6 +51,8 @@ void RS_WidgetFactory::createCategoriesToolBar()
     insert_toolbar->addActions(insert_actions);
 
     main_window->addToolBar(Qt::LeftToolBarArea, insert_toolbar);
+
+    option_toolbar = nullptr; // временно !!!
 }
 
 void RS_WidgetFactory::createMenus(QMenuBar *menu_bar)

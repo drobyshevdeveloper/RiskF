@@ -25,6 +25,7 @@
 class QAction;
 class QMenu;
 class QMenuBar;
+class QToolBar;
 class RF_MainWindow;
 class RS_ActionGroupManager;
 
@@ -39,6 +40,7 @@ public:
     void createCategoriesToolBar();
     void createMenus(QMenuBar* menu_bar);
 
+    QToolBar* option_toolbar;
     QMenu* file_menu;
     QMenu* insert_menu;
 private:
