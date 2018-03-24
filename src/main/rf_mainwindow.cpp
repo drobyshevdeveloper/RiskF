@@ -27,6 +27,7 @@
 #include "rs_widgetfactory.h"
 #include "ru_dialogfactory.h"
 #include "rl_dialogfactory.h"
+#include "ru_mdiwindow.h"
 
 RF_MainWindow::RF_MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -91,6 +92,14 @@ void RF_MainWindow::slotWindowActivated(QMdiSubWindow *w)
 void RF_MainWindow::slotFileNew()
 {
     RL_DEBUG << "RF_MainWindow::slotFileNew begin";
+
+    statusBar()->showMessage(tr("Creating new file..."));
+
+    RU_MDIWindow* w = new RU_MDIWindow(mdiAreaCAD);
+
+    w->
+
+    w->show();
 
     RL_DEBUG << "RF_MainWindow::slotFileNew Ok";
 }

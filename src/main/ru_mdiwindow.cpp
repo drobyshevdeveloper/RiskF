@@ -15,41 +15,11 @@
 **
 ****************************************************************************/
 
-#ifndef RF_MAINWINDOW_H
-#define RF_MAINWINDOW_H
+#include "ru_mdiwindow.h"
 
-#include <QMainWindow>
-#include <QMap>
-
-class QMdiArea;
-class QMdiSubWindow;
-class RS_ActionHandler;
-class RS_ActionGroupManager;
-class RU_DialogFactory;
-class RG_Document;
-
-class RF_MainWindow : public QMainWindow
+RU_MDIWindow::RU_MDIWindow(QWidget *parent)
+    : QMdiSubWindow(parent)
 {
-    Q_OBJECT
+    setAttribute(Qt::WA_DeleteOnClose);
 
-public:
-    RF_MainWindow(QWidget *parent = 0);
-    ~RF_MainWindow();
-
-
-public slots:
-    void slotWindowActivated(QMdiSubWindow* w);
-
-    void slotFileNew();
-private:
-    QMdiArea* mdiAreaCAD;
-
-    RS_ActionHandler* action_handler;
-    RU_DialogFactory* dialogFactory;
-
-    QMap<QString, QAction*> a_map;
-    RS_ActionGroupManager* ag_manager;
-
-};
-
-#endif // RF_MAINWINDOW_H
+}

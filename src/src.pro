@@ -24,7 +24,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 
-LC_VERSION="1.0.8"
+LC_VERSION="1.0.9"
 VERSION=$${LC_VERSION}
 
 # Для работы отладочных функций закомментируйте следующую строку
@@ -62,11 +62,13 @@ HEADERS += \
         lib/debug/rl_debug.h \
         lib/rl_settings.h \
         lib/gui/rl_dialogfactoryinterface.h\
-        lib/gui/rl_dialogfactory.h
+        lib/gui/rl_dialogfactory.h \
+    main/ru_mdiwindow.h
 
 SOURCES += \
         lib/rl_settings.cpp \
-        lib/gui/rl_dialogfactory.cpp
+        lib/gui/rl_dialogfactory.cpp \
+    main/ru_mdiwindow.cpp
 #        lib/gui/rl_dialogfactoryinterface.cpp
 
 
