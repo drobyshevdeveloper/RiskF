@@ -17,6 +17,9 @@
 
 #include "rs_widgetfactory.h"
 
+#include <QMenu>
+#include <QMenuBar>
+
 #include "rf_mainwindow.h"
 #include "rs_actiongroupmanager.h"
 
@@ -35,5 +38,9 @@ RS_WidgetFactory::RS_WidgetFactory(RF_MainWindow* main_win,
 
 RS_WidgetFactory::createMenus(QMenuBar *menu_bar)
 {
+    QMenu* file_menu;
 
+    file_menu = new QMenu(RF_MainWindow::tr("&File"), menu_bar);
+    file_menu->setObjectName("File");
+    file_menu->setTearOffEnabled(false); // false -
 }
