@@ -15,38 +15,26 @@
 **
 ****************************************************************************/
 
-#ifndef RU_MDIWINDOW_H
-#define RU_MDIWINDOW_H
+#ifndef RG_ENTITY_H
+#define RG_ENTITY_H
 
-#include <QMdiSubWindow>
+#include "rg_undoable.h"
 
-class QMdiArea;
-class RG_Document;
-class RS_GraphicView;
+class RG_EntityContainer;
 
-class RU_MDIWindow : public QMdiSubWindow
+class RG_Entity : public RG_Undoable
 {
 public:
-    RU_MDIWindow(RG_Document* doc,
-                 QWidget* parent,
-                 Qt::WindowFlags wflags=0);
-    virtual ~RU_MDIWindow();
+    RG_Entity(RG_EntityContainer* parent);
+    virtual ~RG_Entity();
 
 
+protected: void initID();
 
-private:
-    /* window id */
-    unsigned int id;
-    static unsigned int idCounter;
+protected:
+    RG_EntityContainer* parent = nullptr;
+    unsigned long int id;
 
-    QMdiArea* cadMDIArea;
-    RG_Document* document;
-    RS_GraphicView* graphicView;
-    /**
-     * @brief owner: true  - документ создан в окне
-     *               false - готовый документ передан в окно
-     */
-    bool owner;
 };
 
-#endif // RU_MDIWINDOW_H
+#endif // RG_ENTITY_H

@@ -15,38 +15,19 @@
 **
 ****************************************************************************/
 
-#ifndef RU_MDIWINDOW_H
-#define RU_MDIWINDOW_H
+#include "rg_snapper.h"
 
-#include <QMdiSubWindow>
+#include "rg_entitycontainer.h"
+#include "rg_graphicview.h"
 
-class QMdiArea;
-class RG_Document;
-class RS_GraphicView;
-
-class RU_MDIWindow : public QMdiSubWindow
+RG_Snapper::RG_Snapper(RG_EntityContainer *container, RG_GraphicView *graphicView)
 {
-public:
-    RU_MDIWindow(RG_Document* doc,
-                 QWidget* parent,
-                 Qt::WindowFlags wflags=0);
-    virtual ~RU_MDIWindow();
+    this->container = container;
+    this->graphicView = graphicView;
 
+}
 
+RG_Snapper::~RG_Snapper()
+{
 
-private:
-    /* window id */
-    unsigned int id;
-    static unsigned int idCounter;
-
-    QMdiArea* cadMDIArea;
-    RG_Document* document;
-    RS_GraphicView* graphicView;
-    /**
-     * @brief owner: true  - документ создан в окне
-     *               false - готовый документ передан в окно
-     */
-    bool owner;
-};
-
-#endif // RU_MDIWINDOW_H
+}

@@ -93,13 +93,11 @@ void RF_MainWindow::slotFileNew()
 {
     RL_DEBUG << "RF_MainWindow::slotFileNew begin";
 
-    statusBar()->showMessage(tr("Creating new file..."));
+    statusBar()->showMessage(tr("Creating new file..."), 2000);
 
-    RU_MDIWindow* w = new RU_MDIWindow(mdiAreaCAD);
+    RU_MDIWindow* w = new RU_MDIWindow(nullptr, mdiAreaCAD);
 
-    w->
-
-    w->show();
+    w->showMaximized();
 
     RL_DEBUG << "RF_MainWindow::slotFileNew Ok";
 }

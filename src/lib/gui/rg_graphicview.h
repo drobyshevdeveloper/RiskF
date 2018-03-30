@@ -15,38 +15,29 @@
 **
 ****************************************************************************/
 
-#ifndef RU_MDIWINDOW_H
-#define RU_MDIWINDOW_H
+#ifndef RG_GRAPHICVIEW_H
+#define RG_GRAPHICVIEW_H
 
-#include <QMdiSubWindow>
+#include <QWidget>
 
-class QMdiArea;
-class RG_Document;
-class RS_GraphicView;
+class RG_EntityContainer;
 
-class RU_MDIWindow : public QMdiSubWindow
+class RG_GraphicView : public QWidget
 {
+    Q_OBJECT
 public:
-    RU_MDIWindow(RG_Document* doc,
-                 QWidget* parent,
-                 Qt::WindowFlags wflags=0);
-    virtual ~RU_MDIWindow();
+    explicit RG_GraphicView(QWidget *parent = nullptr);
 
 
 
-private:
-    /* window id */
-    unsigned int id;
-    static unsigned int idCounter;
+    void setContainer(RG_EntityContainer* c);
 
-    QMdiArea* cadMDIArea;
-    RG_Document* document;
-    RS_GraphicView* graphicView;
-    /**
-     * @brief owner: true  - документ создан в окне
-     *               false - готовый документ передан в окно
-     */
-    bool owner;
+signals:
+
+public slots:
+
+protected:
+    RG_EntityContainer* container;  // Коллекция всех объектов
 };
 
-#endif // RU_MDIWINDOW_H
+#endif // RG_GRAPHICVIEW_H

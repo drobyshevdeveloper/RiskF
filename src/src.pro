@@ -24,7 +24,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 
-LC_VERSION="1.0.9"
+LC_VERSION="1.0.10"
 VERSION=$${LC_VERSION}
 
 # Для работы отладочных функций закомментируйте следующую строку
@@ -48,6 +48,7 @@ UI_SOURCES_DIR = $${GENERATED_DIR}/ui
 INCLUDEPATH += \
         lib         \
         lib/debug   \
+        lib/engine  \
         lib/gui     \
         main        \
         ui          \
@@ -63,13 +64,26 @@ HEADERS += \
         lib/rl_settings.h \
         lib/gui/rl_dialogfactoryinterface.h\
         lib/gui/rl_dialogfactory.h \
-    main/ru_mdiwindow.h
+        lib/engine/rg_undoable.h \
+        lib/engine/rg_entity.h \
+        lib/engine/rg_entitycontainer.h \
+        lib/engine/rg_document.h \
+        lib/engine/rg_graphic.h \
+        lib/gui/rg_graphicview.h \
+        ui/rs_graphicview.h \
+        lib/actions/rg_snapper.h
 
 SOURCES += \
         lib/rl_settings.cpp \
         lib/gui/rl_dialogfactory.cpp \
-    main/ru_mdiwindow.cpp
-#        lib/gui/rl_dialogfactoryinterface.cpp
+        lib/engine/rg_undoable.cpp \
+        lib/engine/rg_entity.cpp \
+        lib/engine/rg_entitycontainer.cpp \
+        lib/engine/rg_document.cpp \
+        lib/engine/rg_graphic.cpp \
+        lib/gui/rg_graphicview.cpp \
+        ui/rs_graphicview.cpp \
+        lib/actions/rg_snapper.cpp
 
 
 ##################################################################
@@ -93,13 +107,15 @@ SOURCES += \
 
 ##################################################################
 # main
+HEADERS += \
+        main/rf_mainwindow.h \
+        main/ru_dialogfactory.h \
+        main/ru_mdiwindow.h
+
 SOURCES += \
         main/main.cpp \
         main/rf_mainwindow.cpp \
-        main/ru_dialogfactory.cpp
-
-HEADERS += \
-        main/rf_mainwindow.h \
-        main/ru_dialogfactory.h
+        main/ru_dialogfactory.cpp \
+        main/ru_mdiwindow.cpp
 
 

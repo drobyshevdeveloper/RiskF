@@ -15,38 +15,17 @@
 **
 ****************************************************************************/
 
-#ifndef RU_MDIWINDOW_H
-#define RU_MDIWINDOW_H
+#ifndef RS_GRAPHICVIEW_H
+#define RS_GRAPHICVIEW_H
 
-#include <QMdiSubWindow>
+#include "rg_graphicview.h"
 
-class QMdiArea;
 class RG_Document;
-class RS_GraphicView;
 
-class RU_MDIWindow : public QMdiSubWindow
+class RS_GraphicView : public RG_GraphicView
 {
 public:
-    RU_MDIWindow(RG_Document* doc,
-                 QWidget* parent,
-                 Qt::WindowFlags wflags=0);
-    virtual ~RU_MDIWindow();
-
-
-
-private:
-    /* window id */
-    unsigned int id;
-    static unsigned int idCounter;
-
-    QMdiArea* cadMDIArea;
-    RG_Document* document;
-    RS_GraphicView* graphicView;
-    /**
-     * @brief owner: true  - документ создан в окне
-     *               false - готовый документ передан в окно
-     */
-    bool owner;
+    RS_GraphicView(QWidget* parent = 0, Qt::WindowFlags f = 0, RG_Document* doc = 0);
 };
 
-#endif // RU_MDIWINDOW_H
+#endif // RS_GRAPHICVIEW_H
