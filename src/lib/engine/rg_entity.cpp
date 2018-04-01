@@ -17,6 +17,8 @@
 
 #include "rg_entity.h"
 
+#include "rg_graphic.h"
+
 RG_Entity::RG_Entity(RG_EntityContainer *parent)
     : RG_Undoable()
 {
@@ -33,4 +35,19 @@ void RG_Entity::initID()
 {
     static unsigned long int idCounter = 0;
     id = ++idCounter;
+}
+
+/**
+ * @brief RG_Entity::getGraphic - поиск объекта графического документа, которому принадлежить сущьность
+ * @return ссылку на объект документа, или nullptr
+ */
+RG_Graphic* RG_Entity::getGraphic() const
+{
+    if (rtti()==RG::EntityGraphic) {
+        RG_Graphic const* ret=static_cast<RG_Graphic const*>(this);
+        return const_cast<RG_Graphic*>(ret);
+    } else if (!parent) {
+        return nullptr;
+    }
+    return parent->getGraphic();
 }

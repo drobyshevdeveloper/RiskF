@@ -55,3 +55,8 @@ RU_MDIWindow::~RU_MDIWindow()
         document = nullptr;
     }
 }
+
+RS_GraphicView* RU_MDIWindow::getGraphicView()
+{
+    return graphicView;
+}

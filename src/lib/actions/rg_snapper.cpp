@@ -20,11 +20,10 @@
 #include "rg_entitycontainer.h"
 #include "rg_graphicview.h"
 
-RG_Snapper::RG_Snapper(RG_EntityContainer *container, RG_GraphicView *graphicView)
+RG_Snapper::RG_Snapper(RG_EntityContainer &container, RG_GraphicView &graphicView)
+    : container(container)
+    , graphicView(graphicView)
 {
-    this->container = container;
-    this->graphicView = graphicView;
-
 }
 
 RG_Snapper::~RG_Snapper()

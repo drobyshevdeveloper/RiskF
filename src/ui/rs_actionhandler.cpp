@@ -18,11 +18,29 @@
 #include "rs_actionhandler.h"
 
 #include "rl_debug.h"
+#include "rg_actiondrawline.h"
 
 RS_ActionHandler::RS_ActionHandler(QObject *parent)
     : QObject(parent)
 {
 
+}
+
+RG_ActionInterface* RS_ActionHandler::setCurrentAction(RG::ActionType a_type)
+{
+    RG_ActionInterface* a = nullptr;
+
+    switch (a_type) {
+    case: RG::ActionDrawLine:
+            auto a = new RG_ActionDrawLine(this->)
+
+            break;
+    }
+}
+
+void RS_ActionHandler::setView(RG_GraphicView *graphicView)
+{
+    this->graphicView = graphicView;
 }
 
 // ==========================================

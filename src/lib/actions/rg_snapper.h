@@ -24,12 +24,12 @@ class RG_GraphicView;
 class RG_Snapper
 {
 public:
-    RG_Snapper(RG_EntityContainer* container, RG_GraphicView* graphicView);
+    RG_Snapper(RG_EntityContainer& container, RG_GraphicView& graphicView);
     virtual ~RG_Snapper();
 
 protected:
-    RG_EntityContainer* container;
-    RG_GraphicView* graphicView;
+    RG_EntityContainer& container;
+    RG_GraphicView& graphicView;
 };
 
 #endif // RG_SNAPPER_H

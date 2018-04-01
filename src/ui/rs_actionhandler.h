@@ -20,18 +20,32 @@
 
 #include <QObject>
 
+#include "rg_actioninterface.h"
+
+class RG_GraphicView;
+
 class RS_ActionHandler : public QObject
 {
     Q_OBJECT
 public:
     RS_ActionHandler(QObject *parent);
 
+    /**
+     * @brief setCurrentAction - Устанавливает текущее действие
+     * @return указатель на объект действия
+     */
+    RG_ActionInterface* setCurrentAction(RG::ActionType);
+
+    void setView(RG_GraphicView* graphicView);
 signals:
 
 public slots:
     // === Insert ===
     void slotInsertLine(); // временный инструмент
     void slotInsertRoom();
+
+private:
+    RG_GraphicView* graphicView;
 };
 
 #endif // RS_ACTIONHANDLER_H

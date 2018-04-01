@@ -15,39 +15,19 @@
 **
 ****************************************************************************/
 
-#ifndef RU_MDIWINDOW_H
-#define RU_MDIWINDOW_H
+#ifndef RG_PREVIEWACTIONINTERFACE_H
+#define RG_PREVIEWACTIONINTERFACE_H
 
-#include <QMdiSubWindow>
+#include "rg_actioninterface.h"
 
-class QMdiArea;
-class RG_Document;
-class RS_GraphicView;
-
-class RU_MDIWindow : public QMdiSubWindow
+class RG_PreviewActionInterface : public RG_ActionInterface
 {
 public:
-    RU_MDIWindow(RG_Document* doc,
-                 QWidget* parent,
-                 Qt::WindowFlags wflags=0);
-    virtual ~RU_MDIWindow();
+    RG_PreviewActionInterface(const char* name,
+                              RS_EntityContainer& container,
+                              RS_GraphicView& graphicView);
 
-
-    RS_GraphicView* getGraphicView() const;
-
-private:
-    /* window id */
-    unsigned int id;
-    static unsigned int idCounter;
-
-    QMdiArea* cadMDIArea;
-    RG_Document* document;
-    RS_GraphicView* graphicView;
-    /**
-     * @brief owner: true  - документ создан в окне
-     *               false - готовый документ передан в окно
-     */
-    bool owner;
+    virtual ~RG_PreviewActionInterface();
 };
 
-#endif // RU_MDIWINDOW_H
+#endif // RG_PREVIEWACTIONINTERFACE_H

@@ -15,39 +15,31 @@
 **
 ****************************************************************************/
 
-#ifndef RU_MDIWINDOW_H
-#define RU_MDIWINDOW_H
+#ifndef RG_H
+#define RG_H
 
-#include <QMdiSubWindow>
 
-class QMdiArea;
-class RG_Document;
-class RS_GraphicView;
-
-class RU_MDIWindow : public QMdiSubWindow
+class RG
 {
 public:
-    RU_MDIWindow(RG_Document* doc,
-                 QWidget* parent,
-                 Qt::WindowFlags wflags=0);
-    virtual ~RU_MDIWindow();
-
-
-    RS_GraphicView* getGraphicView() const;
-
-private:
-    /* window id */
-    unsigned int id;
-    static unsigned int idCounter;
-
-    QMdiArea* cadMDIArea;
-    RG_Document* document;
-    RS_GraphicView* graphicView;
     /**
-     * @brief owner: true  - документ создан в окне
-     *               false - готовый документ передан в окно
+     * @brief The EntityType enum
+     * Перечисление типов сущностей
      */
-    bool owner;
+    enum EntityType {
+        EntityUnknow,           // Неизвестный
+        EntityContainer,        // Контейнер
+        EntityGraphic           // Графический документ
+    };
+
+    /**
+     * @brief The ActionType enum
+     * Перечисление типов действия (Actions)
+     */
+    enum ActionType {
+        ActionNone,
+        ActionDrawLine
+    };
 };
 
-#endif // RU_MDIWINDOW_H
+#endif // RG_H

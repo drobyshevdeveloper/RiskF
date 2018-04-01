@@ -97,6 +97,9 @@ void RF_MainWindow::slotFileNew()
 
     RU_MDIWindow* w = new RU_MDIWindow(nullptr, mdiAreaCAD);
 
+    RS_GraphicView* view = w->getGraphicView();
+    action_handler->setView(view);
+
     w->showMaximized();
 
     RL_DEBUG << "RF_MainWindow::slotFileNew Ok";

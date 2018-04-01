@@ -27,6 +27,8 @@ class RG_EntityContainer : public RG_Entity
 public:
     RG_EntityContainer(RG_EntityContainer* parent);
     virtual ~RG_EntityContainer();
+
+    virtual RG::EntityType rtti() const {return RG::EntityContainer;}
 };
 
 #endif // RG_ENTITYCONTAINER_H

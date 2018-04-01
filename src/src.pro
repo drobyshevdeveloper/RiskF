@@ -24,7 +24,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 
-LC_VERSION="1.0.10"
+LC_VERSION="1.0.11"
 VERSION=$${LC_VERSION}
 
 # Для работы отладочных функций закомментируйте следующую строку
@@ -46,7 +46,9 @@ UI_SOURCES_DIR = $${GENERATED_DIR}/ui
 
 
 INCLUDEPATH += \
+        actions     \
         lib         \
+        lib/actions \
         lib/debug   \
         lib/engine  \
         lib/gui     \
@@ -70,9 +72,10 @@ HEADERS += \
         lib/engine/rg_document.h \
         lib/engine/rg_graphic.h \
         lib/gui/rg_graphicview.h \
-        ui/rs_graphicview.h \
-        lib/actions/rg_snapper.h
-
+        lib/actions/rg_snapper.h \
+        lib/actions/rg_actioninterface.h \
+        lib/actions/rg_previewactioninterface.h \
+        lib/engine/rg.h
 SOURCES += \
         lib/rl_settings.cpp \
         lib/gui/rl_dialogfactory.cpp \
@@ -82,8 +85,10 @@ SOURCES += \
         lib/engine/rg_document.cpp \
         lib/engine/rg_graphic.cpp \
         lib/gui/rg_graphicview.cpp \
-        ui/rs_graphicview.cpp \
-        lib/actions/rg_snapper.cpp
+        lib/actions/rg_snapper.cpp \
+        lib/actions/rg_actioninterface.cpp \
+        lib/actions/rg_previewactioninterface.cpp \
+        lib/engine/rg.cpp
 
 
 ##################################################################
@@ -94,7 +99,8 @@ HEADERS += \
         ui/rs_actionhandler.h \
         ui/rs_actiongroupmanager.h \
         ui/rs_widgetfactory.h \
-        ui/rs_dialogfactory.h
+        ui/rs_dialogfactory.h \
+        ui/rs_graphicview.h
 
 SOURCES += \
         ui/rs_centralwidget.cpp \
@@ -102,7 +108,8 @@ SOURCES += \
         ui/rs_actionhandler.cpp \
         ui/rs_actiongroupmanager.cpp \
         ui/rs_widgetfactory.cpp \
-        ui/rs_dialogfactory.cpp
+        ui/rs_dialogfactory.cpp \
+        ui/rs_graphicview.cpp
 
 
 ##################################################################
@@ -119,3 +126,11 @@ SOURCES += \
         main/ru_mdiwindow.cpp
 
 
+
+##################################################################
+# Actions
+HEADERS += \
+        actions/rg_actiondrawline.h
+
+SOURCES += \
+        actions/rg_actiondrawline.cpp

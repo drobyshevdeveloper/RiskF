@@ -18,9 +18,12 @@
 #ifndef RG_ENTITY_H
 #define RG_ENTITY_H
 
+#include "rg.h"
 #include "rg_undoable.h"
 
+
 class RG_EntityContainer;
+class RG_Graphic;
 
 class RG_Entity : public RG_Undoable
 {
@@ -28,6 +31,10 @@ public:
     RG_Entity(RG_EntityContainer* parent);
     virtual ~RG_Entity();
 
+    virtual RG::EntityType rtti() const {return RG::EntityUnknow;}
+
+
+    RG_Graphic* getGraphic() const;
 
 protected: void initID();
 

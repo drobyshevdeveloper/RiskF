@@ -15,39 +15,10 @@
 **
 ****************************************************************************/
 
-#ifndef RU_MDIWINDOW_H
-#define RU_MDIWINDOW_H
+#include "rg_actiondrawline.h"
 
-#include <QMdiSubWindow>
-
-class QMdiArea;
-class RG_Document;
-class RS_GraphicView;
-
-class RU_MDIWindow : public QMdiSubWindow
+RG_ActionDrawLine::RG_ActionDrawLine(RG_EntityContainer &container, RG_GraphicView &graphicView)
+    : RG_PreviewActionInterface("Draw line", container, graphicView)
 {
-public:
-    RU_MDIWindow(RG_Document* doc,
-                 QWidget* parent,
-                 Qt::WindowFlags wflags=0);
-    virtual ~RU_MDIWindow();
-
-
-    RS_GraphicView* getGraphicView() const;
-
-private:
-    /* window id */
-    unsigned int id;
-    static unsigned int idCounter;
-
-    QMdiArea* cadMDIArea;
-    RG_Document* document;
-    RS_GraphicView* graphicView;
-    /**
-     * @brief owner: true  - документ создан в окне
-     *               false - готовый документ передан в окно
-     */
-    bool owner;
-};
-
-#endif // RU_MDIWINDOW_H
+    actionType = RG_ActionDrawLine;
+}
