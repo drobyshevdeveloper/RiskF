@@ -20,7 +20,9 @@
 
 #include <QWidget>
 
+class RG_ActionInterface;
 class RG_EntityContainer;
+class RG_EventHandler;
 
 class RG_GraphicView : public QWidget
 {
@@ -32,12 +34,15 @@ public:
 
     void setContainer(RG_EntityContainer* c);
 
+    void setCurrentAction(RG_ActionInterface* action);
+
 signals:
 
 public slots:
 
 protected:
-    RG_EntityContainer* container;  // Коллекция всех объектов
+    RG_EntityContainer* container;    // Коллекция всех объектов
+    RG_EventHandler*    eventHandler; // получатель сообщений от интерфейса пользователя
 };
 
 #endif // RG_GRAPHICVIEW_H

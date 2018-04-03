@@ -15,40 +15,28 @@
 **
 ****************************************************************************/
 
-#ifndef RS_ACTIONHANDLER_H
-#define RS_ACTIONHANDLER_H
+#ifndef RG_EVENTHANDLER_H
+#define RG_EVENTHANDLER_H
 
 #include <QObject>
+#include <QList>
 
-#include "rg_actioninterface.h"
+class RG_ActionInterface;
 
-class RG_GraphicView;
-class RG_Document;
-
-class RS_ActionHandler : public QObject
+class RG_EventHandler : public QObject
 {
     Q_OBJECT
 public:
-    RS_ActionHandler(QObject *parent);
+    explicit RG_EventHandler(QObject *parent = nullptr);
 
-    /**
-     * @brief setCurrentAction - Устанавливает текущее действие
-     * @return указатель на объект действия
-     */
-    RG_ActionInterface* setCurrentAction(RG::ActionType);
+    void setCurrentAction(RG_ActionInterface* action);
 
-    void setView(RG_GraphicView* graphicView);
-    void setDocument(RG_Document* document);
 signals:
 
 public slots:
-    // === Insert ===
-    void slotInsertLine(); // временный инструмент
-    void slotInsertRoom();
 
 private:
-    RG_GraphicView* graphicView;
-    RG_Document*    document;
+    QList<RG_ActionInterface*> currentAction;
 };
 
-#endif // RS_ACTIONHANDLER_H
+#endif // RG_EVENTHANDLER_H

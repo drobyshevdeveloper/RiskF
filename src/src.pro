@@ -24,7 +24,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 
-LC_VERSION="1.0.11"
+LC_VERSION="1.0.12"
 VERSION=$${LC_VERSION}
 
 # Для работы отладочных функций закомментируйте следующую строку
@@ -75,7 +75,8 @@ HEADERS += \
         lib/actions/rg_snapper.h \
         lib/actions/rg_actioninterface.h \
         lib/actions/rg_previewactioninterface.h \
-        lib/engine/rg.h
+        lib/engine/rg.h \
+    lib/gui/rg_eventhandler.h
 SOURCES += \
         lib/rl_settings.cpp \
         lib/gui/rl_dialogfactory.cpp \
@@ -88,7 +89,8 @@ SOURCES += \
         lib/actions/rg_snapper.cpp \
         lib/actions/rg_actioninterface.cpp \
         lib/actions/rg_previewactioninterface.cpp \
-        lib/engine/rg.cpp
+        lib/engine/rg.cpp \
+    lib/gui/rg_eventhandler.cpp
 
 
 ##################################################################

@@ -22,6 +22,7 @@
 
 class QMdiArea;
 class RG_Document;
+class RG_Graphic;
 class RS_GraphicView;
 
 class RU_MDIWindow : public QMdiSubWindow
@@ -34,6 +35,10 @@ public:
 
 
     RS_GraphicView* getGraphicView() const;
+
+    RG_Document* getDocument() const;
+
+    RG_Graphic* getGraphic() const;
 
 private:
     /* window id */

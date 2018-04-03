@@ -17,8 +17,11 @@
 
 #include "rg_graphicview.h"
 
+#include "rg_eventhandler.h"
+
 RG_GraphicView::RG_GraphicView(QWidget *parent)
     : QWidget(parent)
+    , eventHandler(new RG_EventHandler(this))
 {
 
 }
@@ -26,4 +29,11 @@ RG_GraphicView::RG_GraphicView(QWidget *parent)
 void RG_GraphicView::setContainer(RG_EntityContainer *c)
 {
     container = c;
+}
+
+void RG_GraphicView::setCurrentAction(RG_ActionInterface *action)
+{
+    if (eventHandler) {
+        eventHandler->setCurrentAction(action);
+    }
 }

@@ -28,6 +28,7 @@
 #include "ru_dialogfactory.h"
 #include "rl_dialogfactory.h"
 #include "ru_mdiwindow.h"
+#include "rs_graphicview.h"
 
 RF_MainWindow::RF_MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -99,6 +100,7 @@ void RF_MainWindow::slotFileNew()
 
     RS_GraphicView* view = w->getGraphicView();
     action_handler->setView(view);
+    action_handler->setDocument(w->getDocument());
 
     w->showMaximized();
 

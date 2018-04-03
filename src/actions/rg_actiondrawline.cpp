@@ -20,5 +20,5 @@
 RG_ActionDrawLine::RG_ActionDrawLine(RG_EntityContainer &container, RG_GraphicView &graphicView)
     : RG_PreviewActionInterface("Draw line", container, graphicView)
 {
-    actionType = RG_ActionDrawLine;
+    actionType = RG::ActionDrawLine;
 }

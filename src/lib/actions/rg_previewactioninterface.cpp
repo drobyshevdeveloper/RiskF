@@ -18,14 +18,14 @@
 #include "rg_previewactioninterface.h"
 
 RG_PreviewActionInterface::RG_PreviewActionInterface(const char* name,
-                                                     RS_EntityContainer& container,
-                                                     RS_GraphicView& graphicView)
+                                                     RG_EntityContainer &container,
+                                                     RG_GraphicView &graphicView)
     : RG_ActionInterface(name, container, graphicView)
 {
 
 }
 
-virtual RG_PreviewActionInterface::~RG_PreviewActionInterface()
+RG_PreviewActionInterface::~RG_PreviewActionInterface()
 {
 
 }

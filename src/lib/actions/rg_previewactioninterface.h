@@ -24,8 +24,8 @@ class RG_PreviewActionInterface : public RG_ActionInterface
 {
 public:
     RG_PreviewActionInterface(const char* name,
-                              RS_EntityContainer& container,
-                              RS_GraphicView& graphicView);
+                              RG_EntityContainer& container,
+                              RG_GraphicView& graphicView);
 
     virtual ~RG_PreviewActionInterface();
 };

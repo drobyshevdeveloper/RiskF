@@ -19,6 +19,7 @@
 
 #include <QMdiArea>
 
+#include "rg_document.h"
 #include "rg_graphic.h"
 #include "rs_graphicview.h"
 
@@ -56,7 +57,17 @@ RU_MDIWindow::~RU_MDIWindow()
     }
 }
 
-RS_GraphicView* RU_MDIWindow::getGraphicView()
+RS_GraphicView* RU_MDIWindow::getGraphicView() const
 {
     return graphicView;
+}
+
+RG_Document* RU_MDIWindow::getDocument() const
+{
+    return document;
+}
+
+RG_Graphic* RU_MDIWindow::getGraphic() const
+{
+    return document->getGraphic();
 }

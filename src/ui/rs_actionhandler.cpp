@@ -19,6 +19,8 @@
 
 #include "rl_debug.h"
 #include "rg_actiondrawline.h"
+#include "rg_document.h"
+#include "rg_graphicview.h"
 
 RS_ActionHandler::RS_ActionHandler(QObject *parent)
     : QObject(parent)
@@ -31,16 +33,25 @@ RG_ActionInterface* RS_ActionHandler::setCurrentAction(RG::ActionType a_type)
     RG_ActionInterface* a = nullptr;
 
     switch (a_type) {
-    case: RG::ActionDrawLine:
-            auto a = new RG_ActionDrawLine(this->)
+    case RG::ActionDrawLine:
+            a = new RG_ActionDrawLine(*document, *graphicView);
 
             break;
+    }
+
+    if (a) {
+        graphicView->setCurrentAction(a);
     }
 }
 
 void RS_ActionHandler::setView(RG_GraphicView *graphicView)
 {
     this->graphicView = graphicView;
+}
+
+void RS_ActionHandler::setDocument(RG_Document *document)
+{
+    this->document = document;
 }
 
 // ==========================================
