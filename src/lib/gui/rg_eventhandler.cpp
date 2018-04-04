@@ -23,6 +23,15 @@ RG_EventHandler::RG_EventHandler(QObject *parent)
     currentAction.clear();
 }
 
+RG_EventHandler::~RG_EventHandler()
+{
+    for (auto a: currentAction) {
+        delete a;
+    }
+
+    currentAction.clear();
+}
+
 void RG_EventHandler::setCurrentAction(RG_ActionInterface *action)
 {
     if (!action) {

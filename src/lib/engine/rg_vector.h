@@ -15,29 +15,22 @@
 **
 ****************************************************************************/
 
-#ifndef RG_EVENTHANDLER_H
-#define RG_EVENTHANDLER_H
+#ifndef RG_VECTOR_H
+#define RG_VECTOR_H
 
-#include <QObject>
-#include <QList>
 
-class RG_ActionInterface;
-
-class RG_EventHandler : public QObject
+class RG_Vector
 {
-    Q_OBJECT
 public:
-    explicit RG_EventHandler(QObject *parent = nullptr);
-    virtual ~RG_EventHandler();
+    RG_Vector()=default;
+    RG_Vector(double vx, double vy, double vz=0.0);
 
-    void setCurrentAction(RG_ActionInterface* action);
 
-signals:
-
-public slots:
-
-private:
-    QList<RG_ActionInterface*> currentAction;
+public:
+    double x=0.;
+    double y=0.;
+    double z=0.;
+    bool valid=false;
 };
 
-#endif // RG_EVENTHANDLER_H
+#endif // RG_VECTOR_H

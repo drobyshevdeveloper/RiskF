@@ -15,29 +15,22 @@
 **
 ****************************************************************************/
 
-#ifndef RG_EVENTHANDLER_H
-#define RG_EVENTHANDLER_H
+#ifndef RG_LINE_H
+#define RG_LINE_H
 
-#include <QObject>
-#include <QList>
+#include "rg_atomicentity.h"
 
-class RG_ActionInterface;
 
-class RG_EventHandler : public QObject
+#include "rg_vector.h"
+
+class RG_Line : RG_AtomicEntity
 {
-    Q_OBJECT
 public:
-    explicit RG_EventHandler(QObject *parent = nullptr);
-    virtual ~RG_EventHandler();
-
-    void setCurrentAction(RG_ActionInterface* action);
-
-signals:
-
-public slots:
+    RG_Line(RG_EntityContainer* parent);
 
 private:
-    QList<RG_ActionInterface*> currentAction;
+    RG_Vector startPoint;
+    RG_Vector endPoint;
 };
 
-#endif // RG_EVENTHANDLER_H
+#endif // RG_LINE_H
