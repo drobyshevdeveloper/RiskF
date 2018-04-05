@@ -28,6 +28,9 @@ class RG_Line : RG_AtomicEntity
 public:
     RG_Line(RG_EntityContainer* parent);
 
+    RG::EntityType rtti() const override {
+        return RG::EntityLine;
+    }
 private:
     RG_Vector startPoint;
     RG_Vector endPoint;

@@ -36,6 +36,7 @@ public:
                                 RG_GraphicView& graphicView);
     virtual ~RG_ActionInterface();
 
+    virtual void init();
 signals:
 
 public slots:

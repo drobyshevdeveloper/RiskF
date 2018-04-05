@@ -22,3 +22,8 @@ RG_AtomicEntity::RG_AtomicEntity(RG_EntityContainer *parent)
 {
 
 }
+
+RG_AtomicEntity::~RG_AtomicEntity()
+{
+
+}

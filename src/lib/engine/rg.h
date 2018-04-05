@@ -29,7 +29,9 @@ public:
     enum EntityType {
         EntityUnknow,           // Неизвестный
         EntityContainer,        // Контейнер
-        EntityGraphic           // Графический документ
+        EntityGraphic,          // Графический документ
+        EntityLine,
+        EntityPreview           // Контейнер предпросмотра
     };
 
     /**

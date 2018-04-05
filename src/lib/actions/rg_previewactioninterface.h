@@ -20,6 +20,8 @@
 
 #include "rg_actioninterface.h"
 
+class RG_Preview;
+
 class RG_PreviewActionInterface : public RG_ActionInterface
 {
 public:
@@ -28,6 +30,13 @@ public:
                               RG_GraphicView& graphicView);
 
     virtual ~RG_PreviewActionInterface();
+
+    virtual void init() override;
+
+    void drawPreview();
+    void deletePreview();
+protected:
+    std::unique_ptr<RG_Preview> preview;
 };
 
 #endif // RG_PREVIEWACTIONINTERFACE_H

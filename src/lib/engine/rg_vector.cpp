@@ -22,4 +22,5 @@ RG_Vector::RG_Vector(double vx, double vy, double vz)
     x = vx;
     y = vy;
     z = vz;
+    valid = true;
 }

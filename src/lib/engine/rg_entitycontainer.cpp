@@ -27,3 +27,11 @@ RG_EntityContainer::~RG_EntityContainer()
 {
 
 }
+
+void RG_EntityContainer::addEntity(RG_Entity *entity)
+{
+    if (!entity) {
+        return;
+    }
+    entities.append(entity);
+}

@@ -24,6 +24,13 @@ class RG_AtomicEntity : public RG_Entity
 {
 public:
     RG_AtomicEntity(RG_EntityContainer* parent);
+
+    virtual ~RG_AtomicEntity();
+
+    virtual bool isContainer() const {
+        return false;
+    }
+
 };
 
 #endif // RG_ATOMICENTITY_H

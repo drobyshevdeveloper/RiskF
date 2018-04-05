@@ -15,34 +15,20 @@
 **
 ****************************************************************************/
 
-#ifndef RG_ENTITYCONTAINER_H
-#define RG_ENTITYCONTAINER_H
+#include "rg_preview.h"
 
-#include <QList>
-
-#include "rg_entity.h"
-
-class RG_EntityContainer;
-
-class RG_EntityContainer : public RG_Entity
+RG_Preview::RG_Preview(RG_EntityContainer *parent)
+    : RG_EntityContainer(parent)
 {
-public:
-    RG_EntityContainer(RG_EntityContainer* parent);
-    virtual ~RG_EntityContainer();
 
-    virtual RG::EntityType rtti() const {
-        return RG::EntityContainer;
-    }
-    virtual bool isContainer() const {
-        return true;
-    }
+}
 
+RG_Preview::~RG_Preview()
+{
 
-    virtual void addEntity(RG_Entity* entity);
+}
 
-protected:
-    QList<RG_Entity*> entities;
-
-};
-
-#endif // RG_ENTITYCONTAINER_H
+void RG_Preview::addEntity(RG_Entity *entity)
+{
+    RG_EntityContainer::addEntity(entity);
+}

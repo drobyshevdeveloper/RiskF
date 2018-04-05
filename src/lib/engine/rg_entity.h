@@ -32,6 +32,7 @@ public:
     virtual ~RG_Entity();
 
     virtual RG::EntityType rtti() const {return RG::EntityUnknow;}
+    virtual bool isContainer() const = 0;
 
 
     RG_Graphic* getGraphic() const;

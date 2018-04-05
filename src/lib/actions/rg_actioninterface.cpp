@@ -35,3 +35,8 @@ RG_ActionInterface::~RG_ActionInterface()
 {
 
 }
+
+void RG_ActionInterface::init()
+{
+
+}
