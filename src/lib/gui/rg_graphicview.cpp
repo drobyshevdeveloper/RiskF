@@ -18,12 +18,23 @@
 #include "rg_graphicview.h"
 
 #include "rg_eventhandler.h"
+#include "rg_entitycontainer.h"
 
 RG_GraphicView::RG_GraphicView(QWidget *parent)
     : QWidget(parent)
     , eventHandler(new RG_EventHandler(this))
 {
 
+}
+
+RG_GraphicView::~RG_GraphicView()
+{
+    if (!overlayEntities.empty()) {
+        for (auto a : overlayEntities) {
+            delete a;
+        }
+        overlayEntities.clear();
+    }
 }
 
 void RG_GraphicView::setContainer(RG_EntityContainer *c)
@@ -36,4 +47,14 @@ void RG_GraphicView::setCurrentAction(RG_ActionInterface *action)
     if (eventHandler) {
         eventHandler->setCurrentAction(action);
     }
+}
+
+RG_EntityContainer* RG_GraphicView::getOverlayContainer(RG::OverlayGraphics position)
+{
+    if (overlayEntities[position]) {
+        return overlayEntities[position];
+    }
+
+    overlayEntities[position] = new RG_EntityContainer(nullptr);
+    return overlayEntities[position];
 }

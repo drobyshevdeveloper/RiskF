@@ -37,6 +37,14 @@ public:
     void deletePreview();
 protected:
     std::unique_ptr<RG_Preview> preview;
+
+private:
+    /**
+     * @brief hasPreview: флаг наличия элементов в слое предпросмотра
+     * true - элементы есть
+     * false - пусто
+     */
+    bool hasPreview;
 };
 
 #endif // RG_PREVIEWACTIONINTERFACE_H

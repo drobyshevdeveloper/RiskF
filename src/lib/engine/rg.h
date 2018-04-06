@@ -42,6 +42,15 @@ public:
         ActionNone,
         ActionDrawLine
     };
+
+    /**
+     * @brief The OverlayGraphic enum
+     * Перечисление прозрачных временных слоев отображения
+     */
+    enum OverlayGraphics {
+        ActionPreviewEntity,       // Слой элементов просмотра для текущего действия
+        Snapper
+    };
 };
 
 #endif // RG_H

@@ -40,3 +40,9 @@ void RG_ActionInterface::init()
 {
 
 }
+
+void RG_ActionInterface::mouseMoveEvent(QMouseEvent *e) {}
+
+void RG_ActionInterface::mousePressEvent(QMouseEvent *e) {}
+
+void RG_ActionInterface::mouseReleaseEvent(QMouseEvent *e) {}

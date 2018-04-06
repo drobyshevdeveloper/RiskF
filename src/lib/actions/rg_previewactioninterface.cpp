@@ -24,6 +24,7 @@ RG_PreviewActionInterface::RG_PreviewActionInterface(const char* name,
                                                      RG_GraphicView &graphicView)
     : RG_ActionInterface(name, container, graphicView)
     , preview( new RG_Preview(&container) )
+    , hasPreview(false)
 {
 
 }
@@ -43,9 +44,11 @@ void RG_PreviewActionInterface::init()
 void RG_PreviewActionInterface::drawPreview()
 {
 
+    hasPreview = true;
 }
 
 void RG_PreviewActionInterface::deletePreview()
 {
 
+    hasPreview = false;
 }

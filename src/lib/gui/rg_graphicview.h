@@ -19,6 +19,9 @@
 #define RG_GRAPHICVIEW_H
 
 #include <QWidget>
+#include <QMap>
+
+#include "rg.h"
 
 class RG_ActionInterface;
 class RG_EntityContainer;
@@ -30,11 +33,14 @@ class RG_GraphicView : public QWidget
 public:
     explicit RG_GraphicView(QWidget *parent = nullptr);
 
+    virtual ~RG_GraphicView();
+
 
 
     void setContainer(RG_EntityContainer* c);
-
     void setCurrentAction(RG_ActionInterface* action);
+
+    RG_EntityContainer* getOverlayContainer(RG::OverlayGraphics position);
 
 signals:
 
@@ -43,6 +49,8 @@ public slots:
 protected:
     RG_EntityContainer* container;    // Коллекция всех объектов
     RG_EventHandler*    eventHandler; // получатель сообщений от интерфейса пользователя
+private:
+    QMap<RG::OverlayGraphics, RG_EntityContainer*> overlayEntities;
 };
 
 #endif // RG_GRAPHICVIEW_H

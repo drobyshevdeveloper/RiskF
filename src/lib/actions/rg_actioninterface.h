@@ -23,6 +23,7 @@
 #include "rg.h"
 #include "rg_snapper.h"
 
+class QMouseEvent;
 class RG_EntityContainer;
 class RG_GraphicView;
 class RG_Graphic;
@@ -37,6 +38,10 @@ public:
     virtual ~RG_ActionInterface();
 
     virtual void init();
+    virtual void mousePressEvent(QMouseEvent* e);
+    virtual void mouseMoveEvent(QMouseEvent* e);
+    virtual void mouseReleaseEvent(QMouseEvent* e);
+
 signals:
 
 public slots:
