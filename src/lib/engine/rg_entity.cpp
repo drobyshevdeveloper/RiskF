@@ -51,3 +51,13 @@ RG_Graphic* RG_Entity::getGraphic() const
     }
     return parent->getGraphic();
 }
+
+RG_Vector RG_Entity::getStartPoint() const
+{
+    return {};
+}
+
+RG_Vector RG_Entity::getEndPoint() const
+{
+    return {};
+}

@@ -25,6 +25,12 @@ class RG_ActionDrawLine : public RG_PreviewActionInterface
 public:
     RG_ActionDrawLine(RG_EntityContainer& container,
                       RG_GraphicView& graphicView);
+
+    virtual ~RG_ActionDrawLine();
+
+    void mousePressEvent(QMouseEvent* e) override;
+    void mouseMoveEvent(QMouseEvent* e) override;
+    void mouseReleaseEvent(QMouseEvent* e) override;
 };
 
 #endif // RG_ACTIONDRAWLINE_H

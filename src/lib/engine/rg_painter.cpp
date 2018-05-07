@@ -15,22 +15,9 @@
 **
 ****************************************************************************/
 
-#ifndef RG_PREVIEW_H
-#define RG_PREVIEW_H
+#include "rg_painter.h"
 
-#include "rg_entitycontainer.h"
-
-class RG_Preview : public RG_EntityContainer
+RG_Painter::RG_Painter()
 {
-public:
-    RG_Preview(RG_EntityContainer* parent);
 
-    virtual ~RG_Preview();
-
-    virtual void addEntity(RG_Entity* entity) override;
-
-    void deletePreview();
-    void drawPreview();
-};
-
-#endif // RG_PREVIEW_H
+}

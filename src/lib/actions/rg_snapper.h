@@ -27,6 +27,8 @@ public:
     RG_Snapper(RG_EntityContainer& container, RG_GraphicView& graphicView);
     virtual ~RG_Snapper();
 
+    void drawSnapper();
+
 protected:
     RG_EntityContainer& container;
     RG_GraphicView& graphicView;

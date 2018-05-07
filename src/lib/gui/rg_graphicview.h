@@ -40,6 +40,8 @@ public:
     void setContainer(RG_EntityContainer* c);
     void setCurrentAction(RG_ActionInterface* action);
 
+    virtual void redraw(RG::RedrawMethod method = RG::RedrawAll) = 0;
+
     RG_EntityContainer* getOverlayContainer(RG::OverlayGraphics position);
 
 signals:

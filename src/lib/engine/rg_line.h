@@ -23,17 +23,28 @@
 
 #include "rg_vector.h"
 
-class RG_Line : RG_AtomicEntity
+class RG_Painter;
+class RG_GraphicView;
+
+struct RG_LineData {
+    RG_Vector startPoint;
+    RG_Vector endPoint;
+};
+
+class RG_Line : public RG_AtomicEntity
 {
 public:
     RG_Line(RG_EntityContainer* parent);
+    RG_Line(RG_EntityContainer *parent,
+            const RG_LineData& d);
 
     RG::EntityType rtti() const override {
         return RG::EntityLine;
     }
+
+    void draw(RG_Painter* painter, RG_GraphicView* view) override;
 private:
-    RG_Vector startPoint;
-    RG_Vector endPoint;
+    RG_LineData data;
 };
 
 #endif // RG_LINE_H

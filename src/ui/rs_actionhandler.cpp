@@ -42,6 +42,8 @@ RG_ActionInterface* RS_ActionHandler::setCurrentAction(RG::ActionType a_type)
     if (a) {
         graphicView->setCurrentAction(a);
     }
+
+    return a;
 }
 
 void RS_ActionHandler::setView(RG_GraphicView *graphicView)
@@ -59,7 +61,7 @@ void RS_ActionHandler::setDocument(RG_Document *document)
 void RS_ActionHandler::slotInsertLine()
 {
     RL_DEBUG << "RS_ActionHandler::slotInsertLine() Begin";
-
+    setCurrentAction(RG::ActionDrawLine);
     RL_DEBUG << "RS_ActionHandler::slotInsertLine() Ok";
 }
 

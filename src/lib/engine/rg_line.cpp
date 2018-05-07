@@ -16,9 +16,27 @@
 ****************************************************************************/
 
 #include "rg_line.h"
+#include "rg_painter.h"
+#include "rg_graphicview.h"
 
 RG_Line::RG_Line(RG_EntityContainer *parent)
     : RG_AtomicEntity(parent)
 {
+
+}
+
+RG_Line::RG_Line(RG_EntityContainer *parent, const RG_LineData &d)
+    : RG_AtomicEntity(parent), data(d)
+{
+
+}
+
+
+void RG_Line::draw(RG_Painter *painter, RG_GraphicView *view)
+{
+    if ( !(painter && view) ) {
+        return;
+    }
+
 
 }

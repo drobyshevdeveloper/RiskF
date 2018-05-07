@@ -20,10 +20,12 @@
 
 #include "rg.h"
 #include "rg_undoable.h"
-
+#include "rg_vector.h"
 
 class RG_EntityContainer;
 class RG_Graphic;
+class RG_Painter;
+class RG_GraphicView;
 
 class RG_Entity : public RG_Undoable
 {
@@ -34,8 +36,12 @@ public:
     virtual RG::EntityType rtti() const {return RG::EntityUnknow;}
     virtual bool isContainer() const = 0;
 
+    virtual void draw(RG_Painter* painter, RG_GraphicView* view) = 0;
 
     RG_Graphic* getGraphic() const;
+
+    virtual RG_Vector getStartPoint() const;
+    virtual RG_Vector getEndPoint() const;
 
 protected: void initID();
 

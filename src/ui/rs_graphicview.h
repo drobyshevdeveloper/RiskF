@@ -26,6 +26,12 @@ class RS_GraphicView : public RG_GraphicView
 {
 public:
     RS_GraphicView(QWidget* parent = 0, Qt::WindowFlags f = 0, RG_Document* doc = 0);
+    virtual ~RS_GraphicView();
+
+    virtual void redraw(RG::RedrawMethod method = RG::RedrawAll) override;
+
+private:
+    RG::RedrawMethod redrawMethod;
 };
 
 #endif // RS_GRAPHICVIEW_H

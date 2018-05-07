@@ -15,22 +15,16 @@
 **
 ****************************************************************************/
 
-#ifndef RG_PREVIEW_H
-#define RG_PREVIEW_H
+#include "rg_painterqt.h"
 
-#include "rg_entitycontainer.h"
+#include "rg_vector.h"
 
-class RG_Preview : public RG_EntityContainer
+RG_PainterQt::RG_PainterQt()
 {
-public:
-    RG_Preview(RG_EntityContainer* parent);
 
-    virtual ~RG_Preview();
+}
 
-    virtual void addEntity(RG_Entity* entity) override;
-
-    void deletePreview();
-    void drawPreview();
-};
-
-#endif // RG_PREVIEW_H
+void RG_PainterQt::drawLine(const RG_Vector &p1, const RG_Vector &p2)
+{
+    QPainter::drawLine(p1.x, p1.y, p2.x, p2.y);
+}

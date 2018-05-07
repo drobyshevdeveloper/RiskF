@@ -27,7 +27,7 @@ class RG_EntityContainer;
 class RG_EntityContainer : public RG_Entity
 {
 public:
-    RG_EntityContainer(RG_EntityContainer* parent);
+    RG_EntityContainer(RG_EntityContainer* parent, bool owner = true);
     virtual ~RG_EntityContainer();
 
     virtual RG::EntityType rtti() const {
@@ -36,12 +36,26 @@ public:
     virtual bool isContainer() const {
         return true;
     }
+    bool isOwner() const {
+        return owner;
+    }
+    void setOwner(bool owner);
 
 
     virtual void addEntity(RG_Entity* entity);
 
+    virtual void clear();
+    virtual void draw(RG_Painter* painter, RG_GraphicView* view) override;
+
+
 protected:
     QList<RG_Entity*> entities;
+
+private:
+    /**
+     * @brief owner - флаг является ли кнтейнер владельцем элементов
+     */
+    bool owner;
 
 };
 

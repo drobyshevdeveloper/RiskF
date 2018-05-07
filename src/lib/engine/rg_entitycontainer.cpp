@@ -16,16 +16,31 @@
 ****************************************************************************/
 
 #include "rg_entitycontainer.h"
+#include "rg_painter.h"
+#include "rg_graphicview.h"
 
-RG_EntityContainer::RG_EntityContainer(RG_EntityContainer *parent)
+RG_EntityContainer::RG_EntityContainer(RG_EntityContainer *parent, bool owner)
     : RG_Entity(parent)
 {
-
+    this->owner = owner;
 }
 
 RG_EntityContainer::~RG_EntityContainer()
 {
+    if (owner) {
+        // Если контейнер владеет своими элементами, то перед
+        // удалением необходимо удалить и элементы
+        while (!entities.isEmpty()) {
+            delete entities.takeFirst();
+        }
+    } else {
+        entities.clear();
+    }
+}
 
+void RG_EntityContainer::setOwner(bool owner)
+{
+    this->owner = owner;
 }
 
 void RG_EntityContainer::addEntity(RG_Entity *entity)
@@ -34,4 +49,28 @@ void RG_EntityContainer::addEntity(RG_Entity *entity)
         return;
     }
     entities.append(entity);
+}
+
+void RG_EntityContainer::clear()
+{
+    if (owner) {
+        // Если контейнер владеет своими элементами, то перед
+        // удалением необходимо удалить и элементы
+        while (!entities.isEmpty()) {
+            delete entities.takeFirst();
+        }
+    } else {
+        entities.clear();
+    }
+}
+
+void RG_EntityContainer::draw(RG_Painter *painter, RG_GraphicView *view)
+{
+    if ( !(painter && view)) {
+        return;
+    }
+
+    foreach (auto a, entities) {
+        a->draw(painter,view);
+    }
 }

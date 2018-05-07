@@ -17,7 +17,10 @@
 
 #include "rg_previewactioninterface.h"
 
+#include "rg.h"
 #include "rg_preview.h"
+#include "rg_graphicview.h"
+#include "rg_entitycontainer.h"
 
 RG_PreviewActionInterface::RG_PreviewActionInterface(const char* name,
                                                      RG_EntityContainer &container,
@@ -43,12 +46,20 @@ void RG_PreviewActionInterface::init()
 
 void RG_PreviewActionInterface::drawPreview()
 {
+    RG_EntityContainer* container = graphicView.getOverlayContainer(RG::ActionPreviewEntity);
+    container->clear();
+    container->setOwner(false); // Указать, что контейнер не является владельцем элементов (чтобы их не удалили дважды)
+    container->addEntity(preview.get());
 
+    graphicView.redraw(RG::RedrawOverlay);
     hasPreview = true;
 }
 
 void RG_PreviewActionInterface::deletePreview()
 {
-
-    hasPreview = false;
+    if (hasPreview) {
+        preview->clear();
+        hasPreview = false;
+    }
+    graphicView.getOverlayContainer(RG::ActionPreviewEntity)->clear();
 }

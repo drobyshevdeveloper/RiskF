@@ -30,3 +30,9 @@ RG_Snapper::~RG_Snapper()
 {
 
 }
+
+// Нарисовать на накладываемом слое Snapper курсор
+void RG_Snapper::drawSnapper()
+{
+
+}

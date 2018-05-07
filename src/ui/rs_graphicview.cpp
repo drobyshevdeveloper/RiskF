@@ -24,3 +24,14 @@ RS_GraphicView::RS_GraphicView(QWidget *parent, Qt::WindowFlags f, RG_Document *
 {
     setContainer(doc);
 }
+
+RS_GraphicView::~RS_GraphicView()
+{
+
+}
+
+void RS_GraphicView::redraw(RG::RedrawMethod method)
+{
+    redrawMethod = (RG::RedrawMethod) (redrawMethod | method);
+    update();
+}

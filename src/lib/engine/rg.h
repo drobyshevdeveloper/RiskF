@@ -44,12 +44,22 @@ public:
     };
 
     /**
+     * @brief The RedrawMethod enum
+     * Перечисление методов перерисовки представления
+     */
+    enum RedrawMethod {
+        RedrawNone = 0,
+        RedrawGrid = 2,
+        RedrawOverlay = 4,      // Перерисовать накладываемые слои
+        RedrawAll = 0xFFF
+    };
+    /**
      * @brief The OverlayGraphic enum
      * Перечисление прозрачных временных слоев отображения
      */
     enum OverlayGraphics {
         ActionPreviewEntity,       // Слой элементов просмотра для текущего действия
-        Snapper
+        Snapper                    // Слой курсора графичского модуля
     };
 };
 
