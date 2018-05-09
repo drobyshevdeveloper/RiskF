@@ -29,8 +29,8 @@ public:
 
     virtual void addEntity(RG_Entity* entity) override;
 
-    void deletePreview();
-    void drawPreview();
+//    void deletePreview();
+//    void drawPreview();
 };
 
 #endif // RG_PREVIEW_H

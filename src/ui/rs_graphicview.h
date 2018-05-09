@@ -30,6 +30,16 @@ public:
 
     virtual void redraw(RG::RedrawMethod method = RG::RedrawAll) override;
 
+    virtual int getWidth() override;
+    virtual int getHeight() override;
+
+protected:
+    void mouseMoveEvent(QMouseEvent* e) override;
+    void mousePressEvent(QMouseEvent* e) override;
+    void mouseReleaseEvent(QMouseEvent* e) override;
+
+    void paintEvent(QPaintEvent* event) override;
+
 private:
     RG::RedrawMethod redrawMethod;
 };

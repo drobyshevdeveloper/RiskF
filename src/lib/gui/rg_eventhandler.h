@@ -31,13 +31,18 @@ public:
     virtual ~RG_EventHandler();
 
     void setCurrentAction(RG_ActionInterface* action);
+    bool hasAction();
+
+    void mouseMoveEvent(QMouseEvent* e);
+    void mousePressEvent(QMouseEvent* e);
+    void mouseReleaseEvent(QMouseEvent *e);
 
 signals:
 
 public slots:
 
 private:
-    QList<RG_ActionInterface*> currentAction;
+    QList<RG_ActionInterface*> currentActions;
 };
 
 #endif // RG_EVENTHANDLER_H

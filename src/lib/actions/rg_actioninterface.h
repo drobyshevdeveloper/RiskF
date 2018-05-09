@@ -38,6 +38,7 @@ public:
     virtual ~RG_ActionInterface();
 
     virtual void init();
+
     virtual void mousePressEvent(QMouseEvent* e);
     virtual void mouseMoveEvent(QMouseEvent* e);
     virtual void mouseReleaseEvent(QMouseEvent* e);

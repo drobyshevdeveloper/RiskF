@@ -42,7 +42,13 @@ public:
 
     virtual void redraw(RG::RedrawMethod method = RG::RedrawAll) = 0;
 
+    virtual int getWidth() = 0;
+    virtual int getHeight() = 0;
+
     RG_EntityContainer* getOverlayContainer(RG::OverlayGraphics position);
+
+protected:
+
 
 signals:
 

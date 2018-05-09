@@ -24,3 +24,23 @@ RG_Vector::RG_Vector(double vx, double vy, double vz)
     z = vz;
     valid = true;
 }
+
+RG_Vector::RG_Vector(bool valid)
+    :valid(valid)
+{
+}
+
+RG_Vector::operator bool() const
+{
+    return valid;
+}
+
+bool RG_Vector::operator == (bool valid) const
+{
+    return this->valid == valid;
+}
+
+bool RG_Vector::operator != (bool valid) const
+{
+    return this->valid != valid;
+}

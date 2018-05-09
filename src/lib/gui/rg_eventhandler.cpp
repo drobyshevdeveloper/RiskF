@@ -17,19 +17,21 @@
 
 #include "rg_eventhandler.h"
 
+#include "rg_actioninterface.h"
+
 RG_EventHandler::RG_EventHandler(QObject *parent)
     : QObject(parent)
 {
-    currentAction.clear();
+    currentActions.clear();
 }
 
 RG_EventHandler::~RG_EventHandler()
 {
-    for (auto a: currentAction) {
+    for (auto a: currentActions) {
         delete a;
     }
 
-    currentAction.clear();
+    currentActions.clear();
 }
 
 void RG_EventHandler::setCurrentAction(RG_ActionInterface *action)
@@ -38,5 +40,31 @@ void RG_EventHandler::setCurrentAction(RG_ActionInterface *action)
         return;
     }
 
-    currentAction.append(action);
+    currentActions.append(action);
+}
+
+bool RG_EventHandler::hasAction()
+{
+    foreach (RG_ActionInterface* a, currentActions) {
+        if (!a->isFinished())
+            return true;
+    }
+    return false;
+}
+
+void RG_EventHandler::mouseMoveEvent(QMouseEvent *e)
+{
+    if (hasAction()) {
+        currentActions.last()->mouseMoveEvent(e);
+    }
+}
+
+void RG_EventHandler::mousePressEvent(QMouseEvent *e)
+{
+
+}
+
+void RG_EventHandler::mouseReleaseEvent(QMouseEvent *e)
+{
+
 }

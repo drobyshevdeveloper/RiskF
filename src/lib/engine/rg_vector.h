@@ -24,7 +24,11 @@ class RG_Vector
 public:
     RG_Vector()=default;
     RG_Vector(double vx, double vy, double vz=0.0);
+    RG_Vector(bool valid);
 
+    operator bool() const;
+    bool operator == (bool valid) const;
+    bool operator != (bool valid) const;
 
 public:
     double x=0.;

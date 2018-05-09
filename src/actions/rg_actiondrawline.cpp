@@ -19,6 +19,11 @@
 
 #include <QMouseEvent>
 
+#include "rg_previewactioninterface.h"
+#include "rg_actioninterface.h"
+#include "rg_preview.h"
+#include "rg_line.h"
+
 RG_ActionDrawLine::RG_ActionDrawLine(RG_EntityContainer &container, RG_GraphicView &graphicView)
     : RG_PreviewActionInterface("Draw line", container, graphicView)
 {
@@ -30,6 +35,12 @@ RG_ActionDrawLine::~RG_ActionDrawLine()
 
 }
 
+void RG_ActionDrawLine::init()
+{
+    RG_PreviewActionInterface::init();
+    drawSnapper();
+}
+
 void RG_ActionDrawLine::mousePressEvent(QMouseEvent *e)
 {
 
@@ -37,7 +48,11 @@ void RG_ActionDrawLine::mousePressEvent(QMouseEvent *e)
 
 void RG_ActionDrawLine::mouseMoveEvent(QMouseEvent *e)
 {
-
+    RG_Vector mouse = snapPoint(e);
+    deletePreview();
+    RG_Line* line = new RG_Line(nullptr, {{0,0},mouse});
+    preview->addEntity(line);
+    drawPreview();
 }
 
 void RG_ActionDrawLine::mouseReleaseEvent(QMouseEvent *e)

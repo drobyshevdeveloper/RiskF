@@ -28,6 +28,8 @@ public:
 
     virtual ~RG_ActionDrawLine();
 
+    virtual void init() override;
+
     void mousePressEvent(QMouseEvent* e) override;
     void mouseMoveEvent(QMouseEvent* e) override;
     void mouseReleaseEvent(QMouseEvent* e) override;

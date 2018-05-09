@@ -38,7 +38,7 @@ RG_ActionInterface::~RG_ActionInterface()
 
 void RG_ActionInterface::init()
 {
-
+    RG_Snapper::init();
 }
 
 void RG_ActionInterface::mouseMoveEvent(QMouseEvent *e) {}

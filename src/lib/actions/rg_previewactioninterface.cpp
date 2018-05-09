@@ -39,6 +39,7 @@ RG_PreviewActionInterface::~RG_PreviewActionInterface()
 
 void RG_PreviewActionInterface::init()
 {
+    deletePreview();
     RG_ActionInterface::init();
 }
 
@@ -46,12 +47,12 @@ void RG_PreviewActionInterface::init()
 
 void RG_PreviewActionInterface::drawPreview()
 {
-    RG_EntityContainer* container = graphicView.getOverlayContainer(RG::ActionPreviewEntity);
+    RG_EntityContainer* container = graphicView->getOverlayContainer(RG::ActionPreviewEntity);
     container->clear();
     container->setOwner(false); // Указать, что контейнер не является владельцем элементов (чтобы их не удалили дважды)
     container->addEntity(preview.get());
 
-    graphicView.redraw(RG::RedrawOverlay);
+    graphicView->redraw(RG::RedrawOverlay);
     hasPreview = true;
 }
 
@@ -61,5 +62,5 @@ void RG_PreviewActionInterface::deletePreview()
         preview->clear();
         hasPreview = false;
     }
-    graphicView.getOverlayContainer(RG::ActionPreviewEntity)->clear();
+    graphicView->getOverlayContainer(RG::ActionPreviewEntity)->clear();
 }

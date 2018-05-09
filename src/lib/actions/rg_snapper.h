@@ -18,8 +18,11 @@
 #ifndef RG_SNAPPER_H
 #define RG_SNAPPER_H
 
+#include "rg_vector.h"
+
 class RG_EntityContainer;
 class RG_GraphicView;
+class QMouseEvent;
 
 class RG_Snapper
 {
@@ -27,11 +30,31 @@ public:
     RG_Snapper(RG_EntityContainer& container, RG_GraphicView& graphicView);
     virtual ~RG_Snapper();
 
+    void init();
+    virtual void finish();
+    bool isFinished();
+
+    void deleteSnapper();
     void drawSnapper();
 
+
+    /**
+     * @brief setSnapPoint - Ручная установка координат курсора
+     *                       и нарисовать курсор на накладываемом слое Snapper
+     * @param coord - координаты, которые необходимо установить
+     * @return
+     */
+    RG_Vector setSnapPoint(const RG_Vector& coord);
+    RG_Vector snapPoint(QMouseEvent* e);
 protected:
-    RG_EntityContainer& container;
-    RG_GraphicView& graphicView;
+    RG_EntityContainer* container;
+    RG_GraphicView* graphicView;
+
+    bool finished = {false};
+
+private:
+    RG_Vector snapCoord;
+    RG_Vector snapSpot;
 };
 
 #endif // RG_SNAPPER_H

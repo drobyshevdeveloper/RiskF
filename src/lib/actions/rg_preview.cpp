@@ -17,6 +17,8 @@
 
 #include "rg_preview.h"
 
+#include "rg_entity.h"
+
 RG_Preview::RG_Preview(RG_EntityContainer *parent)
     : RG_EntityContainer(parent)
 {
