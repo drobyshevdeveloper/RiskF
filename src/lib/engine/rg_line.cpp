@@ -31,6 +31,15 @@ RG_Line::RG_Line(RG_EntityContainer *parent, const RG_LineData &d)
 
 }
 
+RG_Vector RG_Line::getStartPoint() const
+{
+    return data.startPoint;
+}
+
+RG_Vector RG_Line::getEndPoint() const
+{
+    return data.endPoint;
+}
 
 void RG_Line::draw(RG_Painter *painter, RG_GraphicView *view)
 {
@@ -38,5 +47,6 @@ void RG_Line::draw(RG_Painter *painter, RG_GraphicView *view)
         return;
     }
 
+    painter->drawLine(getStartPoint(), getEndPoint());
 
 }

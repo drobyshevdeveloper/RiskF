@@ -17,6 +17,7 @@
 
 #include "rg_eventhandler.h"
 
+#include "rl_debug.h"
 #include "rg_actioninterface.h"
 
 RG_EventHandler::RG_EventHandler(QObject *parent)
@@ -54,9 +55,13 @@ bool RG_EventHandler::hasAction()
 
 void RG_EventHandler::mouseMoveEvent(QMouseEvent *e)
 {
+    RL_DEBUG << "RG_EventHandler::mouseMoveEvent Begin";
+
     if (hasAction()) {
         currentActions.last()->mouseMoveEvent(e);
     }
+
+    RL_DEBUG << "RG_EventHandler::mouseMoveEvent Ok";
 }
 
 void RG_EventHandler::mousePressEvent(QMouseEvent *e)

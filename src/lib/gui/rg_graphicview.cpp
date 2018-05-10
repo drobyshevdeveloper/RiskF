@@ -17,6 +17,7 @@
 
 #include "rg_graphicview.h"
 
+#include "rl_debug.h"
 #include "rg_eventhandler.h"
 #include "rg_entitycontainer.h"
 
@@ -57,4 +58,22 @@ RG_EntityContainer* RG_GraphicView::getOverlayContainer(RG::OverlayGraphics posi
 
     overlayEntities[position] = new RG_EntityContainer(nullptr);
     return overlayEntities[position];
+}
+
+void RG_GraphicView::drawLayer3(RG_Painter *painter)
+{
+    RL_DEBUG << "RG_GraphicView::drawLayer3 Begin";
+    if (overlayEntities.empty()) {
+        RL_DEBUG << "Empty";
+        return;
+    }
+
+    foreach (RG_EntityContainer* oe, overlayEntities) {
+        foreach (RG_Entity* e, oe->getEntityList()) {
+            RL_DEBUG << e;
+            e->draw(painter, this);
+        }
+    }
+
+    RL_DEBUG << "RG_GraphicView::drawLayer3 Ok";
 }

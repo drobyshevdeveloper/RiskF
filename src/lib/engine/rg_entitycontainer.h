@@ -43,6 +43,7 @@ public:
 
 
     virtual void addEntity(RG_Entity* entity);
+    const QList<RG_Entity*> getEntityList();
 
     virtual void clear();
     virtual void draw(RG_Painter* painter, RG_GraphicView* view) override;

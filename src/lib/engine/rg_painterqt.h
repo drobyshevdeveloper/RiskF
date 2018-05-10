@@ -24,9 +24,10 @@
 class RG_PainterQt : public QPainter, public RG_Painter
 {
 public:
-    RG_PainterQt();
+    RG_PainterQt(QPaintDevice *pd);
 
     virtual void drawLine(const RG_Vector& p1, const RG_Vector& p2);
+    virtual void drawPixmap(int x, int y, QPixmap* pixmap);
 
 };
 

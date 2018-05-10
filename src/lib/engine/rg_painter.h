@@ -19,6 +19,7 @@
 #define RG_PAINTER_H
 
 class RG_Vector;
+class QPixmap;
 
 class RG_Painter
 {
@@ -26,6 +27,7 @@ public:
     RG_Painter();
 
     virtual void drawLine(const RG_Vector& p1, const RG_Vector& p2) = 0;
+    virtual void drawPixmap(int x, int y, QPixmap* pixmap) = 0;
 };
 
 #endif // RG_PAINTER_H

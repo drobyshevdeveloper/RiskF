@@ -21,6 +21,7 @@
 #include "rg_graphicview.h"
 
 class RG_Document;
+class QPixmap;
 
 class RS_GraphicView : public RG_GraphicView
 {
@@ -34,14 +35,21 @@ public:
     virtual int getHeight() override;
 
 protected:
-    void mouseMoveEvent(QMouseEvent* e) override;
+    virtual void mouseMoveEvent(QMouseEvent* e) override;
     void mousePressEvent(QMouseEvent* e) override;
     void mouseReleaseEvent(QMouseEvent* e) override;
 
     void paintEvent(QPaintEvent* event) override;
 
 private:
+    void getPixmapForView(QPixmap **pm);
+
+private:
     RG::RedrawMethod redrawMethod;
+    /**
+     * @brief layerPixmap3 - буфер окна вывода графики (Накладываемый слой)
+     */
+    QPixmap* layerPixmap3;
 };
 
 #endif // RS_GRAPHICVIEW_H

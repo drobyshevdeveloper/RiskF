@@ -51,6 +51,11 @@ void RG_EntityContainer::addEntity(RG_Entity *entity)
     entities.append(entity);
 }
 
+const QList<RG_Entity *> RG_EntityContainer::getEntityList()
+{
+    return entities;
+}
+
 void RG_EntityContainer::clear()
 {
     if (owner) {
