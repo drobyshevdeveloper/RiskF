@@ -51,6 +51,7 @@ public:
         RedrawNone = 0,
         RedrawGrid = 2,
         RedrawOverlay = 4,      // Перерисовать накладываемые слои
+        RedrawDrawing = 8,      // Перерисовать основные элемнты рисунка
         RedrawAll = 0xFFF
     };
     /**

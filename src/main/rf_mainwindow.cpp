@@ -102,7 +102,9 @@ void RF_MainWindow::slotFileNew()
     action_handler->setView(view);
     action_handler->setDocument(w->getDocument());
 
+    view->redraw(RG::RedrawAll);
     w->showMaximized();
+
 
     RL_DEBUG << "RF_MainWindow::slotFileNew Ok";
 }

@@ -40,12 +40,17 @@ protected:
     void mouseReleaseEvent(QMouseEvent* e) override;
 
     void paintEvent(QPaintEvent* event) override;
+    void resizeEvent(QResizeEvent* event) override;
 
 private:
     void getPixmapForView(QPixmap **pm);
 
 private:
     RG::RedrawMethod redrawMethod;
+    /**
+     * @brief layerPixmap1 - буфер окна вывода графики (Основные элементы)
+     */
+    QPixmap* layerPixmap1;
     /**
      * @brief layerPixmap3 - буфер окна вывода графики (Накладываемый слой)
      */

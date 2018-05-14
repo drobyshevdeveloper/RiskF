@@ -37,10 +37,10 @@ RG_PreviewActionInterface::~RG_PreviewActionInterface()
 
 }
 
-void RG_PreviewActionInterface::init()
+void RG_PreviewActionInterface::init(int status)
 {
     deletePreview();
-    RG_ActionInterface::init();
+    RG_ActionInterface::init(status);
 }
 
 

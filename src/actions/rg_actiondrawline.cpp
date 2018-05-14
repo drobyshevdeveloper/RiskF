@@ -24,6 +24,7 @@
 #include "rg_actioninterface.h"
 #include "rg_preview.h"
 #include "rg_line.h"
+#include "rg_graphicview.h"
 
 RG_ActionDrawLine::RG_ActionDrawLine(RG_EntityContainer &container, RG_GraphicView &graphicView)
     : RG_PreviewActionInterface("Draw line", container, graphicView)
@@ -36,9 +37,9 @@ RG_ActionDrawLine::~RG_ActionDrawLine()
 
 }
 
-void RG_ActionDrawLine::init()
+void RG_ActionDrawLine::init(int status)
 {
-    RG_PreviewActionInterface::init();
+    RG_PreviewActionInterface::init(status);
     drawSnapper();
 }
 
@@ -52,15 +53,46 @@ void RG_ActionDrawLine::mouseMoveEvent(QMouseEvent *e)
     RL_DEBUG << "RG_ActionDrawLine::mouseMoveEvent Begin";
 
     RG_Vector mouse = snapPoint(e);
-    deletePreview();
-    RG_Line* line = new RG_Line(nullptr, {{0,0},mouse});
-    preview->addEntity(line);
-    drawPreview();
+    RL_DEBUG << "getStatus() = " << getStatus();
+    if (getStatus() == SetEndpoint) {
+        // Выводим линию на просмотр если текущий режим - установка второй точки линии
+        deletePreview();
+        RG_Line* line = new RG_Line(nullptr, {points.data.startPoint
+                                              ,mouse});
+        preview->addEntity(line);
+        drawPreview();
+    }
 
     RL_DEBUG << "RG_ActionDrawLine::mouseMoveEvent Ok";
 }
 
 void RG_ActionDrawLine::mouseReleaseEvent(QMouseEvent *e)
 {
+    RL_DEBUG << "RG_ActionDrawLine::mouseReleaseEvent Begin";
 
+    if (e->button() == Qt::LeftButton) {
+        // Нажата левая кнопка мыши
+        RG_Vector mouse = snapPoint(e);
+        switch (getStatus()) {
+        case SetStartpoint:
+            // Режим установки первой точки линии
+            points.data.startPoint = mouse;
+            setStatus(SetEndpoint);
+            break;
+        case SetEndpoint:
+            // Режим установки второй точки линии
+            points.data.endPoint = mouse;
+
+            RG_Line* line = new RG_Line(container, points.data);
+            container->addEntity(line);
+            deletePreview();
+            graphicView->redraw(RG::RedrawDrawing);
+            setStatus(SetStartpoint);
+            break;
+//        default:
+//            break;
+        }
+    }
+    RL_DEBUG << "RG_ActionDrawLine::mouseReleaseEvent Begin";
 }
+

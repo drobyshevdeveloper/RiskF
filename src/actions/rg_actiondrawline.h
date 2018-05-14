@@ -19,20 +19,31 @@
 #define RG_ACTIONDRAWLINE_H
 
 #include "rg_previewactioninterface.h"
+#include "rg_line.h"
 
 class RG_ActionDrawLine : public RG_PreviewActionInterface
 {
 public:
+    enum Status {
+        SetStartpoint,
+        SetEndpoint
+    };
+
     RG_ActionDrawLine(RG_EntityContainer& container,
                       RG_GraphicView& graphicView);
 
     virtual ~RG_ActionDrawLine();
 
-    virtual void init() override;
+    virtual void init(int status=SetStartpoint) override;
 
     void mousePressEvent(QMouseEvent* e) override;
     virtual void mouseMoveEvent(QMouseEvent* e) override;
-    void mouseReleaseEvent(QMouseEvent* e) override;
+    virtual void mouseReleaseEvent(QMouseEvent* e) override;
+private:
+    struct Points {
+        RG_LineData data;
+    };
+    Points points;
 };
 
 #endif // RG_ACTIONDRAWLINE_H

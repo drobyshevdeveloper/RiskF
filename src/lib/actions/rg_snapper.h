@@ -30,7 +30,7 @@ public:
     RG_Snapper(RG_EntityContainer& container, RG_GraphicView& graphicView);
     virtual ~RG_Snapper();
 
-    void init();
+    virtual void init(int status=0);
     virtual void finish();
     bool isFinished();
 

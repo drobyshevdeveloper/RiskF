@@ -31,7 +31,7 @@ RG_Snapper::RG_Snapper(RG_EntityContainer &container, RG_GraphicView &graphicVie
 {
 }
 
-void RG_Snapper::init()
+void RG_Snapper::init(int status)
 {
     snapCoord = RG_Vector{false};
     snapSpot  = RG_Vector{false};
@@ -95,5 +95,6 @@ void RG_Snapper::drawSnapper()
         overlayContainer->addEntity(line);
     }
 
+    graphicView->redraw(RG::RedrawOverlay);
 
 }

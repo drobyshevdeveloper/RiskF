@@ -26,6 +26,7 @@ RS_GraphicView::RS_GraphicView(QWidget *parent, Qt::WindowFlags f, RG_Document *
     : RG_GraphicView(parent)
 {
     setContainer(doc);
+    layerPixmap1 = nullptr;
     layerPixmap3 = nullptr;
 
     // Настроить представление на прием событий перемещения мыши
@@ -36,6 +37,7 @@ RS_GraphicView::RS_GraphicView(QWidget *parent, Qt::WindowFlags f, RG_Document *
 RS_GraphicView::~RS_GraphicView()
 {
     // Удалим буферы графики
+    if (layerPixmap1) delete layerPixmap1;
     if (layerPixmap3) delete layerPixmap3;
 }
 
@@ -67,33 +69,48 @@ void RS_GraphicView::mouseMoveEvent(QMouseEvent *e)
 
 void RS_GraphicView::mousePressEvent(QMouseEvent *e)
 {
-
+    eventHandler->mousePressEvent(e);
 }
 
 void RS_GraphicView::mouseReleaseEvent(QMouseEvent *e)
 {
-
+    eventHandler->mouseReleaseEvent(e);
 }
 
 void RS_GraphicView::paintEvent(QPaintEvent *event)
 {
     RL_DEBUG << "RS_GraphicView::paintEvent (Begin)";
+    getPixmapForView(&layerPixmap1);
     getPixmapForView(&layerPixmap3);
 //    RL_DEBUG << "layerPixmap3 = " << *layerPixmap3;
 
-    RG_PainterQt painterQt(layerPixmap3);
-    layerPixmap3->fill();
-    drawLayer3(&painterQt);
+    if (redrawMethod & RG::RedrawDrawing) {
+        RG_PainterQt painter1(layerPixmap1);
+        layerPixmap1->fill(Qt::white);
+        drawLayer1(&painter1);
+        painter1.end();
+    }
 
+//    layerPixmap3->fill();
+    layerPixmap3->fill(Qt::transparent);//QColor(255,255,255, Qt::transparent));
+    RG_PainterQt painter3(layerPixmap3);
+    drawLayer3(&painter3);
+    painter3.end();
 
-    painterQt.end();
-    painterQt.begin(this);
+    RG_PainterQt painterQt(this);
+    painterQt.drawPixmap(0,0,layerPixmap1);
     painterQt.drawPixmap(0,0,layerPixmap3);
     painterQt.end();
+
+    redrawMethod = RG::RedrawNone;
 
     RL_DEBUG << "RS_GraphicView::paintEvent (Ok)";
 }
 
+void RS_GraphicView::resizeEvent(QResizeEvent *event)
+{
+    redraw(RG::RedrawAll);
+}
 /**
  * @brief RS_GraphicView::getPixmapForView - создает буфер размером с представление
  *                Если буфер уже существует и его размер совпадает с размером представления
@@ -102,28 +119,17 @@ void RS_GraphicView::paintEvent(QPaintEvent *event)
  */
 void RS_GraphicView::getPixmapForView(QPixmap **pm)
 {
-//    RL_DEBUG << "RS_GraphicView::getPixmapForView Begin";
-//    RL_DEBUG << (*pm);
-
     const QSize s(getWidth(),getHeight());
-//    RL_DEBUG << s;
     if ((*pm)) {
-//        RL_DEBUG << "Pixmap not NULL";
         if ((*pm)->size()==s) {
-//            RL_DEBUG << "No resize";
-//            RL_DEBUG << "RS_GraphicView::getPixmapForView Ok";
             return; // размер представления не изменился
         }
     }
 
     // Если буфер был создан, то необходимо удалить его
     if ((*pm)) {
-//        RL_DEBUG << "deleting old Pixmap";
         delete (*pm);
     }
     // Создаем новый буфер с новыми размерами
-//    RL_DEBUG << "create new Pixmap";
     (*pm) = new QPixmap(getWidth(), getHeight());
-
-//    RL_DEBUG << "RS_GraphicView::getPixmapForView Ok";
 }

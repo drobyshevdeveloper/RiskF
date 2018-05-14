@@ -37,7 +37,9 @@ public:
                                 RG_GraphicView& graphicView);
     virtual ~RG_ActionInterface();
 
-    virtual void init();
+    virtual void init(int status=0) override;
+    void setStatus(int status=0);
+    int getStatus();
 
     virtual void mousePressEvent(QMouseEvent* e);
     virtual void mouseMoveEvent(QMouseEvent* e);
@@ -52,6 +54,8 @@ protected:
     RG_Graphic* graphic;
 
     RG::ActionType actionType;
+private:
+    int status;
 };
 
 #endif // RG_ACTIONINTERFACE_H

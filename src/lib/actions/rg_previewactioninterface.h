@@ -31,7 +31,7 @@ public:
 
     virtual ~RG_PreviewActionInterface();
 
-    virtual void init() override;
+    virtual void init(int status=0) override;
 
     void drawPreview();
     void deletePreview();

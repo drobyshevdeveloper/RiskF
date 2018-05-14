@@ -42,6 +42,8 @@ void RG_EventHandler::setCurrentAction(RG_ActionInterface *action)
     }
 
     currentActions.append(action);
+
+    action->init();
 }
 
 bool RG_EventHandler::hasAction()
@@ -66,10 +68,18 @@ void RG_EventHandler::mouseMoveEvent(QMouseEvent *e)
 
 void RG_EventHandler::mousePressEvent(QMouseEvent *e)
 {
+    RL_DEBUG << "RG_EventHandler::mousePressEvent Begin";
 
+    RL_DEBUG << "RG_EventHandler::mousePressEvent Ok";
 }
 
 void RG_EventHandler::mouseReleaseEvent(QMouseEvent *e)
 {
+    RL_DEBUG << "RG_EventHandler::mouseReleaseEvent Begin";
 
+    if (hasAction()) {
+        currentActions.last()->mouseReleaseEvent(e);
+    }
+
+    RL_DEBUG << "RG_EventHandler::mouseReleaseEvent Ok";
 }

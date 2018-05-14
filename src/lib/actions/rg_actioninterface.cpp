@@ -36,9 +36,21 @@ RG_ActionInterface::~RG_ActionInterface()
 
 }
 
-void RG_ActionInterface::init()
+void RG_ActionInterface::init(int status)
 {
-    RG_Snapper::init();
+    setStatus(status);
+    RG_Snapper::init(status);
+
+}
+
+void RG_ActionInterface::setStatus(int status)
+{
+    this->status = status;
+}
+
+int RG_ActionInterface::getStatus()
+{
+    return status;
 }
 
 void RG_ActionInterface::mouseMoveEvent(QMouseEvent *e) {}
