@@ -1,0 +1,66 @@
+/****************************************************************************
+**
+** Copyright (C) 2018 AWSoft.
+** Contact: https://www.
+**
+** Это файл является частью программы RiskF - Программы по проведению
+** расчетов величины индивидуального пожарного риска.
+**
+** Программа использует кроссплатформенный фреймворк для разработки ПО Qt
+** под лицензией GNU LGPL v3.0 динамически подключая ее
+** https://www.qt.io
+**
+** Лицензия на использовние исходных текстов и программы RiskF
+** находится в файле licenses.txt
+**
+****************************************************************************/
+
+#include "rg_actiondefault.h"
+
+RG_ActionDefault::RG_ActionDefault(RG_EntityContainer &container,
+                                   RG_GraphicView &graphicView)
+    : RG_PreviewActionInterface("Default", container, graphicView)
+{
+    actionType = RG::ActionDefault;
+}
+
+RG_ActionDefault::~RG_ActionDefault()
+{
+
+}
+
+void RG_ActionDefault::init(int status)
+{
+    RG_PreviewActionInterface::init(status);
+}
+
+void RG_ActionDefault::coordinateEvent(RG_CoordinateEvent *ce)
+{
+
+}
+
+void RG_ActionDefault::mouseMoveEvent(QMouseEvent *e)
+{
+    RG_Vector snapper = snapPoint(e);
+}
+
+void RG_ActionDefault::mousePressEvent(QMouseEvent *e)
+{
+
+}
+
+void RG_ActionDefault::mouseReleaseEvent(QMouseEvent *e)
+{
+
+}
+
+void RG_ActionDefault::updateMouseCursor()
+{
+//    RG::SnapperType oldSt = getSnapperType();
+
+    setSnapperType(RG::SnapperDefault);
+
+//    if (oldSt != getSnapperType()) {
+//        drawSnapper();
+//    }
+}

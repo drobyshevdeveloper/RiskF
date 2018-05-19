@@ -31,6 +31,7 @@ public:
 
     QActionGroup* file;
     QActionGroup* insert;
+    QActionGroup* edit;
 
 //    QList<QActionGroup*> toolGroup();
 

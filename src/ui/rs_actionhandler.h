@@ -45,6 +45,8 @@ public slots:
     // === Insert ===
     void slotInsertLine(); // временный инструмент
     void slotInsertRoom();
+    // === Edit ===
+    void slotSelect();    // инструмент по умолчанию
 
 private:
     RG_GraphicView* graphicView;

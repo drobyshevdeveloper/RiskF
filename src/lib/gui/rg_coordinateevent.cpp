@@ -15,41 +15,5 @@
 **
 ****************************************************************************/
 
-#ifndef RG_EVENTHANDLER_H
-#define RG_EVENTHANDLER_H
+#include "rg_coordinateevent.h"
 
-#include <QObject>
-#include <QList>
-
-class RG_ActionInterface;
-
-class RG_EventHandler : public QObject
-{
-    Q_OBJECT
-public:
-    explicit RG_EventHandler(QObject *parent = nullptr);
-    virtual ~RG_EventHandler();
-
-    void setCurrentAction(RG_ActionInterface* action);
-    void setDefaultAction(RG_ActionInterface* action);
-    bool hasAction();
-    void cleanUp();
-
-    void killAllActions();
-
-    void mouseMoveEvent(QMouseEvent* e);
-    void mousePressEvent(QMouseEvent* e);
-    void mouseReleaseEvent(QMouseEvent *e);
-
-    void leaveEvent(QEvent* e);
-
-signals:
-
-public slots:
-
-private:
-    QList<RG_ActionInterface*> currentActions;
-    RG_ActionInterface* defaultAction;
-};
-
-#endif // RG_EVENTHANDLER_H

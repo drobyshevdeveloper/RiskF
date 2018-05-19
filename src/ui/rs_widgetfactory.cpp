@@ -38,6 +38,8 @@ RS_WidgetFactory::RS_WidgetFactory(RF_MainWindow* main_win,
     insert_actions
             << a_map["InsertLine"]
             << a_map["InsertRoom"];
+    edit_actions
+            << a_map["Select"];
 
 }
 
@@ -48,6 +50,7 @@ void RS_WidgetFactory::createCategoriesToolBar()
     QToolBar* insert_toolbar = new QToolBar(RF_MainWindow::tr("Insert"), main_window);
     insert_toolbar->setSizePolicy(toolBarPolicy);
     insert_toolbar->setObjectName("insert_toolbar");
+    insert_toolbar->addActions(edit_actions);     // Временно !!! пока у нас один инструмент Select
     insert_toolbar->addActions(insert_actions);
 
     main_window->addToolBar(Qt::LeftToolBarArea, insert_toolbar);
@@ -71,6 +74,11 @@ void RS_WidgetFactory::createMenus(QMenuBar *menu_bar)
     insert_menu->setTearOffEnabled(false);
     insert_menu->addActions(insert_actions);
 
+    // == Edit ==
+    edit_menu = new QMenu(RF_MainWindow::tr("&Edit"), menu_bar);
+    insert_menu->setObjectName("Edit");
+    insert_menu->setTearOffEnabled(false);
+    insert_menu->addActions(edit_actions);
 
     // ...
 
@@ -78,5 +86,6 @@ void RS_WidgetFactory::createMenus(QMenuBar *menu_bar)
     // ...
     menu_bar->addMenu(file_menu);
     menu_bar->addMenu(insert_menu);
+    menu_bar->addMenu(edit_menu);
 
 }

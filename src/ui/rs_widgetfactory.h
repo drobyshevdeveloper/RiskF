@@ -43,6 +43,7 @@ public:
     QToolBar* option_toolbar;
     QMenu* file_menu;
     QMenu* insert_menu;
+    QMenu* edit_menu;
 private:
     RF_MainWindow* main_window;
     QMap<QString,QAction*>& a_map;
@@ -50,6 +51,7 @@ private:
 
     QList<QAction*> file_actions;
     QList<QAction*> insert_actions;
+    QList<QAction*> edit_actions;
 };
 
 #endif // RS_WIDGETFACTORY_H

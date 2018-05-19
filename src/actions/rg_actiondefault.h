@@ -15,37 +15,29 @@
 **
 ****************************************************************************/
 
-#ifndef RG_ACTIONDRAWLINE_H
-#define RG_ACTIONDRAWLINE_H
+#ifndef RG_ACTIONDEFAULT_H
+#define RG_ACTIONDEFAULT_H
 
 #include "rg_previewactioninterface.h"
-#include "rg_line.h"
 
-class RG_ActionDrawLine : public RG_PreviewActionInterface
+class RG_ActionDefault : public RG_PreviewActionInterface
 {
 public:
     enum Status {
-        SetStartpoint,
-        SetEndpoint
+        None
     };
+    RG_ActionDefault(RG_EntityContainer& container,
+                     RG_GraphicView& graphicView);
 
-    RG_ActionDrawLine(RG_EntityContainer& container,
-                      RG_GraphicView& graphicView);
+    virtual ~RG_ActionDefault();
 
-    virtual ~RG_ActionDrawLine();
-
-    virtual void init(int status=SetStartpoint) override;
+    virtual void init(int status=None) override;
     virtual void coordinateEvent(RG_CoordinateEvent* ce) override;
 
     virtual void mousePressEvent(QMouseEvent* e) override;
     virtual void mouseMoveEvent(QMouseEvent* e) override;
     virtual void mouseReleaseEvent(QMouseEvent* e) override;
     virtual void updateMouseCursor() override;
-private:
-    struct Points {
-        RG_LineData data;
-    };
-    Points points;
 };
 
-#endif // RG_ACTIONDRAWLINE_H
+#endif // RG_ACTIONDEFAULT_H

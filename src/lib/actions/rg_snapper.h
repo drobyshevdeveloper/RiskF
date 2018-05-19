@@ -18,6 +18,7 @@
 #ifndef RG_SNAPPER_H
 #define RG_SNAPPER_H
 
+#include "rg.h"
 #include "rg_vector.h"
 
 class RG_EntityContainer;
@@ -37,6 +38,9 @@ public:
     void deleteSnapper();
     void drawSnapper();
 
+    void setSnapperType(RG::SnapperType type);
+    RG::SnapperType getSnapperType();
+
 
     /**
      * @brief setSnapPoint - Ручная установка координат курсора
@@ -53,6 +57,9 @@ protected:
     bool finished = {false};
 
 private:
+    struct Indicator;
+
+    Indicator* snapIndicator;
     RG_Vector snapCoord;
     RG_Vector snapSpot;
 };

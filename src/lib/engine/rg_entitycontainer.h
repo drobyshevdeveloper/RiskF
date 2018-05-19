@@ -30,10 +30,10 @@ public:
     RG_EntityContainer(RG_EntityContainer* parent, bool owner = true);
     virtual ~RG_EntityContainer();
 
-    virtual RG::EntityType rtti() const {
+    virtual RG::EntityType rtti() const override{
         return RG::EntityContainer;
     }
-    virtual bool isContainer() const {
+    virtual bool isContainer() const override {
         return true;
     }
     bool isOwner() const {

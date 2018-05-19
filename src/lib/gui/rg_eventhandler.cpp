@@ -24,6 +24,7 @@ RG_EventHandler::RG_EventHandler(QObject *parent)
     : QObject(parent)
 {
     currentActions.clear();
+    defaultAction = nullptr;
 }
 
 RG_EventHandler::~RG_EventHandler()
@@ -33,6 +34,8 @@ RG_EventHandler::~RG_EventHandler()
     }
 
     currentActions.clear();
+
+    if (defaultAction) delete defaultAction;
 }
 
 void RG_EventHandler::setCurrentAction(RG_ActionInterface *action)
@@ -44,6 +47,40 @@ void RG_EventHandler::setCurrentAction(RG_ActionInterface *action)
     currentActions.append(action);
 
     action->init();
+
+    cleanUp();
+}
+
+void RG_EventHandler::setDefaultAction(RG_ActionInterface *action)
+{
+    if (action) defaultAction = action;
+}
+
+void RG_EventHandler::killAllActions()
+{
+    foreach (auto a, currentActions) {
+        a->finish();
+    }
+
+    defaultAction->init();
+}
+
+void RG_EventHandler::cleanUp()
+{
+    for (auto it=currentActions.begin(); it != currentActions.end();)
+    {
+        if( (*it)->isFinished())
+        {
+            delete *it;
+            it = currentActions.erase(it);
+        }else{
+            ++it;
+        }
+    }
+
+    if (hasAction()) {
+
+    }
 }
 
 bool RG_EventHandler::hasAction()
@@ -61,6 +98,9 @@ void RG_EventHandler::mouseMoveEvent(QMouseEvent *e)
 
     if (hasAction()) {
         currentActions.last()->mouseMoveEvent(e);
+    }
+    else if (defaultAction) {
+        defaultAction->mouseMoveEvent(e);
     }
 
     RL_DEBUG << "RG_EventHandler::mouseMoveEvent Ok";
@@ -80,6 +120,18 @@ void RG_EventHandler::mouseReleaseEvent(QMouseEvent *e)
     if (hasAction()) {
         currentActions.last()->mouseReleaseEvent(e);
     }
+    else if (defaultAction) {
+        defaultAction->mouseReleaseEvent(e);
+    }
 
     RL_DEBUG << "RG_EventHandler::mouseReleaseEvent Ok";
+}
+
+void RG_EventHandler::leaveEvent(QEvent *e)
+{
+    if (hasAction()) {
+        currentActions.last()->deleteSnapper();
+    } else if (defaultAction) {
+        defaultAction->deleteSnapper();
+    }
 }

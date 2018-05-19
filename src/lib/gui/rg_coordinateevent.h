@@ -15,37 +15,21 @@
 **
 ****************************************************************************/
 
-#ifndef RG_ACTIONDRAWLINE_H
-#define RG_ACTIONDRAWLINE_H
+#ifndef RG_COORDINATEEVENT_H
+#define RG_COORDINATEEVENT_H
 
-#include "rg_previewactioninterface.h"
-#include "rg_line.h"
+#include "rg_vector.h"
 
-class RG_ActionDrawLine : public RG_PreviewActionInterface
+
+class RG_CoordinateEvent
 {
 public:
-    enum Status {
-        SetStartpoint,
-        SetEndpoint
-    };
+    RG_CoordinateEvent(const RG_Vector &pos) :pos(pos) {}
 
-    RG_ActionDrawLine(RG_EntityContainer& container,
-                      RG_GraphicView& graphicView);
+    RG_Vector getCoordinate() {return pos;}
 
-    virtual ~RG_ActionDrawLine();
-
-    virtual void init(int status=SetStartpoint) override;
-    virtual void coordinateEvent(RG_CoordinateEvent* ce) override;
-
-    virtual void mousePressEvent(QMouseEvent* e) override;
-    virtual void mouseMoveEvent(QMouseEvent* e) override;
-    virtual void mouseReleaseEvent(QMouseEvent* e) override;
-    virtual void updateMouseCursor() override;
-private:
-    struct Points {
-        RG_LineData data;
-    };
-    Points points;
+protected:
+    RG_Vector pos;
 };
 
-#endif // RG_ACTIONDRAWLINE_H
+#endif // RG_COORDINATEEVENT_H

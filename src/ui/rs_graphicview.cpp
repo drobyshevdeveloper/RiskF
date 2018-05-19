@@ -20,12 +20,17 @@
 #include "rl_debug.h"
 #include "rg_document.h"
 #include "rg_eventhandler.h"
+#include "rg_actiondefault.h"
 #include "rg_painterqt.h"
 
 RS_GraphicView::RS_GraphicView(QWidget *parent, Qt::WindowFlags f, RG_Document *doc)
     : RG_GraphicView(parent)
 {
-    setContainer(doc);
+    if (doc) {
+        setContainer(doc);
+        eventHandler->setDefaultAction(new RG_ActionDefault(*doc, *this));
+    }
+
     layerPixmap1 = nullptr;
     layerPixmap3 = nullptr;
 
@@ -77,6 +82,18 @@ void RS_GraphicView::mouseReleaseEvent(QMouseEvent *e)
     eventHandler->mouseReleaseEvent(e);
 }
 
+void RS_GraphicView::enterEvent(QEvent *event)
+{
+    QWidget::enterEvent(event);
+}
+
+void RS_GraphicView::leaveEvent(QEvent *event)
+{
+    // Указатель мыши покинул область окна, удалим курсор
+    eventHandler->leaveEvent(event);
+    QWidget::leaveEvent(event);
+}
+
 void RS_GraphicView::paintEvent(QPaintEvent *event)
 {
     RL_DEBUG << "RS_GraphicView::paintEvent (Begin)";
@@ -85,8 +102,8 @@ void RS_GraphicView::paintEvent(QPaintEvent *event)
 //    RL_DEBUG << "layerPixmap3 = " << *layerPixmap3;
 
     if (redrawMethod & RG::RedrawDrawing) {
-        RG_PainterQt painter1(layerPixmap1);
         layerPixmap1->fill(Qt::white);
+        RG_PainterQt painter1(layerPixmap1);
         drawLayer1(&painter1);
         painter1.end();
     }

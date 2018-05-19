@@ -23,9 +23,11 @@ RS_ActionGroupManager::RS_ActionGroupManager(QObject *parent)
     : QObject(parent)
     , file( new QActionGroup(this))
     , insert(new QActionGroup(this))
+    , edit(new QActionGroup(this))
 {
     file->setObjectName(tr("file"));
     insert->setObjectName(tr("insert"));
+    edit->setObjectName(tr("edit"));
 
     foreach (auto ag, findChildren<QActionGroup*>()) {
         ag->setExclusive(false);

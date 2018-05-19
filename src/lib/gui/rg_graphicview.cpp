@@ -43,6 +43,15 @@ void RG_GraphicView::setContainer(RG_EntityContainer *c)
     container = c;
 }
 
+void RG_GraphicView::killAllActions()
+{
+    if (eventHandler) {
+        eventHandler->killAllActions();
+    }
+}
+
+
+
 void RG_GraphicView::setCurrentAction(RG_ActionInterface *action)
 {
     if (eventHandler) {

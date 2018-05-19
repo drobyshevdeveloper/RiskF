@@ -27,6 +27,7 @@ class QMouseEvent;
 class RG_EntityContainer;
 class RG_GraphicView;
 class RG_Graphic;
+class RG_CoordinateEvent;
 
 class RG_ActionInterface : public QObject, public RG_Snapper
 {
@@ -41,9 +42,12 @@ public:
     void setStatus(int status=0);
     int getStatus();
 
+    virtual void coordinateEvent(RG_CoordinateEvent* ce);
+
     virtual void mousePressEvent(QMouseEvent* e);
     virtual void mouseMoveEvent(QMouseEvent* e);
     virtual void mouseReleaseEvent(QMouseEvent* e);
+    virtual void updateMouseCursor();
 
 signals:
 

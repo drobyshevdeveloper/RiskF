@@ -25,9 +25,15 @@
 #include "rg_line.h"
 #include "rg_graphicview.h"
 
+struct RG_Snapper::Indicator {
+    RG::SnapperType type;
+
+};
+
 RG_Snapper::RG_Snapper(RG_EntityContainer &container, RG_GraphicView &graphicView)
     : container(&container)
     , graphicView(&graphicView)
+    , snapIndicator(new Indicator)
 {
 }
 
@@ -39,7 +45,10 @@ void RG_Snapper::init(int status)
 
 RG_Snapper::~RG_Snapper()
 {
-
+    if (snapIndicator) {
+        delete snapIndicator;
+        snapIndicator = nullptr;
+    }
 }
 
 void RG_Snapper::finish()
@@ -86,15 +95,62 @@ void RG_Snapper::drawSnapper()
         RG_Line* line;
         RG_EntityContainer* overlayContainer = graphicView->getOverlayContainer(RG::Snapper);
 
-        line = new RG_Line(nullptr, {{0, snapCoord.y},
-                                     {double(graphicView->getWidth()), snapCoord.y}});
-        overlayContainer->addEntity(line);
+        switch (getSnapperType()) {
+        case RG::SnapperDefault:
+            line = new RG_Line(nullptr, {{snapCoord.x-40, snapCoord.y},
+                                         {snapCoord.x+40, snapCoord.y}});
+            overlayContainer->addEntity(line);
+            line = new RG_Line(nullptr,{{snapCoord.x, snapCoord.y-40},
+                                        {snapCoord.x, snapCoord.y+40}});
+            overlayContainer->addEntity(line);
+            line = new RG_Line(nullptr,{{snapCoord.x-4, snapCoord.y-4},
+                                        {snapCoord.x+4, snapCoord.y-4}});
+            overlayContainer->addEntity(line);
+            line = new RG_Line(nullptr,{{snapCoord.x-4, snapCoord.y+4},
+                                        {snapCoord.x+4, snapCoord.y+4}});
+            overlayContainer->addEntity(line);
+            line = new RG_Line(nullptr,{{snapCoord.x-4, snapCoord.y-4},
+                                        {snapCoord.x-4, snapCoord.y+4}});
+            overlayContainer->addEntity(line);
+            line = new RG_Line(nullptr,{{snapCoord.x+4, snapCoord.y-4},
+                                        {snapCoord.x+4, snapCoord.y+4}});
+            overlayContainer->addEntity(line);
+            break;
+        case RG::SnapperMiddleCross:
+            line = new RG_Line(nullptr, {{snapCoord.x-40, snapCoord.y},
+                                         {snapCoord.x+40, snapCoord.y}});
+            overlayContainer->addEntity(line);
+            line = new RG_Line(nullptr,{{snapCoord.x, snapCoord.y-40},
+                                        {snapCoord.x, snapCoord.y+40}});
+            overlayContainer->addEntity(line);
+            break;
+        case RG::SnapperLongCross:
+            line = new RG_Line(nullptr, {{0, snapCoord.y},
+                                         {double(graphicView->getWidth()), snapCoord.y}});
+            overlayContainer->addEntity(line);
 
-        line = new RG_Line(nullptr, {{snapCoord.x, 0},
-                                     {snapCoord.x, double(graphicView->getHeight())}});
-        overlayContainer->addEntity(line);
+            line = new RG_Line(nullptr, {{snapCoord.x, 0},
+                                         {snapCoord.x, double(graphicView->getHeight())}});
+            overlayContainer->addEntity(line);
+
+            break;
+        }
     }
 
     graphicView->redraw(RG::RedrawOverlay);
 
+}
+
+void RG_Snapper::setSnapperType(RG::SnapperType type)
+{
+    RG::SnapperType oldType = getSnapperType();
+    snapIndicator->type = type;
+    if (oldType != type) {
+        drawSnapper();
+    }
+}
+
+RG::SnapperType RG_Snapper::getSnapperType()
+{
+    return snapIndicator->type;
 }

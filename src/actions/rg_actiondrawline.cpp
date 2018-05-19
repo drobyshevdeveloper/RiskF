@@ -25,6 +25,7 @@
 #include "rg_preview.h"
 #include "rg_line.h"
 #include "rg_graphicview.h"
+#include "rg_coordinateevent.h"
 
 RG_ActionDrawLine::RG_ActionDrawLine(RG_EntityContainer &container, RG_GraphicView &graphicView)
     : RG_PreviewActionInterface("Draw line", container, graphicView)
@@ -41,6 +42,32 @@ void RG_ActionDrawLine::init(int status)
 {
     RG_PreviewActionInterface::init(status);
     drawSnapper();
+}
+
+void RG_ActionDrawLine::coordinateEvent(RG_CoordinateEvent *ce)
+{
+    RG_Vector mouse = ce->getCoordinate();
+
+    switch (getStatus()) {
+    case SetStartpoint:
+        // Режим установки первой точки линии
+        points.data.startPoint = mouse;
+        setStatus(SetEndpoint);
+        break;
+    case SetEndpoint:
+        // Режим установки второй точки линии
+        points.data.endPoint = mouse;
+
+        RG_Line* line = new RG_Line(container, points.data);
+        container->addEntity(line);
+        deletePreview();
+        graphicView->redraw(RG::RedrawDrawing);
+        setStatus(SetStartpoint);
+        break;
+//        default:
+//            break;
+    }
+
 }
 
 void RG_ActionDrawLine::mousePressEvent(QMouseEvent *e)
@@ -72,27 +99,25 @@ void RG_ActionDrawLine::mouseReleaseEvent(QMouseEvent *e)
 
     if (e->button() == Qt::LeftButton) {
         // Нажата левая кнопка мыши
-        RG_Vector mouse = snapPoint(e);
-        switch (getStatus()) {
-        case SetStartpoint:
-            // Режим установки первой точки линии
-            points.data.startPoint = mouse;
-            setStatus(SetEndpoint);
-            break;
-        case SetEndpoint:
-            // Режим установки второй точки линии
-            points.data.endPoint = mouse;
-
-            RG_Line* line = new RG_Line(container, points.data);
-            container->addEntity(line);
-            deletePreview();
-            graphicView->redraw(RG::RedrawDrawing);
-            setStatus(SetStartpoint);
-            break;
-//        default:
-//            break;
-        }
+        RG_Vector snapped = snapPoint(e);
+        RG_CoordinateEvent ce(snapped);
+        coordinateEvent(&ce);
     }
-    RL_DEBUG << "RG_ActionDrawLine::mouseReleaseEvent Begin";
+    RL_DEBUG << "RG_ActionDrawLine::mouseReleaseEvent Ok";
 }
 
+void RG_ActionDrawLine::updateMouseCursor()
+{
+//    RG::SnapperType oldSt = getSnapperType();
+
+    if (getStatus()==SetStartpoint) {
+        setSnapperType(RG::SnapperDefault);
+    }
+    if (getStatus()==SetEndpoint) {
+        setSnapperType(RG::SnapperMiddleCross);
+    }
+
+//    if (oldSt != getSnapperType()) {
+//        drawSnapper();
+//    }
+}

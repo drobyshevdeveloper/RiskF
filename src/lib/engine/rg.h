@@ -40,6 +40,7 @@ public:
      */
     enum ActionType {
         ActionNone,
+        ActionDefault,
         ActionDrawLine
     };
 
@@ -59,8 +60,18 @@ public:
      * Перечисление прозрачных временных слоев отображения
      */
     enum OverlayGraphics {
-        ActionPreviewEntity,       // Слой элементов просмотра для текущего действия
+        ActionPreviewEntity,       // Слой элементов предпросмотра для текущего действия
         Snapper                    // Слой курсора графичского модуля
+    };
+
+    /**
+     * @brief The SnapperType enum
+     * Перечисление типа курсора
+     */
+    enum SnapperType {
+        SnapperDefault,             // Средний крестик с квадратиком посередине
+        SnapperMiddleCross,         // Средний крестик
+        SnapperLongCross            // Курсор в виде перекрестия во всю ширину и высоту представления
     };
 };
 

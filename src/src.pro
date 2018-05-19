@@ -24,7 +24,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 
-LC_VERSION="1.0.20"
+LC_VERSION="1.0.21"
 VERSION=$${LC_VERSION}
 
 # Для работы отладочных функций закомментируйте следующую строку
@@ -82,7 +82,9 @@ HEADERS += \
         lib/engine/rg_line.h \
         lib/engine/rg_vector.h \
         lib/engine/rg_painter.h \
-        lib/engine/rg_painterqt.h
+        lib/engine/rg_painterqt.h \
+    actions/rg_actiondefault.h \
+    lib/gui/rg_coordinateevent.h
 SOURCES += \
         lib/rl_settings.cpp \
         lib/gui/rl_dialogfactory.cpp \
@@ -102,7 +104,9 @@ SOURCES += \
         lib/engine/rg_line.cpp \
         lib/engine/rg_vector.cpp \
         lib/engine/rg_painter.cpp \
-        lib/engine/rg_painterqt.cpp
+        lib/engine/rg_painterqt.cpp \
+    actions/rg_actiondefault.cpp \
+    lib/gui/rg_coordinateevent.cpp
 
 
 ##################################################################

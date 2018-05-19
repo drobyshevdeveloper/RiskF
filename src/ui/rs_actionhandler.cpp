@@ -33,10 +33,15 @@ RG_ActionInterface* RS_ActionHandler::setCurrentAction(RG::ActionType a_type)
     RG_ActionInterface* a = nullptr;
 
     switch (a_type) {
+    case RG::ActionDefault:
+        if (graphicView) {
+            graphicView->killAllActions();
+        }
+        break;
     case RG::ActionDrawLine:
-            a = new RG_ActionDrawLine(*document, *graphicView);
+        a = new RG_ActionDrawLine(*document, *graphicView);
 
-            break;
+        break;
     }
 
     if (a) {
@@ -70,4 +75,10 @@ void RS_ActionHandler::slotInsertRoom()
     RL_DEBUG << "RS_ActionHandler::slotInsertRoom() Begin";
 
     RL_DEBUG << "RS_ActionHandler::slotInsertRoom() Ok";
+}
+
+// === Edit ===
+void RS_ActionHandler::slotSelect()
+{
+    setCurrentAction(RG::ActionDefault);
 }

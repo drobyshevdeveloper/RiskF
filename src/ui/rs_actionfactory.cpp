@@ -43,7 +43,6 @@ void RS_ActionFactory::fillActionContainer(QMap<QString, QAction *> &a_map, RS_A
     a_map["FileNew"] = action;
 
     // == Insert ==
-
     action = new QAction(tr("&Line"), agm->insert);
     action->setIcon(QIcon(":/icons/activity.svg"));
     connect(action, SIGNAL(triggered(bool)), action_handler, SLOT(slotInsertLine()));
@@ -55,6 +54,14 @@ void RS_ActionFactory::fillActionContainer(QMap<QString, QAction *> &a_map, RS_A
     connect(action, SIGNAL(triggered(bool)), action_handler, SLOT(slotInsertRoom()));
     action->setObjectName("InsertRoom");
     a_map["InsertRoom"] = action;
+
+    // == Edit ==
+    action = new QAction(tr("&Select"), agm->edit);
+    action->setIcon(QIcon(":/icons/mouse cursor.ico"));
+    connect(action, SIGNAL(triggered(bool)), action_handler, SLOT(slotSelect()));
+    action->setObjectName("Select");
+    a_map["Select"] = action;
+
 
 
 }

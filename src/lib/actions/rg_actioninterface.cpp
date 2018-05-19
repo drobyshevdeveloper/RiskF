@@ -46,6 +46,7 @@ void RG_ActionInterface::init(int status)
 void RG_ActionInterface::setStatus(int status)
 {
     this->status = status;
+    updateMouseCursor();
 }
 
 int RG_ActionInterface::getStatus()
@@ -53,8 +54,12 @@ int RG_ActionInterface::getStatus()
     return status;
 }
 
+void RG_ActionInterface::coordinateEvent(RG_CoordinateEvent *ce) {}
+
 void RG_ActionInterface::mouseMoveEvent(QMouseEvent *e) {}
 
 void RG_ActionInterface::mousePressEvent(QMouseEvent *e) {}
 
 void RG_ActionInterface::mouseReleaseEvent(QMouseEvent *e) {}
+
+void RG_ActionInterface::updateMouseCursor() {}
