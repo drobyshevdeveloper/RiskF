@@ -31,6 +31,25 @@ RG_Line::RG_Line(RG_EntityContainer *parent, const RG_LineData &d)
 
 }
 
+RG_Vector RG_Line::getNearestPointOnEntity(const RG_Vector &coord, double *dist) const
+{
+    // Используем формулу: proj_b_to_a = a * dot(a, b)/dot(a,a)
+    // Преобразуе линию в вектор (a)
+    RG_Vector direction = data.endPoint - data.startPoint;
+    // Квадрат длины вектора (dot(a,a))
+    double len2 = direction.squared();
+    // Преобразуем указанную точку в вектор (b)
+    RG_Vector vct = coord - data.startPoint;
+    // Найдем dot(a,b)/dot(a,a)
+    double t = vct.dot(direction) / len2;
+    // Умножим вектор линии на полученный t и перенесем на линию получив точку
+    RG_Vector result = data.startPoint + direction * t;
+    if (dist) {
+        *dist = coord.distanceTo(result);
+    }
+    return result;
+}
+
 RG_Vector RG_Line::getStartPoint() const
 {
     return data.startPoint;

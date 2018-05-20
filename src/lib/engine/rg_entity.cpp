@@ -38,7 +38,7 @@ void RG_Entity::initID()
 }
 
 /**
- * @brief RG_Entity::getGraphic - поиск объекта графического документа, которому принадлежить сущьность
+ * @brief RG_Entity::getGraphic - поиск объекта графического документа, которому принадлежить сущность
  * @return ссылку на объект документа, или nullptr
  */
 RG_Graphic* RG_Entity::getGraphic() const
@@ -61,3 +61,14 @@ RG_Vector RG_Entity::getEndPoint() const
 {
     return {};
 }
+
+double RG_Entity::getDistanceToPoint(const RG_Vector &coord, RG_Entity **entity) const
+{
+    double dist = RG_MAXDOUBLE;
+    if (entity) {
+        (*entity) = const_cast<RG_Entity*>(this);
+    }
+    (void) getNearestPointOnEntity(coord, &dist);
+    return dist;
+}
+

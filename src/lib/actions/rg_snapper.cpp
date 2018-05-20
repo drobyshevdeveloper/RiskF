@@ -19,8 +19,10 @@
 
 #include <QMouseEvent>
 
+#include "rl_debug.h"
 #include "rg.h"
 #include "rg_vector.h"
+#include "rg_entity.h"
 #include "rg_entitycontainer.h"
 #include "rg_line.h"
 #include "rg_graphicview.h"
@@ -153,4 +155,12 @@ void RG_Snapper::setSnapperType(RG::SnapperType type)
 RG::SnapperType RG_Snapper::getSnapperType()
 {
     return snapIndicator->type;
+}
+
+RG_Entity* RG_Snapper::catchEntity(const RG_Vector &pos)
+{
+    double dist = 0.0;
+    RG_Entity* en = container->getNearestEntity(pos, &dist);
+
+    RL_DEBUG << "RG_Snapper::catchEntity en=" << en << "; dist=" << dist;
 }

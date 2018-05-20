@@ -36,6 +36,19 @@ public:
     virtual RG::EntityType rtti() const {return RG::EntityUnknow;}
     virtual bool isContainer() const = 0;
 
+    virtual RG_Vector getNearestPointOnEntity(const RG_Vector& coord,
+                                              double* dist) const = 0;
+    /**
+     * @brief getDistanceToPoint - возвращает расстояние от заданной точки до сущности
+     * @param coord - заданная точка
+     * @param entity - после выполнения метода заполняет указателем на сущность
+     *                 (в данном случае на саму себя, при использовании данного метода для
+     *                  контейнера сущностей заполняет указателем на сущность к которой ближе всех
+     *                  заданная точка)
+     * @return
+     */
+    virtual double getDistanceToPoint(const RG_Vector& coord, RG_Entity **entity = nullptr) const;
+
     virtual void draw(RG_Painter* painter, RG_GraphicView* view) = 0;
 
     RG_Graphic* getGraphic() const;

@@ -56,6 +56,45 @@ const QList<RG_Entity *> RG_EntityContainer::getEntityList()
     return entities;
 }
 
+RG_Vector RG_EntityContainer::getNearestPointOnEntity(const RG_Vector &coord, double *dist) const
+{
+    return RG_Vector();
+}
+
+RG_Entity* RG_EntityContainer::getNearestEntity(const RG_Vector &coord, double *dist) const
+{
+    double distResult = RG_MAXDOUBLE;
+    RG_Entity* en = nullptr;
+
+    distResult = getDistanceToPoint(coord, &en);
+    if (dist) {
+        *dist = distResult;
+    }
+    return en;
+}
+
+double RG_EntityContainer::getDistanceToPoint(const RG_Vector &coord, RG_Entity** entity) const
+{
+    RG_Entity* en = nullptr;
+    double distResult = RG_MAXDOUBLE;
+    double distEntity = RG_MAXDOUBLE;
+    RG_Vector v;
+
+    foreach (auto e, entities) {
+        distEntity = e->getDistanceToPoint(coord);
+        if (distEntity <= distResult) {
+            distResult = distEntity;
+            en = e;
+        }
+    }
+
+    if (entity) {
+        (*entity) = en;
+    }
+
+    return distResult;
+}
+
 void RG_EntityContainer::clear()
 {
     if (owner) {

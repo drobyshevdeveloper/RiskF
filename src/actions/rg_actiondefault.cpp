@@ -17,16 +17,27 @@
 
 #include "rg_actiondefault.h"
 
+#include <QMouseEvent>
+
+struct RG_ActionDefault::Points {
+    RG_Vector v1;
+    RG_Vector v2;
+};
+
 RG_ActionDefault::RG_ActionDefault(RG_EntityContainer &container,
                                    RG_GraphicView &graphicView)
     : RG_PreviewActionInterface("Default", container, graphicView)
 {
     actionType = RG::ActionDefault;
+    pPoints = new Points;
 }
 
 RG_ActionDefault::~RG_ActionDefault()
 {
-
+    if (pPoints) {
+        delete pPoints;
+        pPoints = nullptr;
+    }
 }
 
 void RG_ActionDefault::init(int status)
@@ -41,17 +52,42 @@ void RG_ActionDefault::coordinateEvent(RG_CoordinateEvent *ce)
 
 void RG_ActionDefault::mouseMoveEvent(QMouseEvent *e)
 {
+    RG_Vector mouse = RG_Vector(e->x(), e->y());
+    pPoints->v2 = mouse;
+
     RG_Vector snapper = snapPoint(e);
 }
 
 void RG_ActionDefault::mousePressEvent(QMouseEvent *e)
 {
-
+    if (e->button() == Qt::LeftButton) {
+        switch (getStatus()) {
+        case Neutral:
+            pPoints->v1 = RG_Vector(e->x(), e->y());
+            setStatus(FirstClick);
+            break;
+        default:
+            break;
+        }
+    }
 }
 
 void RG_ActionDefault::mouseReleaseEvent(QMouseEvent *e)
 {
+    RG_Vector mouse = RG_Vector(e->x(), e->y());
+    pPoints->v2 = mouse;
+    RG_Entity* en = nullptr;
 
+    if (e->button() == Qt::LeftButton) {
+        switch (getStatus()) {
+        case FirstClick:
+            en = catchEntity(mouse);
+
+            break;
+        default:
+            break;
+        }
+    }
 }
 
 void RG_ActionDefault::updateMouseCursor()

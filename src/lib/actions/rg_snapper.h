@@ -21,6 +21,7 @@
 #include "rg.h"
 #include "rg_vector.h"
 
+class RG_Entity;
 class RG_EntityContainer;
 class RG_GraphicView;
 class QMouseEvent;
@@ -41,6 +42,12 @@ public:
     void setSnapperType(RG::SnapperType type);
     RG::SnapperType getSnapperType();
 
+    /**
+     * @brief catchEntity - Возвращает сущность расположенную рядом с заданной точкой
+     * @param pos
+     * @return
+     */
+    RG_Entity* catchEntity(const RG_Vector &pos);
 
     /**
      * @brief setSnapPoint - Ручная установка координат курсора

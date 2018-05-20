@@ -45,6 +45,18 @@ public:
     virtual void addEntity(RG_Entity* entity);
     const QList<RG_Entity*> getEntityList();
 
+    virtual RG_Vector getNearestPointOnEntity(const RG_Vector& coord,
+                                              double* dist) const override;
+    /**
+     * @brief getNearestEntity - Поиск ближайшей от заданной точки сущности
+     * @param coord - заданная точка
+     * @param dist  - указатель на переменную в которую будет возвращено расстояние от заданной точки до сущности
+     * @return - возвращает указатель на ближайшую к заданной точке сущность
+     */
+    RG_Entity* getNearestEntity(const RG_Vector& coord,
+                                double* dist) const;
+    virtual double getDistanceToPoint(const RG_Vector &coord, RG_Entity **entity) const override;
+
     virtual void clear();
     virtual void draw(RG_Painter* painter, RG_GraphicView* view) override;
 

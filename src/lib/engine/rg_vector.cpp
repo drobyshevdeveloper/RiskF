@@ -17,6 +17,10 @@
 
 #include "rg_vector.h"
 
+#include <math.h>
+
+#include "rg.h"
+
 RG_Vector::RG_Vector(double vx, double vy, double vz)
 {
     x = vx;
@@ -25,9 +29,57 @@ RG_Vector::RG_Vector(double vx, double vy, double vz)
     valid = true;
 }
 
+/*RG_Vector::RG_Vector(int vx, int vy, int vz)
+{
+    x = double(vx);
+    y = double(vy);
+    z = double(vz);
+    valid = true;
+}*/
+
 RG_Vector::RG_Vector(bool valid)
     :valid(valid)
+    , x(0.0)
+    , y(0.0)
+    , z(0.0)
 {
+}
+
+double RG_Vector::length() const
+{
+    return valid ? hypot(x, y) : 0.0;
+}
+
+double RG_Vector::squared() const
+{
+    return valid ? x*x + y*y + z*z : 0.0;
+}
+
+double RG_Vector::distanceTo(const RG_Vector& v) const
+{
+    if (!valid || !v.valid) return RG_MAXDOUBLE;
+    return (*this - v).length();
+}
+
+// Скалярное произведение векторов
+double RG_Vector::dot(RG_Vector &v) const
+{
+    return x*v.x + y*v.y; //+ z*v.z;
+}
+
+RG_Vector RG_Vector::operator +(const RG_Vector& v) const
+{
+    return {x + v.x, y + v.y, z + v.z};
+}
+
+RG_Vector RG_Vector::operator -(const RG_Vector& v) const
+{
+    return {x - v.x, y - v.y, z - v.z};
+}
+
+RG_Vector RG_Vector::operator *(double n) const
+{
+    return {x*n, y*n, z*n};
 }
 
 RG_Vector::operator bool() const

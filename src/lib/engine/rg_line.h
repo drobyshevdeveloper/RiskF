@@ -42,6 +42,9 @@ public:
         return RG::EntityLine;
     }
 
+    virtual RG_Vector getNearestPointOnEntity(const RG_Vector &coord,
+                                              double *dist) const override;
+
     virtual RG_Vector getStartPoint() const override;
     virtual RG_Vector getEndPoint() const override;
 

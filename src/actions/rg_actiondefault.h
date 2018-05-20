@@ -24,20 +24,25 @@ class RG_ActionDefault : public RG_PreviewActionInterface
 {
 public:
     enum Status {
-        None
+        Neutral,        // Действия отсутствуют
+        FirstClick      // режим включается при первом нажатии левой кнопки
+                        //
     };
     RG_ActionDefault(RG_EntityContainer& container,
                      RG_GraphicView& graphicView);
 
     virtual ~RG_ActionDefault();
 
-    virtual void init(int status=None) override;
+    virtual void init(int status=Neutral) override;
     virtual void coordinateEvent(RG_CoordinateEvent* ce) override;
 
     virtual void mousePressEvent(QMouseEvent* e) override;
     virtual void mouseMoveEvent(QMouseEvent* e) override;
     virtual void mouseReleaseEvent(QMouseEvent* e) override;
     virtual void updateMouseCursor() override;
+private:
+    struct Points;
+    Points* pPoints;
 };
 
 #endif // RG_ACTIONDEFAULT_H

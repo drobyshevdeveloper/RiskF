@@ -110,6 +110,13 @@ void RG_EventHandler::mousePressEvent(QMouseEvent *e)
 {
     RL_DEBUG << "RG_EventHandler::mousePressEvent Begin";
 
+    if (hasAction()) {
+        currentActions.last()->mousePressEvent(e);
+    }
+    else if (defaultAction) {
+        defaultAction->mousePressEvent(e);
+    }
+
     RL_DEBUG << "RG_EventHandler::mousePressEvent Ok";
 }
 
