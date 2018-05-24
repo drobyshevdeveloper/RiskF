@@ -19,6 +19,7 @@
 #define RG_PAINTER_H
 
 class RG_Vector;
+class RG_Pen;
 class QPixmap;
 
 class RG_Painter
@@ -26,8 +27,23 @@ class RG_Painter
 public:
     RG_Painter();
 
+    virtual void setPen(RG_Pen& pen) = 0;
+
     virtual void drawLine(const RG_Vector& p1, const RG_Vector& p2) = 0;
     virtual void drawPixmap(int x, int y, QPixmap* pixmap) = 0;
+
+    /**
+     * @brief setDrawSelectOnlyMode -
+     * @param smode - true - Режим вывода только выделенных объектов
+     *               false - Режим вывода только не выделенных объектов
+     */
+    void setDrawSelectOnlyMode(bool smode);
+    bool getDrawSelectOnlyMode();
+private:
+    /**
+     * @brief bDrawSelectOnlyMode - флаг
+     */
+    bool bDrawSelectOnlyMode;
 };
 
 #endif // RG_PAINTER_H

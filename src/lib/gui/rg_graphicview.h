@@ -51,7 +51,7 @@ public:
     RG_EntityContainer* getOverlayContainer(RG::OverlayGraphics position);
 
 protected:
-    void drawLayer1(RG_Painter* painter);
+    void drawLayer2(RG_Painter* painter);
     void drawLayer3(RG_Painter* painter);
 
 signals:

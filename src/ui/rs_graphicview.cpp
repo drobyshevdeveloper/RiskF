@@ -103,9 +103,12 @@ void RS_GraphicView::paintEvent(QPaintEvent *event)
 
     if (redrawMethod & RG::RedrawDrawing) {
         layerPixmap1->fill(Qt::white);
-        RG_PainterQt painter1(layerPixmap1);
-        drawLayer1(&painter1);
-        painter1.end();
+        RG_PainterQt painter2(layerPixmap1);
+        painter2.setDrawSelectOnlyMode(false);
+        drawLayer2(&painter2);
+        painter2.setDrawSelectOnlyMode(true);
+        drawLayer2(&painter2);
+        painter2.end();
     }
 
 //    layerPixmap3->fill();

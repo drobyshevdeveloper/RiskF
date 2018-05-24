@@ -163,4 +163,5 @@ RG_Entity* RG_Snapper::catchEntity(const RG_Vector &pos)
     RG_Entity* en = container->getNearestEntity(pos, &dist);
 
     RL_DEBUG << "RG_Snapper::catchEntity en=" << en << "; dist=" << dist;
+    return en;
 }

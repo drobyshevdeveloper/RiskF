@@ -23,6 +23,7 @@ RG_Entity::RG_Entity(RG_EntityContainer *parent)
     : RG_Undoable()
 {
     this->parent = parent;
+    bSelected = false;
     initID();
 }
 
@@ -35,6 +36,21 @@ void RG_Entity::initID()
 {
     static unsigned long int idCounter = 0;
     id = ++idCounter;
+}
+
+void RG_Entity::setSelected(bool select)
+{
+    bSelected = select;
+}
+
+bool RG_Entity::isSelected()
+{
+    return bSelected;
+}
+
+void RG_Entity::toggleSelect()
+{
+    setSelected(!isSelected());
 }
 
 /**

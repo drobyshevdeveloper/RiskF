@@ -19,6 +19,9 @@
 
 #include <QMouseEvent>
 
+#include "rg_selection.h"
+#include "rg_graphicview.h"
+
 struct RG_ActionDefault::Points {
     RG_Vector v1;
     RG_Vector v2;
@@ -82,6 +85,13 @@ void RG_ActionDefault::mouseReleaseEvent(QMouseEvent *e)
         switch (getStatus()) {
         case FirstClick:
             en = catchEntity(mouse);
+            if (en) {
+                RG_Selection s(container, graphicView);
+                s.singleSelect(en);
+            }
+            e->accept();
+            setStatus(Neutral);
+            graphicView->redraw(RG::RedrawDrawing);
 
             break;
         default:

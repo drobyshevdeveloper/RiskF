@@ -15,19 +15,29 @@
 **
 ****************************************************************************/
 
-#include "rg_painter.h"
+#include "rg_pen.h"
 
-RG_Painter::RG_Painter()
+RG_Pen::RG_Pen()
 {
-    setDrawSelectOnlyMode(false);
+
 }
 
-void RG_Painter::setDrawSelectOnlyMode(bool smode)
+void RG_Pen::setWidth(double w)
 {
-    bDrawSelectOnlyMode = smode;
+    width = w;
 }
 
-bool RG_Painter::getDrawSelectOnlyMode()
+double RG_Pen::getWidth() const
 {
-    return bDrawSelectOnlyMode;
+    return width;
+}
+
+void RG_Pen::setColor(const QColor &c)
+{
+    color = c;
+}
+
+const QColor &RG_Pen::getColor() const
+{
+    return color;
 }

@@ -17,12 +17,21 @@
 
 #include "rg_painterqt.h"
 
+#include <QPen>
+
 #include "rg_vector.h"
 
 RG_PainterQt::RG_PainterQt(QPaintDevice* pd)
     :QPainter(pd)
 {
 
+}
+
+void RG_PainterQt::setPen(RG_Pen &pen)
+{
+    this->pen  = pen;
+    QPen p(this->pen.getColor());
+    QPainter::setPen(p);
 }
 
 void RG_PainterQt::drawLine(const RG_Vector &p1, const RG_Vector &p2)

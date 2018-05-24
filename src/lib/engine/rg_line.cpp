@@ -16,6 +16,7 @@
 ****************************************************************************/
 
 #include "rg_line.h"
+#include "rg_pen.h"
 #include "rg_painter.h"
 #include "rg_graphicview.h"
 
@@ -65,6 +66,14 @@ void RG_Line::draw(RG_Painter *painter, RG_GraphicView *view)
     if ( !(painter && view) ) {
         return;
     }
+
+    RG_Pen pen;
+    pen.setColor(QColor(Qt::black));
+
+    if (isSelected()) {
+        pen.setColor(QColor(Qt::red));
+    }
+    painter->setPen(pen);
 
     painter->drawLine(getStartPoint(), getEndPoint());
 

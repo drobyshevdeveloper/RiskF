@@ -15,19 +15,26 @@
 **
 ****************************************************************************/
 
-#include "rg_painter.h"
+#ifndef RG_SELECTION_H
+#define RG_SELECTION_H
 
-RG_Painter::RG_Painter()
-{
-    setDrawSelectOnlyMode(false);
-}
+class RG_Entity;
+class RG_EntityContainer;
+class RG_GraphicView;
 
-void RG_Painter::setDrawSelectOnlyMode(bool smode)
+class RG_Selection
 {
-    bDrawSelectOnlyMode = smode;
-}
+public:
+    RG_Selection(RG_EntityContainer* container, RG_GraphicView* graphicView);
 
-bool RG_Painter::getDrawSelectOnlyMode()
-{
-    return bDrawSelectOnlyMode;
-}
+    ~RG_Selection() {}
+
+    void singleSelect(RG_Entity* entity);
+    void selectAll(bool select=true);
+    void deselectAll(){selectAll(false);}
+private:
+    RG_EntityContainer* container;
+    RG_GraphicView* graphicView;
+};
+
+#endif // RG_SELECTION_H

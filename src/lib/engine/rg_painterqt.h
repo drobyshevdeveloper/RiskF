@@ -18,17 +18,23 @@
 #ifndef RG_PAINTERQT_H
 #define RG_PAINTERQT_H
 
-#include <qpainter.h>
+#include <QPainter>
+
 #include "rg_painter.h"
+#include "rg_pen.h"
 
 class RG_PainterQt : public QPainter, public RG_Painter
 {
 public:
     RG_PainterQt(QPaintDevice *pd);
 
+    virtual void setPen(RG_Pen& pen) override;
+
     virtual void drawLine(const RG_Vector& p1, const RG_Vector& p2);
     virtual void drawPixmap(int x, int y, QPixmap* pixmap);
 
+protected:
+    RG_Pen pen;
 };
 
 #endif // RG_PAINTERQT_H

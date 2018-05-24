@@ -24,7 +24,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 
-LC_VERSION="1.0.22"
+LC_VERSION="1.0.23"
 VERSION=$${LC_VERSION}
 
 # Для работы отладочных функций закомментируйте следующую строку
@@ -52,6 +52,7 @@ INCLUDEPATH += \
         lib/debug   \
         lib/engine  \
         lib/gui     \
+        lib/modification \
         main        \
         ui          \
         ../res
@@ -82,9 +83,10 @@ HEADERS += \
         lib/engine/rg_line.h \
         lib/engine/rg_vector.h \
         lib/engine/rg_painter.h \
-        lib/engine/rg_painterqt.h \
-    actions/rg_actiondefault.h \
-    lib/gui/rg_coordinateevent.h
+        lib/engine/rg_painterqt.h\
+        lib/gui/rg_coordinateevent.h \
+        lib/modification/rg_selection.h \
+    lib/engine/rg_pen.h
 SOURCES += \
         lib/rl_settings.cpp \
         lib/gui/rl_dialogfactory.cpp \
@@ -104,9 +106,10 @@ SOURCES += \
         lib/engine/rg_line.cpp \
         lib/engine/rg_vector.cpp \
         lib/engine/rg_painter.cpp \
-        lib/engine/rg_painterqt.cpp \
-    actions/rg_actiondefault.cpp \
-    lib/gui/rg_coordinateevent.cpp
+        lib/engine/rg_painterqt.cpp\
+        lib/gui/rg_coordinateevent.cpp \
+        lib/modification/rg_selection.cpp \
+    lib/engine/rg_pen.cpp
 
 
 ##################################################################
@@ -148,7 +151,9 @@ SOURCES += \
 ##################################################################
 # Actions
 HEADERS += \
-        actions/rg_actiondrawline.h
+        actions/rg_actiondrawline.h \
+        actions/rg_actiondefault.h
 
 SOURCES += \
-        actions/rg_actiondrawline.cpp
+        actions/rg_actiondrawline.cpp \
+        actions/rg_actiondefault.cpp

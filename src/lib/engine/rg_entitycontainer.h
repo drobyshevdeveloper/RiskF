@@ -30,16 +30,12 @@ public:
     RG_EntityContainer(RG_EntityContainer* parent, bool owner = true);
     virtual ~RG_EntityContainer();
 
-    virtual RG::EntityType rtti() const override{
-        return RG::EntityContainer;
-    }
-    virtual bool isContainer() const override {
-        return true;
-    }
-    bool isOwner() const {
-        return owner;
-    }
+    virtual RG::EntityType rtti() const override{return RG::EntityContainer;}
+    virtual bool isContainer() const override {return true;}
+    bool isOwner() const {return owner;}
     void setOwner(bool owner);
+    virtual void setSelected(bool select) override;
+
 
 
     virtual void addEntity(RG_Entity* entity);

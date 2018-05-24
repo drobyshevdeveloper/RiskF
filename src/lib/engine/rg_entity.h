@@ -36,6 +36,10 @@ public:
     virtual RG::EntityType rtti() const {return RG::EntityUnknow;}
     virtual bool isContainer() const = 0;
 
+    virtual void setSelected(bool select);
+    virtual bool isSelected();
+    virtual void toggleSelect();
+
     virtual RG_Vector getNearestPointOnEntity(const RG_Vector& coord,
                                               double* dist) const = 0;
     /**
@@ -61,6 +65,8 @@ protected: void initID();
 protected:
     RG_EntityContainer* parent = nullptr;
     unsigned long int id;
+    bool bSelected;
+
 
 };
 

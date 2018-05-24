@@ -56,6 +56,13 @@ const QList<RG_Entity *> RG_EntityContainer::getEntityList()
     return entities;
 }
 
+void RG_EntityContainer::setSelected(bool select)
+{
+    foreach (RG_Entity* e, getEntityList()) {
+        e->setSelected(select);
+    }
+}
+
 RG_Vector RG_EntityContainer::getNearestPointOnEntity(const RG_Vector &coord, double *dist) const
 {
     return RG_Vector();

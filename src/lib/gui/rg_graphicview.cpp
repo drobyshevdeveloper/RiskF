@@ -18,6 +18,7 @@
 #include "rg_graphicview.h"
 
 #include "rl_debug.h"
+#include "rg_painter.h"
 #include "rg_eventhandler.h"
 #include "rg_entitycontainer.h"
 
@@ -69,15 +70,18 @@ RG_EntityContainer* RG_GraphicView::getOverlayContainer(RG::OverlayGraphics posi
     return overlayEntities[position];
 }
 
-void RG_GraphicView::drawLayer1(RG_Painter *painter)
+void RG_GraphicView::drawLayer2(RG_Painter *painter)
 {
-    RL_DEBUG << "RG_GraphicView::drawLayer1 Begin";
+    RL_DEBUG << "RG_GraphicView::drawLayer2 Begin";
 
     foreach (RG_Entity* e, container->getEntityList()) {
+        if (!e->isContainer() && (e->isSelected()!=painter->getDrawSelectOnlyMode()))  {
+            continue;
+        }
         e->draw(painter, this);
     }
 
-    RL_DEBUG << "RG_GraphicView::drawLayer1 Ok";
+    RL_DEBUG << "RG_GraphicView::drawLayer2 Ok";
 }
 
 void RG_GraphicView::drawLayer3(RG_Painter *painter)
