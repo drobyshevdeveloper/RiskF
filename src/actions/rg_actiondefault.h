@@ -25,7 +25,8 @@ class RG_ActionDefault : public RG_PreviewActionInterface
 public:
     enum Status {
         Neutral,        // Действия отсутствуют
-        FirstClick      // режим включается при первом нажатии левой кнопки
+        FirstClick,     // Режим включается при первом нажатии левой кнопки
+        SetCorner2      // Режим выбора второго угла прямоугольной области выбора
                         //
     };
     RG_ActionDefault(RG_EntityContainer& container,

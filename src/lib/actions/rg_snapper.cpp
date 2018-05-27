@@ -162,6 +162,11 @@ RG_Entity* RG_Snapper::catchEntity(const RG_Vector &pos)
     double dist = 0.0;
     RG_Entity* en = container->getNearestEntity(pos, &dist);
 
+    // Проверим, если объект слишком далеко, то его мы не нашли
+    if (dist>5.0) {
+        return nullptr;
+    }
+
     RL_DEBUG << "RG_Snapper::catchEntity en=" << en << "; dist=" << dist;
     return en;
 }

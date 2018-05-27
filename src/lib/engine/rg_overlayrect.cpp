@@ -15,42 +15,15 @@
 **
 ****************************************************************************/
 
-#ifndef RG_LINE_H
-#define RG_LINE_H
-
-#include "rg_atomicentity.h"
-
+#include "rg_overlayrect.h"
 
 #include "rg_vector.h"
 
-class RG_Painter;
-class RG_GraphicView;
-
-struct RG_LineData {
-    RG_Vector startPoint;
-    RG_Vector endPoint;
-};
-
-class RG_Line : public RG_AtomicEntity
+RG_OverlayRect::RG_OverlayRect(RG_EntityContainer *parent)
+    : RG_AtomicEntity(parent)
 {
-public:
-    RG_Line(RG_EntityContainer* parent);
-    RG_Line(RG_EntityContainer *parent,
-            const RG_LineData& d);
+}
 
-    virtual RG::EntityType rtti() const override {
-        return RG::EntityLine;
-    }
-
-    virtual RG_Vector getNearestPointOnEntity(const RG_Vector &coord,
-                                              double *dist) const override;
-
-    virtual RG_Vector getStartPoint() const override;
-    virtual RG_Vector getEndPoint() const override;
-
-    void draw(RG_Painter* painter, RG_GraphicView* view) override;
-private:
-    RG_LineData data;
-};
-
-#endif // RG_LINE_H
+RG_OverlayRect::~RG_OverlayRect()
+{
+}

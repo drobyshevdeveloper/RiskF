@@ -58,6 +58,22 @@ void RG_ActionDefault::mouseMoveEvent(QMouseEvent *e)
     RG_Vector mouse = RG_Vector(e->x(), e->y());
     pPoints->v2 = mouse;
 
+    switch (getStatus()) {
+    case Neutral:
+        break;
+    case FirstClick:
+        // Реализовать проверку перемещения выбранных сущностей
+
+        // Если перемещения сущностей нет включаем режим выбора прямогольной областью
+        setStatus(SetCorner2);
+        break;
+    case SetCorner2:
+        deletePreview();
+
+
+        break;
+    }
+
     RG_Vector snapper = snapPoint(e);
 }
 

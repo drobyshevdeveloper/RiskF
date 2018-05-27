@@ -86,7 +86,8 @@ HEADERS += \
         lib/engine/rg_painterqt.h\
         lib/gui/rg_coordinateevent.h \
         lib/modification/rg_selection.h \
-    lib/engine/rg_pen.h
+    lib/engine/rg_pen.h \
+    lib/engine/rg_overlayrect.h
 SOURCES += \
         lib/rl_settings.cpp \
         lib/gui/rl_dialogfactory.cpp \
@@ -109,7 +110,8 @@ SOURCES += \
         lib/engine/rg_painterqt.cpp\
         lib/gui/rg_coordinateevent.cpp \
         lib/modification/rg_selection.cpp \
-    lib/engine/rg_pen.cpp
+    lib/engine/rg_pen.cpp \
+    lib/engine/rg_overlayrect.cpp
 
 
 ##################################################################

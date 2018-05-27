@@ -15,42 +15,38 @@
 **
 ****************************************************************************/
 
-#ifndef RG_LINE_H
-#define RG_LINE_H
+#ifndef RG_OVERLAYRECT_H
+#define RG_OVERLAYRECT_H
 
 #include "rg_atomicentity.h"
 
+class RG_OverlayRectData {
+    RG_OverlayRectData()
+        :corner1 (false)
+        ,corner2 (false)
+    {}
+    RG_OverlayRectData(const RG_Vector& c1,
+                       const RG_Vector& c2)
+        :corner1 (c1)
+        ,corner2 (c2)
+    {}
 
-#include "rg_vector.h"
 
-class RG_Painter;
-class RG_GraphicView;
+    RG_Vector corner1;
+    RG_Vector corner2;
+}
 
-struct RG_LineData {
-    RG_Vector startPoint;
-    RG_Vector endPoint;
-};
-
-class RG_Line : public RG_AtomicEntity
+class RG_OverlayRect : public RG_AtomicEntity
 {
 public:
-    RG_Line(RG_EntityContainer* parent);
-    RG_Line(RG_EntityContainer *parent,
-            const RG_LineData& d);
+    RG_OverlayRect(RG_EntityContainer* parent);
 
-    virtual RG::EntityType rtti() const override {
-        return RG::EntityLine;
-    }
+    virtual ~RG_OverlayRect();
 
-    virtual RG_Vector getNearestPointOnEntity(const RG_Vector &coord,
-                                              double *dist) const override;
+    virtual RG::EntityType rtti() const override {return RG::EntityOverlayRect;}
 
-    virtual RG_Vector getStartPoint() const override;
-    virtual RG_Vector getEndPoint() const override;
-
-    void draw(RG_Painter* painter, RG_GraphicView* view) override;
 private:
-    RG_LineData data;
+    RG_OverlayRectData data;
 };
 
-#endif // RG_LINE_H
+#endif // RG_OVERLAYRECT_H
