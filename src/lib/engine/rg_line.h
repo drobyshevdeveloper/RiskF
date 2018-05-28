@@ -48,7 +48,7 @@ public:
     virtual RG_Vector getStartPoint() const override;
     virtual RG_Vector getEndPoint() const override;
 
-    void draw(RG_Painter* painter, RG_GraphicView* view) override;
+    virtual void draw(RG_Painter* painter, RG_GraphicView* view) override;
 private:
     RG_LineData data;
 };

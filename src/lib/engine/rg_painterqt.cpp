@@ -39,6 +39,16 @@ void RG_PainterQt::drawLine(const RG_Vector &p1, const RG_Vector &p2)
     QPainter::drawLine(p1.x, p1.y, p2.x, p2.y);
 }
 
+void RG_PainterQt::drawRect(const QRectF &rect)
+{
+    QPainter::drawRect(rect);
+}
+
+void RG_PainterQt::fillRect(const QRectF &rect, const QColor &color)
+{
+    QPainter::fillRect(rect, color);
+}
+
 void RG_PainterQt::drawPixmap(int x, int y, QPixmap *pixmap)
 {
     QPainter::drawPixmap(QPoint(x,y),(*pixmap));

@@ -21,6 +21,8 @@
 
 #include "rg_selection.h"
 #include "rg_graphicview.h"
+#include "rg_overlayrect.h"
+#include "rg_preview.h"
 
 struct RG_ActionDefault::Points {
     RG_Vector v1;
@@ -70,6 +72,10 @@ void RG_ActionDefault::mouseMoveEvent(QMouseEvent *e)
     case SetCorner2:
         deletePreview();
 
+        RG_OverlayRect* rect = new RG_OverlayRect(nullptr, {pPoints->v1,pPoints->v2});
+
+        preview->addEntity(rect);
+        drawPreview();
 
         break;
     }
@@ -108,6 +114,12 @@ void RG_ActionDefault::mouseReleaseEvent(QMouseEvent *e)
             e->accept();
             setStatus(Neutral);
             graphicView->redraw(RG::RedrawDrawing);
+
+            break;
+        case SetCorner2:
+            deletePreview();
+            setStatus(Neutral);
+            graphicView->redraw(RG::RedrawOverlay);
 
             break;
         default:

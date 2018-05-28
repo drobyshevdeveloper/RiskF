@@ -19,8 +19,10 @@
 #define RG_OVERLAYRECT_H
 
 #include "rg_atomicentity.h"
+#include "rg_vector.h"
 
 class RG_OverlayRectData {
+public:
     RG_OverlayRectData()
         :corner1 (false)
         ,corner2 (false)
@@ -34,16 +36,22 @@ class RG_OverlayRectData {
 
     RG_Vector corner1;
     RG_Vector corner2;
-}
+};
 
 class RG_OverlayRect : public RG_AtomicEntity
 {
 public:
     RG_OverlayRect(RG_EntityContainer* parent);
+    RG_OverlayRect(RG_EntityContainer* parent,
+                   const RG_OverlayRectData& d);
 
     virtual ~RG_OverlayRect();
 
     virtual RG::EntityType rtti() const override {return RG::EntityOverlayRect;}
+
+    virtual void draw(RG_Painter *painter, RG_GraphicView *view) override;
+
+    virtual RG_Vector getNearestPointOnEntity(const RG_Vector &coord, double *dist) const {return{};}
 
 private:
     RG_OverlayRectData data;
