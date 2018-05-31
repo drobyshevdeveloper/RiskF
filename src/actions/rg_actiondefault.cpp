@@ -116,12 +116,17 @@ void RG_ActionDefault::mouseReleaseEvent(QMouseEvent *e)
             graphicView->redraw(RG::RedrawDrawing);
 
             break;
-        case SetCorner2:
+        case SetCorner2: {
+            RG_Selection s(container, graphicView);
+            s.selectWindow(pPoints->v1, pPoints->v2,
+                           true, true);
+                      //     (pPoints->v1.x > pPoints->v2.x));
+
             deletePreview();
             setStatus(Neutral);
-            graphicView->redraw(RG::RedrawOverlay);
 
             break;
+        }
         default:
             break;
         }

@@ -45,6 +45,14 @@ RG_Vector::RG_Vector(bool valid)
 {
 }
 
+void RG_Vector::set(double vx, double vy, double vz/*=0.0*/)
+{
+    x = double(vx);
+    y = double(vy);
+    z = double(vz);
+    valid = true;
+}
+
 double RG_Vector::length() const
 {
     return valid ? hypot(x, y) : 0.0;

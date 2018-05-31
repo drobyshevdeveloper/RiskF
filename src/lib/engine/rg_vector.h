@@ -29,6 +29,8 @@ public:
 //    RG_Vector(int vx, int vy, int vz=0);
     RG_Vector(bool valid);
 
+    void set(double vx, double vy, double vz=0.0);
+
     // Длина вектора
     double length() const;
     // Квадрат длины вектора (или скалярное произведение вектора самого на себя

@@ -32,10 +32,25 @@ RG_OverlayRect::RG_OverlayRect(RG_EntityContainer *parent, const RG_OverlayRectD
     : RG_AtomicEntity(parent)
     , data(d)
 {
+    calculateBorders();
 }
 
 RG_OverlayRect::~RG_OverlayRect()
 {
+}
+
+void RG_OverlayRect::calculateBorders()
+{
+    vMin.x = data.corner1.x;
+    vMax.x = data.corner2.x;
+    if (vMin.x > vMax.x) {
+        std::swap(vMin.x, vMax.x);
+    }
+    vMin.y = data.corner1.y;
+    vMax.y = data.corner2.y;
+    if (vMin.y > vMax.y) {
+        std::swap(vMin.y, vMax.y);
+    }
 }
 
 void RG_OverlayRect::draw(RG_Painter *painter, RG_GraphicView *view)

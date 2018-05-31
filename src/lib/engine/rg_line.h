@@ -47,6 +47,7 @@ public:
 
     virtual RG_Vector getStartPoint() const override;
     virtual RG_Vector getEndPoint() const override;
+    virtual void calculateBorders() override;
 
     virtual void draw(RG_Painter* painter, RG_GraphicView* view) override;
 private:

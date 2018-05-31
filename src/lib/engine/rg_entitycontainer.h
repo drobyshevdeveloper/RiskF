@@ -35,6 +35,8 @@ public:
     bool isOwner() const {return owner;}
     void setOwner(bool owner);
     virtual void setSelected(bool select) override;
+    virtual void selectWindow(RG_Vector v1, RG_Vector v2,
+                              bool select, bool cross);
 
 
 
@@ -56,6 +58,8 @@ public:
     virtual void clear();
     virtual void draw(RG_Painter* painter, RG_GraphicView* view) override;
 
+    virtual void calculateBorders() override;
+    void adjustBorders(const RG_Entity* e);
 
 protected:
     QList<RG_Entity*> entities;

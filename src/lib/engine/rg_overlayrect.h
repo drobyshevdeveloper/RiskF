@@ -49,6 +49,8 @@ public:
 
     virtual RG::EntityType rtti() const override {return RG::EntityOverlayRect;}
 
+    virtual void calculateBorders() override;
+
     virtual void draw(RG_Painter *painter, RG_GraphicView *view) override;
 
     virtual RG_Vector getNearestPointOnEntity(const RG_Vector &coord, double *dist) const {return{};}

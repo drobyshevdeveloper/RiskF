@@ -23,6 +23,7 @@ RG_EntityContainer::RG_EntityContainer(RG_EntityContainer *parent, bool owner)
     : RG_Entity(parent)
 {
     this->owner = owner;
+    resetBorders();
 }
 
 RG_EntityContainer::~RG_EntityContainer()
@@ -49,6 +50,7 @@ void RG_EntityContainer::addEntity(RG_Entity *entity)
         return;
     }
     entities.append(entity);
+    adjustBorders(entity);
 }
 
 const QList<RG_Entity *> RG_EntityContainer::getEntityList()
@@ -60,6 +62,42 @@ void RG_EntityContainer::setSelected(bool select)
 {
     foreach (RG_Entity* e, getEntityList()) {
         e->setSelected(select);
+    }
+}
+
+/**
+ * @brief RG_EntityContainer::selectWindow - выбирает или отменяет выбор сущности,
+ * попавших в прямоугольную область выделения
+ * @param v1 - первая точка прямоугольной области выделения
+ * @param v2 - вторая точка прямоугольной точки выделения
+ * @param select - true если необходимо выделить сущности, false если необходимо снять выделение
+ * @param cross  - true выделить сущности полностью и частично попавшие в прямоугольную область выделения
+ *                 false выделить сущности полностью поппавшие в прямоугольную область выделения
+ */
+void RG_EntityContainer::selectWindow(RG_Vector v1, RG_Vector v2, bool select, bool cross)
+{
+    if (!isVisible()) {
+        return;
+    }
+
+    foreach (RG_Entity* e, entities) {
+        bool included = false;
+
+        if (e->isInWindow(v1, v2)){
+            included = true;
+        } else if (cross) {
+            if (e->isContainer()) {
+                RG_EntityContainer* ec = (RG_EntityContainer*)e;
+                ec->selectWindow(v1, v2, select, cross);
+            } else {
+//                if (isinCrossWindow)
+            }
+
+        }
+
+        if (included) {
+            e->setSelected(select);
+        }
     }
 }
 
@@ -112,6 +150,7 @@ void RG_EntityContainer::clear()
         }
     } else {
         entities.clear();
+        resetBorders();
     }
 }
 
@@ -124,4 +163,24 @@ void RG_EntityContainer::draw(RG_Painter *painter, RG_GraphicView *view)
     foreach (auto a, entities) {
         a->draw(painter,view);
     }
+}
+
+void RG_EntityContainer::calculateBorders()
+{
+    resetBorders();
+
+    foreach (RG_Entity* e, entities) {
+        if (e->isVisible()) {
+            e->calculateBorders();
+            adjustBorders(e);
+        }
+    }
+}
+
+void RG_EntityContainer::adjustBorders(const RG_Entity *e)
+{
+    vMin.x = std::min(e->getMin().x, vMin.x);
+    vMax.x = std::max(e->getMax().x, vMax.x);
+    vMin.y = std::min(e->getMin().y, vMin.y);
+    vMax.y = std::max(e->getMax().y, vMax.y);
 }

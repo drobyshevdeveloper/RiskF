@@ -29,13 +29,13 @@ RG_Line::RG_Line(RG_EntityContainer *parent)
 RG_Line::RG_Line(RG_EntityContainer *parent, const RG_LineData &d)
     : RG_AtomicEntity(parent), data(d)
 {
-
+    calculateBorders();
 }
 
 RG_Vector RG_Line::getNearestPointOnEntity(const RG_Vector &coord, double *dist) const
 {
-    // Используем формулу: proj_b_to_a = a * dot(a, b)/dot(a,a)
-    // Преобразуе линию в вектор (a)
+    // Используем формулу: proj_b_to_a = a * dot(a, b)/dot(a,a) (dot - скалярное произведение векторов)
+    // Преобразуем линию в вектор (a)
     RG_Vector direction = data.endPoint - data.startPoint;
     // Квадрат длины вектора (dot(a,a))
     double len2 = direction.squared();
@@ -59,6 +59,20 @@ RG_Vector RG_Line::getStartPoint() const
 RG_Vector RG_Line::getEndPoint() const
 {
     return data.endPoint;
+}
+
+void RG_Line::calculateBorders()
+{
+    vMin.x = data.startPoint.x;
+    vMax.x = data.endPoint.x;
+    if (vMin.x > vMax.x) {
+        std::swap(vMin.x, vMax.x);
+    }
+    vMin.y = data.startPoint.y;
+    vMax.y = data.endPoint.y;
+    if (vMin.y > vMax.y) {
+        std::swap(vMin.y, vMax.y);
+    }
 }
 
 void RG_Line::draw(RG_Painter *painter, RG_GraphicView *view)
