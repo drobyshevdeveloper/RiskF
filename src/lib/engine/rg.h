@@ -20,6 +20,12 @@
 
 #define RG_MAXDOUBLE 1.0E+10;
 #define RG_MINDOUBLE -1.0E+10;
+//tolerance
+#define RG_TOLERANCE 1.0e-10
+//squared tolerance
+#define RG_TOLERANCE15 1.5e-15
+#define RG_TOLERANCE2 1.0e-20
+#define RG_TOLERANCE_ANGLE 1.0e-8
 
 class RG
 {

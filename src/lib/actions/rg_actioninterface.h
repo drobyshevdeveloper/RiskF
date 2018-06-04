@@ -24,6 +24,7 @@
 #include "rg_snapper.h"
 
 class QMouseEvent;
+class QKeyEvent;
 class RG_EntityContainer;
 class RG_GraphicView;
 class RG_Graphic;
@@ -47,6 +48,8 @@ public:
     virtual void mousePressEvent(QMouseEvent* e);
     virtual void mouseMoveEvent(QMouseEvent* e);
     virtual void mouseReleaseEvent(QMouseEvent* e);
+    virtual void keyPressEvent(QKeyEvent* e);
+    virtual void keyReleaseEvent(QKeyEvent* e);
     virtual void updateMouseCursor();
 
 signals:

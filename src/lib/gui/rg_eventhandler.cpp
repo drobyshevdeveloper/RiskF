@@ -134,6 +134,33 @@ void RG_EventHandler::mouseReleaseEvent(QMouseEvent *e)
     RL_DEBUG << "RG_EventHandler::mouseReleaseEvent Ok";
 }
 
+void RG_EventHandler::keyPressEvent(QKeyEvent *e)
+{
+    RL_DEBUG << "RG_EventHandler::keyPressEvent() Begin";
+
+    if (hasAction()) {
+        currentActions.last()->keyPressEvent(e);
+    }
+    else if (defaultAction) {
+        defaultAction->keyPressEvent(e);
+    }
+
+    RL_DEBUG << "RG_EventHandler::keyPressEvent() Ok";
+}
+
+void RG_EventHandler::keyReleaseEvent(QKeyEvent *e)
+{
+    RL_DEBUG << "RG_EventHandler::keyReleaseEvent() Begin";
+
+    if (hasAction()) {
+        currentActions.last()->keyReleaseEvent(e);
+    }
+    else if (defaultAction) {
+        defaultAction->keyReleaseEvent(e);
+    }
+
+    RL_DEBUG << "RG_EventHandler::keyReleaseEvent() Ok";
+}
 void RG_EventHandler::leaveEvent(QEvent *e)
 {
     if (hasAction()) {

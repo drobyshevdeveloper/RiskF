@@ -74,10 +74,10 @@ void RG_OverlayRect::draw(RG_Painter *painter, RG_GraphicView *view)
 
     QColor color;
     if (v1.x > v2.x) {
-        color.setRgba(qRgba(9,9,240,90));
+        color.setRgba(qRgba(9,240,9,90));
     }
     else {
-        color.setRgba(qRgba(9,240,9,90));
+        color.setRgba(qRgba(9,9,240,90));
 
     }
 

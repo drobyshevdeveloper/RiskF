@@ -18,6 +18,8 @@
 #ifndef RG_VECTOR_H
 #define RG_VECTOR_H
 
+#include <vector>
+#include <cstdio>
 
 class RG_Vector;
 
@@ -44,6 +46,7 @@ public:
     RG_Vector operator + (const RG_Vector& v) const;
     RG_Vector operator - (const RG_Vector& v) const;
     RG_Vector operator * (double n) const;
+
     bool operator == (bool valid) const;
     bool operator != (bool valid) const;
 
@@ -52,6 +55,26 @@ public:
     double y=0.;
     double z=0.;
     bool valid=false;
+};
+
+/**
+ * @brief The RG_VectorSolutions class
+ * Класс содержит список нескольких векторов
+ * Используется при возврате функциями списка векторов
+ */
+class RG_VectorSolutions
+{
+public:
+    RG_VectorSolutions() = default;
+
+    void push_Back(const RG_Vector& v);
+    void clear();
+    bool empty();
+    RG_Vector& operator [] (const size_t i);
+
+private:
+    std::vector<RG_Vector> vector;
+
 };
 
 #endif // RG_VECTOR_H

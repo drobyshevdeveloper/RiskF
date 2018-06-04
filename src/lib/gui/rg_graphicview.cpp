@@ -37,6 +37,9 @@ RG_GraphicView::~RG_GraphicView()
         }
         overlayEntities.clear();
     }
+    if (eventHandler) {
+        delete eventHandler;
+    }
 }
 
 void RG_GraphicView::setContainer(RG_EntityContainer *c)

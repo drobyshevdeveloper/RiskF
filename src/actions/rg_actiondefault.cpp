@@ -119,8 +119,8 @@ void RG_ActionDefault::mouseReleaseEvent(QMouseEvent *e)
         case SetCorner2: {
             RG_Selection s(container, graphicView);
             s.selectWindow(pPoints->v1, pPoints->v2,
-                           true, true);
-                      //     (pPoints->v1.x > pPoints->v2.x));
+                           true,
+                           (pPoints->v1.x > pPoints->v2.x)?true:false);
 
             deletePreview();
             setStatus(Neutral);
@@ -131,6 +131,25 @@ void RG_ActionDefault::mouseReleaseEvent(QMouseEvent *e)
             break;
         }
     }
+}
+
+void RG_ActionDefault::keyPressEvent(QKeyEvent *e)
+{
+    switch(e->key()) {
+    case Qt::Key_Escape:
+        setStatus(Neutral);
+        deletePreview();
+        graphicView->redraw(RG::RedrawOverlay);
+        e->accept();
+        break;
+    default:
+        e->ignore();
+    }
+}
+
+void RG_ActionDefault::keyReleaseEvent(QKeyEvent *e)
+{
+
 }
 
 void RG_ActionDefault::updateMouseCursor()

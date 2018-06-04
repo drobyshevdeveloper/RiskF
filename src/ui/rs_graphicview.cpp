@@ -17,11 +17,14 @@
 
 #include "rs_graphicview.h"
 
+#include <qscrollbar.h>
+
 #include "rl_debug.h"
 #include "rg_document.h"
 #include "rg_eventhandler.h"
 #include "rg_actiondefault.h"
 #include "rg_painterqt.h"
+#include "rs_scrollbar.h"
 
 RS_GraphicView::RS_GraphicView(QWidget *parent, Qt::WindowFlags f, RG_Document *doc)
     : RG_GraphicView(parent)
@@ -37,6 +40,9 @@ RS_GraphicView::RS_GraphicView(QWidget *parent, Qt::WindowFlags f, RG_Document *
     // Настроить представление на прием событий перемещения мыши
     // даже при не нажатых кнопках
     setMouseTracking(true);
+    setFocusPolicy(Qt::ClickFocus);
+
+    bScrollbars = false;
 }
 
 RS_GraphicView::~RS_GraphicView()
@@ -62,6 +68,13 @@ int RS_GraphicView::getHeight()
     return height();
 }
 
+void RS_GraphicView::addScrollbars()
+{
+    hScrollbar = new RS_ScrollBar(Qt::Horizontal, this);
+    vScrollbar = new RS_ScrollBar(Qt::Vertical, this);
+    bScrollbars = true;
+}
+
 void RS_GraphicView::mouseMoveEvent(QMouseEvent *e)
 {
     RL_DEBUG << "RS_GraphicView::mouseMoveEvent Begin";
@@ -80,6 +93,16 @@ void RS_GraphicView::mousePressEvent(QMouseEvent *e)
 void RS_GraphicView::mouseReleaseEvent(QMouseEvent *e)
 {
     eventHandler->mouseReleaseEvent(e);
+}
+
+void RS_GraphicView::keyPressEvent(QKeyEvent *e)
+{
+    eventHandler->keyPressEvent(e);
+}
+
+void RS_GraphicView::keyReleaseEvent(QKeyEvent *e)
+{
+    eventHandler->keyReleaseEvent(e);
 }
 
 void RS_GraphicView::enterEvent(QEvent *event)

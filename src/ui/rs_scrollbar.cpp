@@ -15,43 +15,10 @@
 **
 ****************************************************************************/
 
-#ifndef RG_EVENTHANDLER_H
-#define RG_EVENTHANDLER_H
+#include "rs_scrollbar.h"
 
-#include <QObject>
-#include <QList>
-
-class RG_ActionInterface;
-
-class RG_EventHandler : public QObject
+RS_ScrollBar::RS_ScrollBar(Qt::Orientation o, QWidget* parent)
+    : QScrollBar(o, parent)
 {
-    Q_OBJECT
-public:
-    explicit RG_EventHandler(QObject *parent = nullptr);
-    virtual ~RG_EventHandler();
 
-    void setCurrentAction(RG_ActionInterface* action);
-    void setDefaultAction(RG_ActionInterface* action);
-    bool hasAction();
-    void cleanUp();
-
-    void killAllActions();
-
-    void mouseMoveEvent(QMouseEvent* e);
-    void mousePressEvent(QMouseEvent* e);
-    void mouseReleaseEvent(QMouseEvent *e);
-    void keyPressEvent(QKeyEvent* e);
-    void keyReleaseEvent(QKeyEvent* e);
-
-    void leaveEvent(QEvent* e);
-
-signals:
-
-public slots:
-
-private:
-    QList<RG_ActionInterface*> currentActions;
-    RG_ActionInterface* defaultAction;
-};
-
-#endif // RG_EVENTHANDLER_H
+}

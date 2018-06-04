@@ -104,3 +104,27 @@ bool RG_Vector::operator != (bool valid) const
 {
     return this->valid != valid;
 }
+
+
+// ======================================================
+// RG_VectorSolutions
+
+void RG_VectorSolutions::push_Back(const RG_Vector &v)
+{
+    vector.push_back(v);
+}
+
+void RG_VectorSolutions::clear()
+{
+    vector.clear();
+}
+
+bool RG_VectorSolutions::empty()
+{
+    return vector.empty();
+}
+
+RG_Vector& RG_VectorSolutions::operator [](size_t i)
+{
+    return vector[i];
+}

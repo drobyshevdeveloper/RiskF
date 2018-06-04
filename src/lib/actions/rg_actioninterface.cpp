@@ -62,4 +62,7 @@ void RG_ActionInterface::mousePressEvent(QMouseEvent *e) {}
 
 void RG_ActionInterface::mouseReleaseEvent(QMouseEvent *e) {}
 
+void RG_ActionInterface::keyPressEvent(QKeyEvent *e) {}
+
+void RG_ActionInterface::keyReleaseEvent(QKeyEvent *e) {}
 void RG_ActionInterface::updateMouseCursor() {}

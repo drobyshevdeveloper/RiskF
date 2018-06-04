@@ -18,6 +18,8 @@
 #include "rg_entitycontainer.h"
 #include "rg_painter.h"
 #include "rg_graphicview.h"
+#include "rg_line.h"
+#include "rg_information.h"
 
 RG_EntityContainer::RG_EntityContainer(RG_EntityContainer *parent, bool owner)
     : RG_Entity(parent)
@@ -80,6 +82,12 @@ void RG_EntityContainer::selectWindow(RG_Vector v1, RG_Vector v2, bool select, b
         return;
     }
 
+    // Создадим 4 линии из прямоугольной области выделения
+    RG_Line l1 = RG_Line(nullptr, {v1, {v2.x, v1.y}});
+    RG_Line l2 = RG_Line(nullptr, {v1, {v1.x, v2.y}});
+    RG_Line l3 = RG_Line(nullptr, {{v1.x, v2.y}, v2});
+    RG_Line l4 = RG_Line(nullptr, {{v2.x, v1.y}, v2});
+
     foreach (RG_Entity* e, entities) {
         bool included = false;
 
@@ -90,9 +98,15 @@ void RG_EntityContainer::selectWindow(RG_Vector v1, RG_Vector v2, bool select, b
                 RG_EntityContainer* ec = (RG_EntityContainer*)e;
                 ec->selectWindow(v1, v2, select, cross);
             } else {
-//                if (isinCrossWindow)
+                if (!RG_Information::getIntersection(e, &l1).empty())
+                    included = true;
+                else if (!RG_Information::getIntersection(e, &l2).empty())
+                    included = true;
+                else if (!RG_Information::getIntersection(e, &l3).empty())
+                    included = true;
+                else if (!RG_Information::getIntersection(e, &l4).empty())
+                    included = true;
             }
-
         }
 
         if (included) {
