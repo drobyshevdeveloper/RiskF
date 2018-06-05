@@ -17,7 +17,8 @@
 
 #include "rs_graphicview.h"
 
-#include <qscrollbar.h>
+#include <QScrollBar>
+#include <QGridLayout>
 
 #include "rl_debug.h"
 #include "rg_document.h"
@@ -58,20 +59,68 @@ void RS_GraphicView::redraw(RG::RedrawMethod method)
     update();
 }
 
-int RS_GraphicView::getWidth()
+int RS_GraphicView::getWidth() const
 {
     return width();
 }
 
-int RS_GraphicView::getHeight()
+int RS_GraphicView::getHeight() const
 {
     return height();
+}
+
+void RS_GraphicView::adjustOffsetControl()
+{
+    if (bScrollbars) {
+        static bool running = false; // Флаг выполнения функции
+        if (running) {
+            return;
+        }
+
+        running = true;
+
+        // Определим размеры представления с учетом полей, на которые можно переместиться
+        // полосами прокрутки. Размер представления с полями равен
+        // мах(width,boundrect.width)*2,5 x max(height,boundrect.height)*2,5
+        RG_Vector min = container->getMin();
+        RG_Vector max = container->getMax();
+        // Определим габариты документа
+        int boundWidth  = toGuiDX(max.x - min.x);
+        int boundHeight = toGuiDX(max.y - min.y);
+        if (min.x > max.x) {
+            // Документ пустой, расширим его габариты до видимой области представления
+            boundWidth  = getWidth();
+            boundHeight = getHeight();
+        }
+        // Учесть текущее смещение для корректировки габаритов (вдруг мы смотрим далеко за
+        // габаритами документа, соответственно видимую часть представления
+        // тоже необходимо включить в расчет габаритов
+
+        //  Расширим габариты на 75% от ширины и высоты представления в каждую сторону (150% по каждой оси)
+        boundWidth  += 1.5 * getWidth();
+        boundHeight += 1.5 * getHeight();
+
+
+        running = false;
+    }
 }
 
 void RS_GraphicView::addScrollbars()
 {
     hScrollbar = new RS_ScrollBar(Qt::Horizontal, this);
     vScrollbar = new RS_ScrollBar(Qt::Vertical, this);
+    layout = new QGridLayout(this);
+
+    layout->setMargin(0);
+    layout->setSpacing(0);
+    layout->setColumnStretch(0, 1);
+    layout->setColumnStretch(1, 0);
+    layout->setRowStretch(0, 1);
+    layout->setRowStretch(1, 0);
+
+    layout->addWidget(hScrollbar, 1, 0);
+    layout->addWidget(vScrollbar, 0, 1);
+
     bScrollbars = true;
 }
 

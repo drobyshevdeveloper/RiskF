@@ -22,6 +22,7 @@
 #include <QMap>
 
 #include "rg.h"
+#include "rg_vector.h"
 
 class RG_ActionInterface;
 class RG_EntityContainer;
@@ -45,8 +46,37 @@ public:
 
     virtual void redraw(RG::RedrawMethod method = RG::RedrawAll) = 0;
 
-    virtual int getWidth() = 0;
-    virtual int getHeight() = 0;
+    virtual int getWidth() const = 0;
+    virtual int getHeight() const = 0;
+    /**
+     * @brief setOffset
+     * Установить смещение  начала координат документа
+     * относительно левого нижнего угла представления
+     * @param ox
+     * @param oy
+     */
+    void setOffset(int ox, int oy);
+    void setOffsetX(int ox);
+    void setOffsetY(int oy);
+    // Установить масштаб отображения
+    int getOffsetX() const;
+    int getOffsetY() const;
+
+    void setScale(const RG_Vector& sv);
+    RG_Vector getScale() const;
+    // Преобразование координат документа в координаты окна
+    RG_Vector toGui(const RG_Vector& v) const;
+    double toGuiX(const double x) const;
+    double toGuiY(const double y) const;
+    double toGuiDX(const double dx) const;
+    double toGuiDY(const double dy) const;
+    // Преобразование координат окна в координаты документа
+    RG_Vector toGraph(const RG_Vector& v) const;
+    double toGraphX(const int x) const;
+    double toGraphY(const int y) const;
+    double toGraphDX(const int dx) const;
+    double toGraphDY(const int dy) const;
+
 
     RG_EntityContainer* getOverlayContainer(RG::OverlayGraphics position);
 
@@ -63,6 +93,10 @@ protected:
     RG_EventHandler*    eventHandler; // получатель сообщений от интерфейса пользователя
 private:
     QMap<RG::OverlayGraphics, RG_EntityContainer*> overlayEntities;
+    // Смещение начала координат документа относительно левого нижнего угла представления
+    int offsetX;
+    int offsetY;
+    RG_Vector scale;
 };
 
 #endif // RG_GRAPHICVIEW_H

@@ -25,6 +25,7 @@
 class RG_Document;
 class QPixmap;
 class RS_ScrollBar;
+class QGridLayout;
 
 class RS_GraphicView : public RG_GraphicView
 {
@@ -34,14 +35,15 @@ public:
 
     virtual void redraw(RG::RedrawMethod method = RG::RedrawAll) override;
 
-    virtual int getWidth() override;
-    virtual int getHeight() override;
+    virtual int getWidth() const override;
+    virtual int getHeight()const  override;
 
     /**
      * @brief addScrollbars
      * Добавляет полосы прокрутки к представлению
      */
     void addScrollbars();
+    void adjustOffsetControl();
 
 protected:
     virtual void mouseMoveEvent(QMouseEvent* e) override;
@@ -73,6 +75,7 @@ private:
     bool bScrollbars;         /// Флаг наличия у представления полос прокрутки
     RS_ScrollBar* hScrollbar; /// Горизонтальная полоса прокрутки
     RS_ScrollBar* vScrollbar; /// Вертикальная полоса прокутки
+    QGridLayout*  layout;     /// Компоновщих области окна - сетка (для размещения полос прокрутки)
 };
 
 #endif // RS_GRAPHICVIEW_H
