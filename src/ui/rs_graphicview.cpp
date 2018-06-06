@@ -82,24 +82,38 @@ void RS_GraphicView::adjustOffsetControl()
         // Определим размеры представления с учетом полей, на которые можно переместиться
         // полосами прокрутки. Размер представления с полями равен
         // мах(width,boundrect.width)*2,5 x max(height,boundrect.height)*2,5
-        RG_Vector min = container->getMin();
-        RG_Vector max = container->getMax();
-        // Определим габариты документа
-        int boundWidth  = toGuiDX(max.x - min.x);
-        int boundHeight = toGuiDX(max.y - min.y);
-        if (min.x > max.x) {
+        RG_Vector min = toGui(container->getMin());
+        RG_Vector max = toGui(container->getMax());
+/*      if (min.x > max.x) {
             // Документ пустой, расширим его габариты до видимой области представления
             boundWidth  = getWidth();
             boundHeight = getHeight();
         }
+*/
         // Учесть текущее смещение для корректировки габаритов (вдруг мы смотрим далеко за
         // габаритами документа, соответственно видимую часть представления
         // тоже необходимо включить в расчет габаритов
+        min.x = std::min(min.x, 0.0);
+        min.y = std::min(min.y, 0.0);
+        max.x = std::max(max.x, (double)getWidth());
+        max.y = std::max(max.y, (double)getHeight());
+        // рассчитаем габариты документа
+        int boundWidth  = max.x - min.x;
+        int boundHeight = max.y - min.y;
 
         //  Расширим габариты на 75% от ширины и высоты представления в каждую сторону (150% по каждой оси)
+        // для возможности прокрутки немного за габарит документа
         boundWidth  += 1.5 * getWidth();
         boundHeight += 1.5 * getHeight();
 
+        hScrollbar->setRange(min.x - getWidth(), max.x);
+        hScrollbar->setPageStep(getWidth());
+
+        vScrollbar->setRange(min.y - getHeight(), max.y);
+        vScrollbar->setPageStep(getHeight());
+
+        hScrollbar->setValue(getOffsetX());
+        vScrollbar->setValue(getOffsetY());
 
         running = false;
     }
@@ -117,6 +131,11 @@ void RS_GraphicView::addScrollbars()
     layout->setColumnStretch(1, 0);
     layout->setRowStretch(0, 1);
     layout->setRowStretch(1, 0);
+
+    connect(hScrollbar, SIGNAL(valueChanged(int)),
+            this, SLOT(slotHScrolled(int)));
+    connect(vScrollbar, SIGNAL(valueChanged(int)),
+            this, SLOT(slotVScrolled(int)));
 
     layout->addWidget(hScrollbar, 1, 0);
     layout->addWidget(vScrollbar, 0, 1);
@@ -224,4 +243,19 @@ void RS_GraphicView::getPixmapForView(QPixmap **pm)
     }
     // Создаем новый буфер с новыми размерами
     (*pm) = new QPixmap(getWidth(), getHeight());
+}
+
+void RS_GraphicView::slotHScrolled(int value)
+{
+    setOffsetX(value);
+    adjustOffsetControl();
+    redraw();
+
+}
+
+void RS_GraphicView::slotVScrolled(int value)
+{
+    setOffsetY(value);
+    adjustOffsetControl();
+    redraw();
 }

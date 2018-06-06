@@ -61,6 +61,11 @@ protected:
 private:
     void getPixmapForView(QPixmap **pm);
 
+public slots:
+    void slotHScrolled(int value);
+    void slotVScrolled(int value);
+
+
 private:
     RG::RedrawMethod redrawMethod;
     /**

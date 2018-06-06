@@ -78,7 +78,7 @@ RG_Vector RG_Snapper::snapPoint(QMouseEvent *e)
 {
     // Реализуем режим привязки позже,
     // сейчас просто изменим кооринаты
-    RG_Vector mouseCoord = RG_Vector(double(e->pos().x()), double(e->pos().y()));
+    RG_Vector mouseCoord = graphicView->toGraph(double(e->pos().x()), double(e->pos().y()));
     return setSnapPoint(mouseCoord);
 }
 

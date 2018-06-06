@@ -72,6 +72,7 @@ public:
     double toGuiDY(const double dy) const;
     // Преобразование координат окна в координаты документа
     RG_Vector toGraph(const RG_Vector& v) const;
+    RG_Vector toGraph(const double x, const double y) const;
     double toGraphX(const int x) const;
     double toGraphY(const int y) const;
     double toGraphDX(const int dx) const;

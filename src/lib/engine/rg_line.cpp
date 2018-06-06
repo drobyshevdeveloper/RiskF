@@ -89,6 +89,7 @@ void RG_Line::draw(RG_Painter *painter, RG_GraphicView *view)
     }
     painter->setPen(pen);
 
-    painter->drawLine(getStartPoint(), getEndPoint());
+    painter->drawLine(view->toGui(getStartPoint()),
+                      view->toGui(getEndPoint()));
 
 }

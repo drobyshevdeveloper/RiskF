@@ -20,6 +20,7 @@
 #include "rg_vector.h"
 #include "rg_pen.h"
 #include "rg_painter.h"
+#include "rg_graphicview.h"
 
 #include <QRectF>
 
@@ -59,8 +60,8 @@ void RG_OverlayRect::draw(RG_Painter *painter, RG_GraphicView *view)
         return;
     }
 
-    RG_Vector v1 = data.corner1;
-    RG_Vector v2 = data.corner2;
+    RG_Vector v1 = view->toGui(data.corner1);
+    RG_Vector v2 = view->toGui(data.corner2);
 
     QRectF selectRect(
                 v1.x,

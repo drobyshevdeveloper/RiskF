@@ -57,7 +57,7 @@ void RG_ActionDefault::coordinateEvent(RG_CoordinateEvent *ce)
 
 void RG_ActionDefault::mouseMoveEvent(QMouseEvent *e)
 {
-    RG_Vector mouse = RG_Vector(e->x(), e->y());
+    RG_Vector mouse = graphicView->toGraph(e->x(), e->y());
     pPoints->v2 = mouse;
 
     switch (getStatus()) {
@@ -88,7 +88,7 @@ void RG_ActionDefault::mousePressEvent(QMouseEvent *e)
     if (e->button() == Qt::LeftButton) {
         switch (getStatus()) {
         case Neutral:
-            pPoints->v1 = RG_Vector(e->x(), e->y());
+            pPoints->v1 = graphicView->toGraph(e->x(), e->y());
             setStatus(FirstClick);
             break;
         default:
@@ -99,7 +99,7 @@ void RG_ActionDefault::mousePressEvent(QMouseEvent *e)
 
 void RG_ActionDefault::mouseReleaseEvent(QMouseEvent *e)
 {
-    RG_Vector mouse = RG_Vector(e->x(), e->y());
+    RG_Vector mouse = graphicView->toGraph(e->x(), e->y());
     pPoints->v2 = mouse;
     RG_Entity* en = nullptr;
 

@@ -118,6 +118,11 @@ RG_Vector RG_GraphicView::toGraph(const RG_Vector& v) const
     return {toGraphX(std::round(v.x)),
             toGraphY(std::round(v.y))};
 }
+RG_Vector RG_GraphicView::toGraph(const double x, const double y) const
+{
+    return {toGraphX(std::round(x)),
+            toGraphY(std::round(y))};
+}
 double RG_GraphicView::toGraphX(const int x) const
 {
     return ( x - offsetX ) / scale.x;
