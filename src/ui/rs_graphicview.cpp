@@ -140,6 +140,8 @@ void RS_GraphicView::addScrollbars()
     layout->addWidget(hScrollbar, 1, 0);
     layout->addWidget(vScrollbar, 0, 1);
 
+    setLayout(layout);
+
     bScrollbars = true;
 }
 
