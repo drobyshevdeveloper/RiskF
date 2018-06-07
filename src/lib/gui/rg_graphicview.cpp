@@ -98,7 +98,7 @@ RG_Vector RG_GraphicView::toGui(const RG_Vector& v) const
 }
 double RG_GraphicView::toGuiX(const double x) const
 {
-    return x * scale.x + offsetX;
+    return x * scale.x - offsetX;
 }
 double RG_GraphicView::toGuiY(const double y) const
 {
@@ -125,7 +125,7 @@ RG_Vector RG_GraphicView::toGraph(const double x, const double y) const
 }
 double RG_GraphicView::toGraphX(const int x) const
 {
-    return ( x - offsetX ) / scale.x;
+    return ( x + offsetX ) / scale.x;
 }
 double RG_GraphicView::toGraphY(const int y) const
 {
@@ -190,3 +190,20 @@ void RG_GraphicView::drawLayer3(RG_Painter *painter)
 
     RL_DEBUG << "RG_GraphicView::drawLayer3 Ok";
 }
+
+
+void RG_GraphicView::slotHScrolled(int value)
+{
+    setOffsetX(value);
+    adjustOffsetControl();
+    redraw();
+
+}
+
+void RG_GraphicView::slotVScrolled(int value)
+{
+    setOffsetY(value);
+    adjustOffsetControl();
+    redraw();
+}
+

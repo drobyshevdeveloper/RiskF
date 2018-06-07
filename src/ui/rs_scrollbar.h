@@ -24,6 +24,8 @@ class RS_ScrollBar : public QScrollBar
 {
 public:
     RS_ScrollBar(Qt::Orientation o, QWidget* parent);
+
+
 };
 
 #endif // RS_SCROLLBAR_H

@@ -29,14 +29,15 @@ class QGridLayout;
 
 class RS_GraphicView : public RG_GraphicView
 {
+//    Q_OBJECT
 public:
-    RS_GraphicView(QWidget* parent = 0, Qt::WindowFlags f = 0, RG_Document* doc = 0);
+    explicit RS_GraphicView(QWidget* parent = 0, Qt::WindowFlags f = 0, RG_Document* doc = 0);
     virtual ~RS_GraphicView();
 
     virtual void redraw(RG::RedrawMethod method = RG::RedrawAll) override;
 
-    virtual int getWidth() const override;
-    virtual int getHeight()const  override;
+    virtual int getWidth()  const override;
+    virtual int getHeight() const override;
 
     /**
      * @brief addScrollbars
@@ -61,10 +62,11 @@ protected:
 private:
     void getPixmapForView(QPixmap **pm);
 
+/*
 public slots:
     void slotHScrolled(int value);
     void slotVScrolled(int value);
-
+*/
 
 private:
     RG::RedrawMethod redrawMethod;

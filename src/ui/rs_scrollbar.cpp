@@ -17,6 +17,8 @@
 
 #include "rs_scrollbar.h"
 
+#include "rl_debug.h"
+
 RS_ScrollBar::RS_ScrollBar(Qt::Orientation o, QWidget* parent)
     : QScrollBar(o, parent)
 {

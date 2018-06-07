@@ -44,6 +44,7 @@ public:
 
     void killAllActions();
 
+    virtual void adjustOffsetControl() = 0;
     virtual void redraw(RG::RedrawMethod method = RG::RedrawAll) = 0;
 
     virtual int getWidth() const = 0;
@@ -88,6 +89,8 @@ protected:
 signals:
 
 public slots:
+    void slotHScrolled(int value);
+    void slotVScrolled(int value);
 
 protected:
     RG_EntityContainer* container;    // Коллекция всех объектов

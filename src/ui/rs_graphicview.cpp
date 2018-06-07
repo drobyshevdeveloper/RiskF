@@ -90,30 +90,40 @@ void RS_GraphicView::adjustOffsetControl()
             boundHeight = getHeight();
         }
 */
-        // Учесть текущее смещение для корректировки габаритов (вдруг мы смотрим далеко за
-        // габаритами документа, соответственно видимую часть представления
-        // тоже необходимо включить в расчет габаритов
-        min.x = std::min(min.x, 0.0);
-        min.y = std::min(min.y, 0.0);
-        max.x = std::max(max.x, (double)getWidth());
-        max.y = std::max(max.y, (double)getHeight());
-        // рассчитаем габариты документа
-        int boundWidth  = max.x - min.x;
-        int boundHeight = max.y - min.y;
+        int ox = getOffsetX();
+        int oy = getOffsetY();
 
+        if (container->getEntityList().empty()) {
+            // Если документ пустой, то расширим его до размеров видимого представления
+            min = toGui({.0, .0});
+            max.x = min.x + getWidth();
+            max.y = min.y - getHeight();
+        }
         //  Расширим габариты на 75% от ширины и высоты представления в каждую сторону (150% по каждой оси)
         // для возможности прокрутки немного за габарит документа
-        boundWidth  += 1.5 * getWidth();
-        boundHeight += 1.5 * getHeight();
+        min.x -= getWidth() * .75;
+        min.y += getHeight() * .75;
+        max.x += getWidth() * .75;
+        max.y -= getHeight() * .75;
+//        boundWidth  += 1.5 * getWidth();
+//        boundHeight += 1.5 * getHeight();
 
-        hScrollbar->setRange(min.x - getWidth(), max.x);
+        // Учесть текущее смещение представления для корректировки габаритов (вдруг мы смотрим далеко за
+        // габаритами документа, соответственно видимую часть представления
+        // тоже необходимо включить в расчет габаритов
+        min.x = std::min(min.x, (double)ox);
+        min.y = std::max(min.y, (double)oy+getWidth());
+        max.x = std::max(max.x, double(ox+getWidth()));
+        max.y = std::min(max.y, double(oy));
+
+        hScrollbar->setRange(min.x, max.x - getWidth());
         hScrollbar->setPageStep(getWidth());
 
-        vScrollbar->setRange(min.y - getHeight(), max.y);
+        vScrollbar->setRange(max.y - getHeight(), min.y);
         vScrollbar->setPageStep(getHeight());
 
-        hScrollbar->setValue(getOffsetX());
-        vScrollbar->setValue(getOffsetY());
+        hScrollbar->setValue(ox);
+        vScrollbar->setValue(oy);
 
         running = false;
     }
@@ -140,7 +150,7 @@ void RS_GraphicView::addScrollbars()
     layout->addWidget(hScrollbar, 1, 0);
     layout->addWidget(vScrollbar, 0, 1);
 
-    setLayout(layout);
+    adjustOffsetControl();
 
     bScrollbars = true;
 }
@@ -246,7 +256,7 @@ void RS_GraphicView::getPixmapForView(QPixmap **pm)
     // Создаем новый буфер с новыми размерами
     (*pm) = new QPixmap(getWidth(), getHeight());
 }
-
+/*
 void RS_GraphicView::slotHScrolled(int value)
 {
     setOffsetX(value);
@@ -261,3 +271,4 @@ void RS_GraphicView::slotVScrolled(int value)
     adjustOffsetControl();
     redraw();
 }
+*/
