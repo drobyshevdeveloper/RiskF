@@ -18,6 +18,7 @@
 #include "rg_vector.h"
 
 #include <math.h>
+#include <iostream>
 
 #include "rg.h"
 
@@ -127,4 +128,14 @@ bool RG_VectorSolutions::empty()
 RG_Vector& RG_VectorSolutions::operator [](size_t i)
 {
     return vector[i];
+}
+
+std::ostream& operator << (std::ostream& os, const RG_Vector& v)
+{
+    if(v.valid) {
+        os << v.x << "/" << v.y; // << "/" << v.z;
+    } else {
+        os << "invalid vector";
+    }
+    return os;
 }

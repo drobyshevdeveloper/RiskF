@@ -194,7 +194,7 @@ void RG_GraphicView::drawLayer3(RG_Painter *painter)
 
 void RG_GraphicView::slotHScrolled(int value)
 {
-    setOffsetX(value);
+    setOffsetX(value*scale.x);
     adjustOffsetControl();
     redraw();
 
@@ -202,7 +202,7 @@ void RG_GraphicView::slotHScrolled(int value)
 
 void RG_GraphicView::slotVScrolled(int value)
 {
-    setOffsetY(value);
+    setOffsetY(value*scale.y);
     adjustOffsetControl();
     redraw();
 }

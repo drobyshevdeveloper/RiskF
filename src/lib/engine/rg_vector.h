@@ -20,6 +20,8 @@
 
 #include <vector>
 #include <cstdio>
+#include <iosfwd>
+
 
 class RG_Vector;
 
@@ -49,6 +51,7 @@ public:
 
     bool operator == (bool valid) const;
     bool operator != (bool valid) const;
+    friend std::ostream& operator << (std::ostream& os, const RG_Vector& v);
 
 public:
     double x=0.;

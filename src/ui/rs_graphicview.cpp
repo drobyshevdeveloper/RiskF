@@ -43,6 +43,8 @@ RS_GraphicView::RS_GraphicView(QWidget *parent, Qt::WindowFlags f, RG_Document *
     setMouseTracking(true);
     setFocusPolicy(Qt::ClickFocus);
 
+    setScale({2.0, 2.0});
+
     bScrollbars = false;
 }
 
@@ -79,11 +81,13 @@ void RS_GraphicView::adjustOffsetControl()
 
         running = true;
 
+        RL_DEBUG << "RS_GraphicView::adjustOffsetControl() =========================";
         // Определим размеры представления с учетом полей, на которые можно переместиться
         // полосами прокрутки. Размер представления с полями равен
         // мах(width,boundrect.width)*2,5 x max(height,boundrect.height)*2,5
-        RG_Vector min = toGui(container->getMin());
-        RG_Vector max = toGui(container->getMax());
+        RG_Vector min = container->getMin();
+        RG_Vector max = container->getMax();
+        RL_DEBUG << "min =" << min.x << "/" << min.y << ", max =" << max.x << "/" << max.y;
 /*      if (min.x > max.x) {
             // Документ пустой, расширим его габариты до видимой области представления
             boundWidth  = getWidth();
@@ -92,38 +96,45 @@ void RS_GraphicView::adjustOffsetControl()
 */
         int ox = getOffsetX();
         int oy = getOffsetY();
+        RL_DEBUG << "Screen Size =" << getWidth() << "," << getHeight();
+        RL_DEBUG << "Offset =" << ox << "," << oy;
 
         if (container->getEntityList().empty()) {
             // Если документ пустой, то расширим его до размеров видимого представления
-            min = toGui({.0, .0});
-            max.x = min.x + getWidth();
-            max.y = min.y - getHeight();
+            min = {.0, .0};
+            max.x = min.x + toGraphDX(getWidth());
+            max.y = min.y + toGraphDY(getHeight());
         }
         //  Расширим габариты на 75% от ширины и высоты представления в каждую сторону (150% по каждой оси)
         // для возможности прокрутки немного за габарит документа
-        min.x -= getWidth() * .75;
-        min.y += getHeight() * .75;
-        max.x += getWidth() * .75;
-        max.y -= getHeight() * .75;
+        min.x -= toGraphDX(getWidth() * .9);
+        min.y -= toGraphDY(getHeight() * .9);
+        max.x += toGraphDX(getWidth() * .9);
+        max.y += toGraphDY(getHeight() * .9);
+        RL_DEBUG << "min =" << min.x << "/" << min.y << ", max =" << max.x << "/" << max.y;
 //        boundWidth  += 1.5 * getWidth();
 //        boundHeight += 1.5 * getHeight();
 
         // Учесть текущее смещение представления для корректировки габаритов (вдруг мы смотрим далеко за
         // габаритами документа, соответственно видимую часть представления
         // тоже необходимо включить в расчет габаритов
-        min.x = std::min(min.x, (double)ox);
-        min.y = std::max(min.y, (double)oy+getWidth());
-        max.x = std::max(max.x, double(ox+getWidth()));
-        max.y = std::min(max.y, double(oy));
+/*        min.x = std::min(min.x, (double)ox);
+        min.y = std::max(min.y, (double)oy);
+        max.x = std::max(max.x, double(ox));
+        max.y = std::min(max.y, double(oy));  */
+//        min = toGui(min);
+//        max = toGui(max);
+        RL_DEBUG << "min =" << min.x << "/" << min.y << ", max =" << max.x << "/" << max.y;
 
-        hScrollbar->setRange(min.x, max.x - getWidth());
-        hScrollbar->setPageStep(getWidth());
+        hScrollbar->setRange(min.x, max.x - toGraphDX(getWidth()));
+        hScrollbar->setPageStep(toGraphDX(getWidth()));
 
-        vScrollbar->setRange(max.y - getHeight(), min.y);
-        vScrollbar->setPageStep(getHeight());
+//        vScrollbar->setRange(min.y, max.y - toGraphDY(getHeight()));//, min.y);
+        vScrollbar->setRange(-max.y + toGraphDY(getHeight()), -min.y);// - toGraphDY(getHeight()));//, min.y);
+        vScrollbar->setPageStep(toGraphDY(getHeight()));
 
-        hScrollbar->setValue(ox);
-        vScrollbar->setValue(oy);
+//        hScrollbar->setValue(ox);
+//        vScrollbar->setValue(oy);
 
         running = false;
     }
@@ -150,9 +161,9 @@ void RS_GraphicView::addScrollbars()
     layout->addWidget(hScrollbar, 1, 0);
     layout->addWidget(vScrollbar, 0, 1);
 
-    adjustOffsetControl();
-
     bScrollbars = true;
+
+    adjustOffsetControl();
 }
 
 void RS_GraphicView::mouseMoveEvent(QMouseEvent *e)
