@@ -83,6 +83,15 @@ public:
         SnapperMiddleCross,         // Средний крестик
         SnapperLongCross            // Курсор в виде перекрестия во всю ширину и высоту представления
     };
+
+    /**
+     * @brief The Direction enum
+     * Перечисление определяющее направление масштабирования
+     */
+    enum Direction {
+        In,
+        Out
+    };
 };
 
 #endif // RG_H

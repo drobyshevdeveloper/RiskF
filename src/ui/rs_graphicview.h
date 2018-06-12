@@ -34,30 +34,33 @@ public:
     explicit RS_GraphicView(QWidget* parent = 0, Qt::WindowFlags f = 0, RG_Document* doc = 0);
     virtual ~RS_GraphicView();
 
-    virtual void redraw(RG::RedrawMethod method = RG::RedrawAll) override;
+    void redraw(RG::RedrawMethod method = RG::RedrawAll) override;
 
-    virtual int getWidth()  const override;
-    virtual int getHeight() const override;
+    int getWidth()  const override;
+    int getHeight() const override;
 
     /**
      * @brief addScrollbars
      * Добавляет полосы прокрутки к представлению
      */
-    void addScrollbars();
-    void adjustOffsetControl();
+   void addScrollbars();
+   void adjustOffsetControl();
+
 
 protected:
-    virtual void mouseMoveEvent(QMouseEvent* e) override;
-    virtual void mousePressEvent(QMouseEvent* e) override;
-    virtual void mouseReleaseEvent(QMouseEvent* e) override;
-    virtual void keyPressEvent(QKeyEvent* e) override;
-    virtual void keyReleaseEvent(QKeyEvent* e) override;
+    void mouseMoveEvent(QMouseEvent* e) override;
+    void mousePressEvent(QMouseEvent* e) override;
+    void mouseReleaseEvent(QMouseEvent* e) override;
+    void wheelEvent(QWheelEvent* e) override;
 
-    virtual void enterEvent(QEvent* event) override;
-    virtual void leaveEvent(QEvent* event) override;
+    void keyPressEvent(QKeyEvent* e) override;
+    void keyReleaseEvent(QKeyEvent* e) override;
 
-    virtual void paintEvent(QPaintEvent* event) override;
-    virtual void resizeEvent(QResizeEvent* event) override;
+    void enterEvent(QEvent* event) override;
+    void leaveEvent(QEvent* event) override;
+
+    void paintEvent(QPaintEvent* event) override;
+    void resizeEvent(QResizeEvent* event) override;
 
 private:
     void getPixmapForView(QPixmap **pm);

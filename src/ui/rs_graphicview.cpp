@@ -24,6 +24,7 @@
 #include "rg_document.h"
 #include "rg_eventhandler.h"
 #include "rg_actiondefault.h"
+#include "rg_actionzoom.h"
 #include "rg_painterqt.h"
 #include "rs_scrollbar.h"
 
@@ -81,60 +82,46 @@ void RS_GraphicView::adjustOffsetControl()
 
         running = true;
 
-        RL_DEBUG << "RS_GraphicView::adjustOffsetControl() =========================";
-        // Определим размеры представления с учетом полей, на которые можно переместиться
-        // полосами прокрутки. Размер представления с полями равен
-        // мах(width,boundrect.width)*2,5 x max(height,boundrect.height)*2,5
         RG_Vector min = container->getMin();
         RG_Vector max = container->getMax();
-        RL_DEBUG << "min =" << min.x << "/" << min.y << ", max =" << max.x << "/" << max.y;
-/*      if (min.x > max.x) {
-            // Документ пустой, расширим его габариты до видимой области представления
-            boundWidth  = getWidth();
-            boundHeight = getHeight();
-        }
-*/
-        int ox = getOffsetX();
-        int oy = getOffsetY();
-        RL_DEBUG << "Screen Size =" << getWidth() << "," << getHeight();
-        RL_DEBUG << "Offset =" << ox << "," << oy;
+
+        double ox = getOffsetX();
+        double oy = getOffsetY();
+        double graphW = toGraphDX(getWidth());
+        double graphH = toGraphDY(getHeight());
 
         if (container->getEntityList().empty()) {
             // Если документ пустой, то расширим его до размеров видимого представления
             min = {.0, .0};
-            max.x = min.x + toGraphDX(getWidth());
-            max.y = min.y + toGraphDY(getHeight());
+            max.x = min.x + graphW;
+            max.y = min.y + graphH;
         }
-        //  Расширим габариты на 75% от ширины и высоты представления в каждую сторону (150% по каждой оси)
+
+        //  Расширим габариты на 90% от ширины и высоты представления в каждую сторону (150% по каждой оси)
         // для возможности прокрутки немного за габарит документа
-        min.x -= toGraphDX(getWidth() * .9);
-        min.y -= toGraphDY(getHeight() * .9);
-        max.x += toGraphDX(getWidth() * .9);
-        max.y += toGraphDY(getHeight() * .9);
-        RL_DEBUG << "min =" << min.x << "/" << min.y << ", max =" << max.x << "/" << max.y;
-//        boundWidth  += 1.5 * getWidth();
-//        boundHeight += 1.5 * getHeight();
+        min.x -= graphW * .9;
+        min.y -= graphH * .9;
+        max.x += graphW * .9;
+        max.y += graphH * .9;
 
-        // Учесть текущее смещение представления для корректировки габаритов (вдруг мы смотрим далеко за
-        // габаритами документа, соответственно видимую часть представления
-        // тоже необходимо включить в расчет габаритов
-/*        min.x = std::min(min.x, (double)ox);
-        min.y = std::max(min.y, (double)oy);
-        max.x = std::max(max.x, double(ox));
-        max.y = std::min(max.y, double(oy));  */
-//        min = toGui(min);
-//        max = toGui(max);
-        RL_DEBUG << "min =" << min.x << "/" << min.y << ", max =" << max.x << "/" << max.y;
+        // Изменим при необходимости размеры видимой области с учетом видимой части представления
+        // т.е. с учетом области документа которая сейчас на экране, даже если в данной части документа
+        // отсутствуют сущности
+        min.x = std::min(ox, min.x);
+        min.y = std::min(oy, min.y);
+        max.x = std::max(ox+graphW, max.x);
+        max.y = std::max(oy+graphH, max.y);
 
-        hScrollbar->setRange(min.x, max.x - toGraphDX(getWidth()));
-        hScrollbar->setPageStep(toGraphDX(getWidth()));
+        hScrollbar->setRange(min.x * getScale().x, (max.x - graphW)*getScale().x);
+        hScrollbar->setPageStep(getWidth());
+        hScrollbar->setSingleStep(getWidth()/10);
 
-//        vScrollbar->setRange(min.y, max.y - toGraphDY(getHeight()));//, min.y);
-        vScrollbar->setRange(-max.y + toGraphDY(getHeight()), -min.y);// - toGraphDY(getHeight()));//, min.y);
-        vScrollbar->setPageStep(toGraphDY(getHeight()));
+        vScrollbar->setRange((-max.y + graphH) * getScale().y, -min.y * getScale().y);
+        vScrollbar->setPageStep(getHeight());
+        vScrollbar->setSingleStep(getHeight()/10);
 
-//        hScrollbar->setValue(ox);
-//        vScrollbar->setValue(oy);
+        hScrollbar->setValue(ox+0.5);
+        vScrollbar->setValue(oy+0.5);
 
         running = false;
     }
@@ -157,6 +144,10 @@ void RS_GraphicView::addScrollbars()
             this, SLOT(slotHScrolled(int)));
     connect(vScrollbar, SIGNAL(valueChanged(int)),
             this, SLOT(slotVScrolled(int)));
+    connect(hScrollbar, SIGNAL(sliderReleased()),
+            this, SLOT(slotSliderReleased()));
+    connect(vScrollbar, SIGNAL(sliderReleased()),
+            this, SLOT(slotSliderReleased()));
 
     layout->addWidget(hScrollbar, 1, 0);
     layout->addWidget(vScrollbar, 0, 1);
@@ -184,6 +175,22 @@ void RS_GraphicView::mousePressEvent(QMouseEvent *e)
 void RS_GraphicView::mouseReleaseEvent(QMouseEvent *e)
 {
     eventHandler->mouseReleaseEvent(e);
+}
+
+void RS_GraphicView::wheelEvent(QWheelEvent *e)
+{
+    double zoom;
+    if (e->delta() > 0) {
+        // Колесико мыши повернулось вперед, от пользователя
+        // Уменьшим масштаб
+        setCurrentAction(new RG_ActionZoom(*container, *this, RG::Out, RG_Vector(e->x(), e->y())));
+        zoom = 1 / 1.37;
+    } else {
+        // Колесико мыши повернулось назад, к пользователю
+        // Увеличим масштаб
+        zoom = 1.37;
+        setCurrentAction(new RG_ActionZoom(*container, *this, RG::In, RG_Vector(e->x(), e->y())));
+    }
 }
 
 void RS_GraphicView::keyPressEvent(QKeyEvent *e)

@@ -91,6 +91,11 @@ RG_Vector RG_Vector::operator *(double n) const
     return {x*n, y*n, z*n};
 }
 
+RG_Vector RG_Vector::operator /(double n) const
+{
+    return {x/n, y/n, z/n};
+}
+
 RG_Vector::operator bool() const
 {
     return valid;

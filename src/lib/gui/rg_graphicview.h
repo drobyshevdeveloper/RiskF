@@ -53,18 +53,23 @@ public:
      * @brief setOffset
      * Установить смещение  начала координат документа
      * относительно левого нижнего угла представления
-     * @param ox
-     * @param oy
+     * @param ox - смещение по горизонтали в экранных координатах
+     * @param oy - смещение по вертикали в экранных координатах
      */
-    void setOffset(int ox, int oy);
-    void setOffsetX(int ox);
-    void setOffsetY(int oy);
+    void setOffset(double ox, double oy);
+    void setOffsetX(double ox);
+    void setOffsetY(double oy);
+    double getOffsetX() const;
+    double getOffsetY() const;
     // Установить масштаб отображения
-    int getOffsetX() const;
-    int getOffsetY() const;
-
     void setScale(const RG_Vector& sv);
     RG_Vector getScale() const;
+    // Масштабирует заданную область документа на весь экран
+    void zoomWindow(RG_Vector v1, RG_Vector v2);
+    // Инструменты масштабирования
+    void zoomIn(double zoom, const RG_Vector& center);
+    void zoomOut(double zoom, const RG_Vector& center);
+
     // Преобразование координат документа в координаты окна
     RG_Vector toGui(const RG_Vector& v) const;
     double toGuiX(const double x) const;
@@ -74,10 +79,10 @@ public:
     // Преобразование координат окна в координаты документа
     RG_Vector toGraph(const RG_Vector& v) const;
     RG_Vector toGraph(const double x, const double y) const;
-    double toGraphX(const int x) const;
-    double toGraphY(const int y) const;
-    double toGraphDX(const int dx) const;
-    double toGraphDY(const int dy) const;
+    double toGraphX(const double x) const;
+    double toGraphY(const double y) const;
+    double toGraphDX(const double dx) const;
+    double toGraphDY(const double dy) const;
 
 
     RG_EntityContainer* getOverlayContainer(RG::OverlayGraphics position);
@@ -91,16 +96,18 @@ signals:
 public slots:
     void slotHScrolled(int value);
     void slotVScrolled(int value);
+    void slotSliderReleased();
 
 protected:
     RG_EntityContainer* container;    // Коллекция всех объектов
     RG_EventHandler*    eventHandler; // получатель сообщений от интерфейса пользователя
+    // Смещение начала координат документа относительно левого нижнего угла представления
+    double offsetX;
+    double offsetY;
+    // Масштаб отображения
+    RG_Vector scale;
 private:
     QMap<RG::OverlayGraphics, RG_EntityContainer*> overlayEntities;
-    // Смещение начала координат документа относительно левого нижнего угла представления
-    int offsetX;
-    int offsetY;
-    RG_Vector scale;
 };
 
 #endif // RG_GRAPHICVIEW_H

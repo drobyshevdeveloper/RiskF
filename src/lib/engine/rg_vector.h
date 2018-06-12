@@ -48,6 +48,7 @@ public:
     RG_Vector operator + (const RG_Vector& v) const;
     RG_Vector operator - (const RG_Vector& v) const;
     RG_Vector operator * (double n) const;
+    RG_Vector operator / (double n) const;
 
     bool operator == (bool valid) const;
     bool operator != (bool valid) const;

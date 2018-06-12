@@ -55,28 +55,28 @@ void RG_GraphicView::killAllActions()
     }
 }
 // Смещение начала координат документа относительно левого нижнего угла представления
-void RG_GraphicView::setOffset(int ox, int oy)
+void RG_GraphicView::setOffset(double ox, double oy)
 {
     setOffsetX(ox);
     setOffsetY(oy);
 }
 
-void RG_GraphicView::setOffsetX(int ox)
+void RG_GraphicView::setOffsetX(double ox)
 {
     offsetX = ox;
 }
 
-void RG_GraphicView::setOffsetY(int oy)
+void RG_GraphicView::setOffsetY(double oy)
 {
     offsetY = oy;
 }
 
-int RG_GraphicView::getOffsetX() const
+double RG_GraphicView::getOffsetX() const
 {
     return offsetX;
 }
 
-int RG_GraphicView::getOffsetY() const
+double RG_GraphicView::getOffsetY() const
 {
     return offsetY;
 }
@@ -91,6 +91,78 @@ RG_Vector RG_GraphicView::getScale() const
     return scale;
 }
 
+/**
+ * @brief RG_GraphicView::zoomWindow
+ * Масштабирует заданную область документа на весь экран
+ * @param v1
+ * @param v1
+ */
+void RG_GraphicView::zoomWindow(RG_Vector v1, RG_Vector v2)
+{
+    if (v1.x > v2.x) {
+        std::swap(v1.x, v2.x);
+    }
+    if (v1.y > v2.y) {
+        std::swap(v1.y, v2.y);
+    }
+
+    double zoomX = 1000.0;
+    double zoomY = 1000.0;
+
+    if (v2.x-v1.x > 1.0e-2) {
+        zoomX = getWidth() / (v2.x - v1.x);
+    }
+    if (v2.y-v1.y > 1.0e-2) {
+        zoomY = getHeight() / (v2.y - v1.y);
+    }
+
+    // Выберем наименьший масштаб, чтобы веся выбранная область поместилась в окно
+    zoomX = std::min(zoomX, zoomY);
+    zoomY = zoomX;
+
+    // Вычислим новое смещение
+    double halfPixel = 0.5 / zoomX;
+    RG_Vector center = RG_Vector((v2.x+v1.x)/2 - halfPixel, (v2.y+v1.y)/2 - halfPixel);
+    offsetX = std::round(center.x * zoomX  - getWidth()/2);
+    offsetY = std::round(getHeight()/2 - center.y * zoomY);
+
+    setScale({zoomX, zoomY});
+
+    adjustOffsetControl();
+
+    redraw(RG::RedrawAll);
+}
+
+void RG_GraphicView::zoomIn(double zoom, const RG_Vector &center)
+{
+    // найдем границы отображения в координатах документа
+    RG_Vector v1 = toGraph({0.0, getHeight()});
+    RG_Vector v2 = toGraph({getWidth(), 0.0});
+    RG_Vector pos = toGraph(center);
+    // Определим границы отображаемой части документа
+    // в соответствии с вычисленным масштабом
+    // и положением курсора мыши
+    v1 = pos - (pos - v1) * zoom;
+    v2 = pos + (v2 - pos) * zoom;
+    // применим масштаб
+    zoomWindow(v1, v2);
+}
+
+void RG_GraphicView::zoomOut(double zoom, const RG_Vector &center)
+{
+    // найдем границы отображения в координатах документа
+    RG_Vector v1 = toGraph({0.0, getHeight()});
+    RG_Vector v2 = toGraph({getWidth(), 0.0});
+    RG_Vector pos = toGraph(center);
+    // Определим границы отображаемой части документа
+    // в соответствии с вычисленным масштабом
+    // и положением курсора мыши
+    v1 = pos - (pos - v1) / zoom;
+    v2 = pos + (v2 - pos) / zoom;
+    // применим масштаб
+    zoomWindow(v1, v2);
+}
+
 // Преобразование координат документа в координаты окна
 RG_Vector RG_GraphicView::toGui(const RG_Vector& v) const
 {
@@ -98,11 +170,11 @@ RG_Vector RG_GraphicView::toGui(const RG_Vector& v) const
 }
 double RG_GraphicView::toGuiX(const double x) const
 {
-    return x * scale.x - offsetX;
+    return ( x ) * scale.x - offsetX;
 }
 double RG_GraphicView::toGuiY(const double y) const
 {
-    return - y * scale.y + getHeight() - offsetY;
+    return ( - y ) * scale.y + getHeight() - offsetY;
 }
 double RG_GraphicView::toGuiDX(const double dx) const
 {
@@ -110,7 +182,7 @@ double RG_GraphicView::toGuiDX(const double dx) const
 }
 double RG_GraphicView::toGuiDY(const double dy) const
 {
-    return dy * scale.x;
+    return dy * scale.y;
 }
 // Преобразование координат окна в координаты документа
 RG_Vector RG_GraphicView::toGraph(const RG_Vector& v) const
@@ -123,19 +195,19 @@ RG_Vector RG_GraphicView::toGraph(const double x, const double y) const
     return {toGraphX(std::round(x)),
             toGraphY(std::round(y))};
 }
-double RG_GraphicView::toGraphX(const int x) const
+double RG_GraphicView::toGraphX(const double x) const
 {
-    return ( x + offsetX ) / scale.x;
+    return (x + offsetX) / scale.x;
 }
-double RG_GraphicView::toGraphY(const int y) const
+double RG_GraphicView::toGraphY(const double y) const
 {
-    return - ( y - getHeight() + offsetY ) / scale.y;
+    return - ( y - getHeight() + offsetY) / scale.y;
 }
-double RG_GraphicView::toGraphDX(const int dx) const
+double RG_GraphicView::toGraphDX(const double dx) const
 {
     return dx / scale.x;
 }
-double RG_GraphicView::toGraphDY(const int dy) const
+double RG_GraphicView::toGraphDY(const double dy) const
 {
     return dy / scale.y;
 }
@@ -194,16 +266,21 @@ void RG_GraphicView::drawLayer3(RG_Painter *painter)
 
 void RG_GraphicView::slotHScrolled(int value)
 {
-    setOffsetX(value*scale.x);
-    adjustOffsetControl();
+    setOffsetX(value);//*scale.x);
+//    adjustOffsetControl();
     redraw();
 
 }
 
 void RG_GraphicView::slotVScrolled(int value)
 {
-    setOffsetY(value*scale.y);
-    adjustOffsetControl();
+    setOffsetY(value);//*scale.y);
+//    adjustOffsetControl();
     redraw();
 }
 
+void RG_GraphicView::slotSliderReleased()
+{
+    RL_DEBUG << "RG_GraphicView::slotSliderReleased()";
+    adjustOffsetControl();
+}
