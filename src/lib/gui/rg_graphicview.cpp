@@ -121,9 +121,9 @@ void RG_GraphicView::zoomWindow(RG_Vector v1, RG_Vector v2)
     zoomY = zoomX;
 
     // Вычислим новое смещение
-    double halfPixel = 0.5 / zoomX;
+    double halfPixel = 0;//0.5 / zoomX;
     RG_Vector center = RG_Vector((v2.x+v1.x)/2 - halfPixel, (v2.y+v1.y)/2 - halfPixel);
-    offsetX = std::round(center.x * zoomX  - getWidth()/2);
+    offsetX = std::round(center.x * zoomX  - getWidth()/2 +.5);
     offsetY = std::round(getHeight()/2 - center.y * zoomY);
 
     setScale({zoomX, zoomY});
@@ -145,7 +145,7 @@ void RG_GraphicView::zoomIn(double zoom, const RG_Vector &center)
     v1 = pos - (pos - v1) * zoom;
     v2 = pos + (v2 - pos) * zoom;
     // применим масштаб
-    zoomWindow(v1, v2);
+    zoomWindow(v1, v2);    
 }
 
 void RG_GraphicView::zoomOut(double zoom, const RG_Vector &center)
@@ -161,6 +161,15 @@ void RG_GraphicView::zoomOut(double zoom, const RG_Vector &center)
     v2 = pos + (v2 - pos) / zoom;
     // применим масштаб
     zoomWindow(v1, v2);
+}
+
+void RG_GraphicView::zoomPan(int dx, int dy)
+{
+    offsetX -= dx;
+    offsetY -= dy;
+
+    adjustOffsetControl();
+    redraw();
 }
 
 // Преобразование координат документа в координаты окна

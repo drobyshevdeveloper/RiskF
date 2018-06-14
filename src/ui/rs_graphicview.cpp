@@ -25,11 +25,18 @@
 #include "rg_eventhandler.h"
 #include "rg_actiondefault.h"
 #include "rg_actionzoom.h"
+#include "rg_actionzoompan.h"
 #include "rg_painterqt.h"
 #include "rs_scrollbar.h"
 
+#define CURSOR_SIZE 16
+
 RS_GraphicView::RS_GraphicView(QWidget *parent, Qt::WindowFlags f, RG_Document *doc)
     : RG_GraphicView(parent)
+    , curCad(new QCursor(Qt::CrossCursor))
+    , curArrow(new QCursor(Qt::ArrowCursor))
+    , curOpenHand(new QCursor(Qt::OpenHandCursor))
+    , curClosedHand(new QCursor(Qt::ClosedHandCursor))
 {
     if (doc) {
         setContainer(doc);
@@ -120,13 +127,27 @@ void RS_GraphicView::adjustOffsetControl()
         vScrollbar->setPageStep(getHeight());
         vScrollbar->setSingleStep(getHeight()/10);
 
-        hScrollbar->setValue(ox+0.5);
-        vScrollbar->setValue(oy+0.5);
+        hScrollbar->setValue(ox);//+0.5);
+        vScrollbar->setValue(oy);//+0.5);
 
         running = false;
     }
 }
 
+void RS_GraphicView::setMouseCursor(RG::MouseCursor c)
+{
+    switch (c) {
+    case RG::ArrowCursor:
+        setCursor(*curArrow);
+        break;
+    case RG::OpenHandCursor:
+        setCursor(*curOpenHand);
+        break;
+    case RG::ClosedHandCursor:
+        setCursor(*curClosedHand);
+        break;
+    }
+}
 void RS_GraphicView::addScrollbars()
 {
     hScrollbar = new RS_ScrollBar(Qt::Horizontal, this);
@@ -169,6 +190,9 @@ void RS_GraphicView::mouseMoveEvent(QMouseEvent *e)
 
 void RS_GraphicView::mousePressEvent(QMouseEvent *e)
 {
+    if (e->button()==Qt::MiddleButton) {
+        setCurrentAction(new RG_ActionZoomPan(*container, *this));
+    }
     eventHandler->mousePressEvent(e);
 }
 
@@ -191,6 +215,17 @@ void RS_GraphicView::wheelEvent(QWheelEvent *e)
         zoom = 1.37;
         setCurrentAction(new RG_ActionZoom(*container, *this, RG::In, RG_Vector(e->x(), e->y())));
     }
+
+    // Из-за погрешности вычислений позиция нарисованного курсора может меняться,
+    // поэтому сместим его на текущую позицию системного курсора
+    QMouseEvent* event = new QMouseEvent(QEvent::MouseMove,
+                                         QPoint(e->x(), e->y()),
+                                         Qt::NoButton, Qt::NoButton,
+                                         Qt::NoModifier);
+    eventHandler->mouseMoveEvent(event);
+    delete event;
+
+    e->accept();
 }
 
 void RS_GraphicView::keyPressEvent(QKeyEvent *e)

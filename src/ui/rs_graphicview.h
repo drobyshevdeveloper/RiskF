@@ -46,6 +46,8 @@ public:
    void addScrollbars();
    void adjustOffsetControl();
 
+   void setMouseCursor(RG::MouseCursor c) override;
+
 
 protected:
     void mouseMoveEvent(QMouseEvent* e) override;
@@ -61,6 +63,7 @@ protected:
 
     void paintEvent(QPaintEvent* event) override;
     void resizeEvent(QResizeEvent* event) override;
+
 
 private:
     void getPixmapForView(QPixmap **pm);
@@ -86,6 +89,12 @@ private:
     RS_ScrollBar* hScrollbar; /// Горизонтальная полоса прокрутки
     RS_ScrollBar* vScrollbar; /// Вертикальная полоса прокутки
     QGridLayout*  layout;     /// Компоновщих области окна - сетка (для размещения полос прокрутки)
+
+    // Коллекция курсоров
+    std::unique_ptr<QCursor> curCad;
+    std::unique_ptr<QCursor> curArrow;
+    std::unique_ptr<QCursor> curOpenHand;
+    std::unique_ptr<QCursor> curClosedHand;
 };
 
 #endif // RS_GRAPHICVIEW_H

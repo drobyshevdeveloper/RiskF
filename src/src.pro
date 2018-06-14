@@ -24,7 +24,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 
-LC_VERSION="1.0.29"
+LC_VERSION="1.0.30"
 VERSION=$${LC_VERSION}
 
 # Для работы отладочных функций закомментируйте следующую строку
@@ -92,7 +92,8 @@ HEADERS += \
         lib/engine/rg_overlayrect.h \
         lib/information/rg_information.h \
         lib/geom/geom.h \
-    actions/rg_actionzoom.h
+    actions/rg_actionzoom.h \
+    actions/rg_actionzoompan.h
 SOURCES += \
         lib/rl_settings.cpp \
         lib/gui/rl_dialogfactory.cpp \
@@ -119,7 +120,8 @@ SOURCES += \
         lib/engine/rg_overlayrect.cpp \
         lib/information/rg_information.cpp \
     lib/geom/geom.cpp \
-    actions/rg_actionzoom.cpp
+    actions/rg_actionzoom.cpp \
+    actions/rg_actionzoompan.cpp
 
 
 ##################################################################

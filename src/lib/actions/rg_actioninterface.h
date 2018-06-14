@@ -40,6 +40,7 @@ public:
     virtual ~RG_ActionInterface();
 
     virtual void init(int status=0) override;
+    virtual void resume();
     void setStatus(int status=0);
     int getStatus();
 

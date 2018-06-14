@@ -92,6 +92,16 @@ public:
         In,
         Out
     };
+
+    /**
+     * @brief The MouseCursor enum
+     * Перечисления типа курсоров
+     */
+    enum MouseCursor {
+        ArrowCursor,
+        OpenHandCursor,
+        ClosedHandCursor
+    };
 };
 
 #endif // RG_H

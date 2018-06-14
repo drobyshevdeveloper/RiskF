@@ -157,6 +157,7 @@ void RG_ActionDefault::updateMouseCursor()
 //    RG::SnapperType oldSt = getSnapperType();
 
     setSnapperType(RG::SnapperDefault);
+    graphicView->setMouseCursor(RG::ArrowCursor);
 
 //    if (oldSt != getSnapperType()) {
 //        drawSnapper();

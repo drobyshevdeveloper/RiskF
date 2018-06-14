@@ -79,12 +79,27 @@ void RG_EventHandler::cleanUp()
     }
 
     if (hasAction()) {
-
+        currentActions.last()->resume();
     }
 }
 
 bool RG_EventHandler::hasAction()
 {
+    if (currentActions.empty()) {
+        // Действия отсутствуют
+        return false;
+    }
+    if (!currentActions.last()->isFinished()) {
+        // Имеется активное действие
+        return true;
+    }
+    // Проверим цепочку действий и удалим завершенные
+    cleanUp(); // в данном методе вызывается hasAction, но зацикливания не произойдет
+               // т.к. второй вызов hasAction не дойдет до сюда
+               // потому что cleanUp либо очищает контейнер полностью (и первый return сработает)
+               // либо последнее действие будет активным (сработает второй return)
+
+    // Проверим наличие активных действий
     foreach (RG_ActionInterface* a, currentActions) {
         if (!a->isFinished())
             return true;

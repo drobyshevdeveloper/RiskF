@@ -49,6 +49,7 @@ public:
 
     virtual int getWidth() const = 0;
     virtual int getHeight() const = 0;
+    virtual void setMouseCursor(RG::MouseCursor c) = 0;
     /**
      * @brief setOffset
      * Установить смещение  начала координат документа
@@ -69,6 +70,7 @@ public:
     // Инструменты масштабирования
     void zoomIn(double zoom, const RG_Vector& center);
     void zoomOut(double zoom, const RG_Vector& center);
+    void zoomPan(int dx, int dy);
 
     // Преобразование координат документа в координаты окна
     RG_Vector toGui(const RG_Vector& v) const;

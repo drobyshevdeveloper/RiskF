@@ -112,9 +112,11 @@ void RG_ActionDrawLine::updateMouseCursor()
 
     if (getStatus()==SetStartpoint) {
         setSnapperType(RG::SnapperDefault);
+        graphicView->setMouseCursor(RG::ArrowCursor);
     }
     if (getStatus()==SetEndpoint) {
         setSnapperType(RG::SnapperMiddleCross);
+        graphicView->setMouseCursor(RG::ArrowCursor);
     }
 
 //    if (oldSt != getSnapperType()) {
