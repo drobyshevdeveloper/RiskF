@@ -43,6 +43,11 @@ void RG_ActionInterface::init(int status)
 
 }
 
+void RG_ActionInterface::resume()
+{
+    updateMouseCursor();
+}
+
 void RG_ActionInterface::setStatus(int status)
 {
     this->status = status;
@@ -62,4 +67,7 @@ void RG_ActionInterface::mousePressEvent(QMouseEvent *e) {}
 
 void RG_ActionInterface::mouseReleaseEvent(QMouseEvent *e) {}
 
+void RG_ActionInterface::keyPressEvent(QKeyEvent *e) {}
+
+void RG_ActionInterface::keyReleaseEvent(QKeyEvent *e) {}
 void RG_ActionInterface::updateMouseCursor() {}

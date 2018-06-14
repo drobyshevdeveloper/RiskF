@@ -79,12 +79,27 @@ void RG_EventHandler::cleanUp()
     }
 
     if (hasAction()) {
-
+        currentActions.last()->resume();
     }
 }
 
 bool RG_EventHandler::hasAction()
 {
+    if (currentActions.empty()) {
+        // Действия отсутствуют
+        return false;
+    }
+    if (!currentActions.last()->isFinished()) {
+        // Имеется активное действие
+        return true;
+    }
+    // Проверим цепочку действий и удалим завершенные
+    cleanUp(); // в данном методе вызывается hasAction, но зацикливания не произойдет
+               // т.к. второй вызов hasAction не дойдет до сюда
+               // потому что cleanUp либо очищает контейнер полностью (и первый return сработает)
+               // либо последнее действие будет активным (сработает второй return)
+
+    // Проверим наличие активных действий
     foreach (RG_ActionInterface* a, currentActions) {
         if (!a->isFinished())
             return true;
@@ -134,6 +149,33 @@ void RG_EventHandler::mouseReleaseEvent(QMouseEvent *e)
     RL_DEBUG << "RG_EventHandler::mouseReleaseEvent Ok";
 }
 
+void RG_EventHandler::keyPressEvent(QKeyEvent *e)
+{
+    RL_DEBUG << "RG_EventHandler::keyPressEvent() Begin";
+
+    if (hasAction()) {
+        currentActions.last()->keyPressEvent(e);
+    }
+    else if (defaultAction) {
+        defaultAction->keyPressEvent(e);
+    }
+
+    RL_DEBUG << "RG_EventHandler::keyPressEvent() Ok";
+}
+
+void RG_EventHandler::keyReleaseEvent(QKeyEvent *e)
+{
+    RL_DEBUG << "RG_EventHandler::keyReleaseEvent() Begin";
+
+    if (hasAction()) {
+        currentActions.last()->keyReleaseEvent(e);
+    }
+    else if (defaultAction) {
+        defaultAction->keyReleaseEvent(e);
+    }
+
+    RL_DEBUG << "RG_EventHandler::keyReleaseEvent() Ok";
+}
 void RG_EventHandler::leaveEvent(QEvent *e)
 {
     if (hasAction()) {

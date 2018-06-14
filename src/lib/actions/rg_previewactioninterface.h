@@ -19,6 +19,7 @@
 #define RG_PREVIEWACTIONINTERFACE_H
 
 #include "rg_actioninterface.h"
+#include <memory>
 
 class RG_Preview;
 

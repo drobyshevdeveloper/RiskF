@@ -15,41 +15,28 @@
 **
 ****************************************************************************/
 
-#include "rg_painterqt.h"
+#ifndef RG_ACTIONZOOM_H
+#define RG_ACTIONZOOM_H
 
-#include <QPen>
+#include "rg_actioninterface.h"
 
-#include "rg_vector.h"
-
-RG_PainterQt::RG_PainterQt(QPaintDevice* pd)
-    :QPainter(pd)
+class RG_ActionZoom : public RG_ActionInterface
 {
+public:
+    RG_ActionZoom(RG_EntityContainer& container,
+                  RG_GraphicView& graphicView,
+                  RG::Direction dir,
+                  RG_Vector pos);
 
-}
+    virtual ~RG_ActionZoom();
 
-void RG_PainterQt::setPen(RG_Pen &pen)
-{
-    this->pen  = pen;
-    QPen p(this->pen.getColor());
-    QPainter::setPen(p);
-}
+    void init(int status=0) override;
 
-void RG_PainterQt::drawLine(const RG_Vector &p1, const RG_Vector &p2)
-{
-    QPainter::drawLine(p1.x, p1.y, p2.x, p2.y);
-}
+    void trigger();
+private:
+    RG_Vector pos_;
+    RG::Direction dir_;
 
-void RG_PainterQt::drawRect(const QRectF &rect)
-{
-    QPainter::drawRect(rect);
-}
+};
 
-void RG_PainterQt::fillRect(const QRectF &rect, const QColor &color)
-{
-    QPainter::fillRect(rect, color);
-}
-
-void RG_PainterQt::drawPixmap(int x, int y, QPixmap *pixmap)
-{
-    QPainter::drawPixmap(QPoint(x,y),(*pixmap));
-}
+#endif // RG_ACTIONZOOM_H

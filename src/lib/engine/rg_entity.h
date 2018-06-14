@@ -40,18 +40,46 @@ public:
     virtual bool isSelected();
     virtual void toggleSelect();
 
+    virtual bool isVisible() const;
+    virtual void setVisible(bool v);
+
+
+
+    /**
+     * @brief getNearestPointOnEntity Определяет расстояние от заданной точки до сущности
+     * @param coord - заданная точка
+     * @param dist  - указатель на переменную в которую будет записано вычисленное расстояние
+     * @return - возвращает координаты точки сущности, ближайшей к заданной точке
+     */
     virtual RG_Vector getNearestPointOnEntity(const RG_Vector& coord,
                                               double* dist) const = 0;
     /**
-     * @brief getDistanceToPoint - возвращает расстояние от заданной точки до сущности
+     * @brief getDistanceToPoint - определяет расстояние от заданной точки до сущности
      * @param coord - заданная точка
      * @param entity - после выполнения метода заполняет указателем на сущность
      *                 (в данном случае на саму себя, при использовании данного метода для
      *                  контейнера сущностей заполняет указателем на сущность к которой ближе всех
      *                  заданная точка)
-     * @return
+     * @return - расстояние до заданной точки
      */
     virtual double getDistanceToPoint(const RG_Vector& coord, RG_Entity **entity = nullptr) const;
+
+    /**
+     * @brief isInWindow
+     * Определяет находится ли сущность внутри заданной прямоугольной области
+     * @param v1 - первый угол прямоугольной области
+     * @param v2 - второй угол прямоугольной области
+     * @return true - если сущность находится внутри прямоугольной области
+     */
+    virtual bool isInWindow(RG_Vector v1, RG_Vector v2);
+    /**
+     * @brief isInCrossWindow
+     * Определяет находится ли сущьность частично внутри заданной прямоугольной области
+     * @param v1 - первый угол прямоугольной области
+     * @param v2 - второй угол прямоугольной области
+     * @return true - если сущность частично находится внутри прямоугольной области
+     */
+//    virtual bool isInCrossWindow(RG_Vector v1, RG_Vector v2) = 0;
 
     virtual void draw(RG_Painter* painter, RG_GraphicView* view) = 0;
 
@@ -59,13 +87,27 @@ public:
 
     virtual RG_Vector getStartPoint() const;
     virtual RG_Vector getEndPoint() const;
+    RG_Vector getMin() const {return vMin;}
+    RG_Vector getMax() const {return vMax;}
+    /**
+     * @brief calculateBorders
+     * Вычисляет координаты прямоугольной области, которая ограничивает сущность
+     * и записывает результат в vMin, vMax
+     */
+    virtual void calculateBorders() = 0;
+    void resetBorders();
 
 protected: void initID();
 
 protected:
     RG_EntityContainer* parent = nullptr;
     unsigned long int id;
+
+    RG_Vector vMin; /// Первый угол прямоугольника, ограничивающего сущность
+    RG_Vector vMax; /// Второй угол прямоугольника, ограничивающего сущность
+
     bool bSelected;
+    bool bVisible;
 
 
 };

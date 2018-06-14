@@ -18,6 +18,7 @@
 #include "rg_vector.h"
 
 #include <math.h>
+#include <iostream>
 
 #include "rg.h"
 
@@ -43,6 +44,14 @@ RG_Vector::RG_Vector(bool valid)
     , y(0.0)
     , z(0.0)
 {
+}
+
+void RG_Vector::set(double vx, double vy, double vz/*=0.0*/)
+{
+    x = double(vx);
+    y = double(vy);
+    z = double(vz);
+    valid = true;
 }
 
 double RG_Vector::length() const
@@ -82,6 +91,11 @@ RG_Vector RG_Vector::operator *(double n) const
     return {x*n, y*n, z*n};
 }
 
+RG_Vector RG_Vector::operator /(double n) const
+{
+    return {x/n, y/n, z/n};
+}
+
 RG_Vector::operator bool() const
 {
     return valid;
@@ -95,4 +109,38 @@ bool RG_Vector::operator == (bool valid) const
 bool RG_Vector::operator != (bool valid) const
 {
     return this->valid != valid;
+}
+
+
+// ======================================================
+// RG_VectorSolutions
+
+void RG_VectorSolutions::push_Back(const RG_Vector &v)
+{
+    vector.push_back(v);
+}
+
+void RG_VectorSolutions::clear()
+{
+    vector.clear();
+}
+
+bool RG_VectorSolutions::empty()
+{
+    return vector.empty();
+}
+
+RG_Vector& RG_VectorSolutions::operator [](size_t i)
+{
+    return vector[i];
+}
+
+std::ostream& operator << (std::ostream& os, const RG_Vector& v)
+{
+    if(v.valid) {
+        os << v.x << "/" << v.y; // << "/" << v.z;
+    } else {
+        os << "invalid vector";
+    }
+    return os;
 }

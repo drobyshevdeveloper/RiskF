@@ -15,41 +15,38 @@
 **
 ****************************************************************************/
 
-#include "rg_painterqt.h"
+#include "rg_actionzoom.h"
+#include "rg_graphicview.h"
 
-#include <QPen>
+RG_ActionZoom::RG_ActionZoom(RG_EntityContainer& container,
+                             RG_GraphicView& graphicView,
+                             RG::Direction dir,
+                             RG_Vector pos)
+    : RG_ActionInterface("Zoom", container, graphicView)
+{
+    dir_ = dir;
+    pos_ = pos;
+}
 
-#include "rg_vector.h"
-
-RG_PainterQt::RG_PainterQt(QPaintDevice* pd)
-    :QPainter(pd)
+RG_ActionZoom::~RG_ActionZoom()
 {
 
 }
 
-void RG_PainterQt::setPen(RG_Pen &pen)
+void RG_ActionZoom::init(int status)
 {
-    this->pen  = pen;
-    QPen p(this->pen.getColor());
-    QPainter::setPen(p);
+    RG_ActionInterface::init(status);
+    trigger();
 }
 
-void RG_PainterQt::drawLine(const RG_Vector &p1, const RG_Vector &p2)
+void RG_ActionZoom::trigger()
 {
-    QPainter::drawLine(p1.x, p1.y, p2.x, p2.y);
-}
+    if (dir_ == RG::Out) {
+        graphicView->zoomOut(1.137, pos_);
+    }
+    if (dir_ == RG::In) {
+        graphicView->zoomIn(1.137, pos_);
+    }
 
-void RG_PainterQt::drawRect(const QRectF &rect)
-{
-    QPainter::drawRect(rect);
-}
-
-void RG_PainterQt::fillRect(const QRectF &rect, const QColor &color)
-{
-    QPainter::fillRect(rect, color);
-}
-
-void RG_PainterQt::drawPixmap(int x, int y, QPixmap *pixmap)
-{
-    QPainter::drawPixmap(QPoint(x,y),(*pixmap));
+    finish();
 }

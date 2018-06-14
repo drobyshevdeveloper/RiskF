@@ -101,9 +101,10 @@ void RF_MainWindow::slotFileNew()
     RS_GraphicView* view = w->getGraphicView();
     action_handler->setView(view);
     action_handler->setDocument(w->getDocument());
-
-    view->redraw(RG::RedrawAll);
     w->showMaximized();
+
+    view->addScrollbars();
+    view->redraw(RG::RedrawAll);
 
 
     RL_DEBUG << "RF_MainWindow::slotFileNew Ok";

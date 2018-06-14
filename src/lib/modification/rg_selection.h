@@ -18,6 +18,8 @@
 #ifndef RG_SELECTION_H
 #define RG_SELECTION_H
 
+#include "rg_vector.h"
+
 class RG_Entity;
 class RG_EntityContainer;
 class RG_GraphicView;
@@ -30,6 +32,8 @@ public:
     ~RG_Selection() {}
 
     void singleSelect(RG_Entity* entity);
+    void selectWindow(RG_Vector v1, RG_Vector v2,
+                      bool select, bool cross);
     void selectAll(bool select=true);
     void deselectAll(){selectAll(false);}
 private:

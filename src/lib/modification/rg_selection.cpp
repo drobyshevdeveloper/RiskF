@@ -34,6 +34,24 @@ void RG_Selection::singleSelect(RG_Entity *entity)
     }
 }
 
+/**
+ * @brief RG_Selection::selectWindow - выбирает или отменяет выбор сущности,
+ * попавших в прямоугольную область выделения
+ * @param v1 - первая точка прямоугольной области выделения
+ * @param v2 - вторая точка прямоугольной точки выделения
+ * @param select - true если необходимо выделить сущности, false если необходимо снять выделение
+ * @param cross  - true выделить сущности полностью и частично попавшие в прямоугольную область выделения
+ *                 false выделить сущности полностью поппавшие в прямоугольную область выделения
+ */
+void RG_Selection::selectWindow(RG_Vector v1, RG_Vector v2, bool select, bool cross)
+{
+    container->selectWindow(v1, v2, select, cross);
+
+    if (graphicView) {
+        graphicView->redraw();
+    }
+}
+
 void RG_Selection::selectAll(bool select)
 {
     foreach (RG_Entity* e, container->getEntityList()) {

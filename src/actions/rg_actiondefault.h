@@ -25,7 +25,8 @@ class RG_ActionDefault : public RG_PreviewActionInterface
 public:
     enum Status {
         Neutral,        // Действия отсутствуют
-        FirstClick      // режим включается при первом нажатии левой кнопки
+        FirstClick,     // Режим включается при первом нажатии левой кнопки
+        SetCorner2      // Режим выбора второго угла прямоугольной области выбора
                         //
     };
     RG_ActionDefault(RG_EntityContainer& container,
@@ -39,6 +40,8 @@ public:
     virtual void mousePressEvent(QMouseEvent* e) override;
     virtual void mouseMoveEvent(QMouseEvent* e) override;
     virtual void mouseReleaseEvent(QMouseEvent* e) override;
+    virtual void keyPressEvent(QKeyEvent* e) override;
+    virtual void keyReleaseEvent(QKeyEvent* e) override;
     virtual void updateMouseCursor() override;
 private:
     struct Points;

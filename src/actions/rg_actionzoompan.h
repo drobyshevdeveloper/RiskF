@@ -15,41 +15,37 @@
 **
 ****************************************************************************/
 
-#include "rg_painterqt.h"
+#ifndef RG_ACTIONZOOMPAN_H
+#define RG_ACTIONZOOMPAN_H
 
-#include <QPen>
+#include "rg_actioninterface.h"
 
-#include "rg_vector.h"
-
-RG_PainterQt::RG_PainterQt(QPaintDevice* pd)
-    :QPainter(pd)
+class RG_ActionZoomPan : public RG_ActionInterface
 {
+public:
+    enum Status {
+        SetPanStart,
+        SetPanning,
+        SetPanEnd
+    };
 
-}
+    RG_ActionZoomPan(RG_EntityContainer& container,
+                     RG_GraphicView& graphicView);
 
-void RG_PainterQt::setPen(RG_Pen &pen)
-{
-    this->pen  = pen;
-    QPen p(this->pen.getColor());
-    QPainter::setPen(p);
-}
+    void init(int status=0) override;
 
-void RG_PainterQt::drawLine(const RG_Vector &p1, const RG_Vector &p2)
-{
-    QPainter::drawLine(p1.x, p1.y, p2.x, p2.y);
-}
+    void trigger();
 
-void RG_PainterQt::drawRect(const QRectF &rect)
-{
-    QPainter::drawRect(rect);
-}
+    void mousePressEvent(QMouseEvent* e) override;
+    void mouseMoveEvent(QMouseEvent* e) override;
+    void mouseReleaseEvent(QMouseEvent* e) override;
+//    void keyPressEvent(QKeyEvent* e) override;
+//    void keyReleaseEvent(QKeyEvent* e) override;
+    void updateMouseCursor() override;
+private:
+    RG_Vector v1;
+    RG_Vector v2;
 
-void RG_PainterQt::fillRect(const QRectF &rect, const QColor &color)
-{
-    QPainter::fillRect(rect, color);
-}
+};
 
-void RG_PainterQt::drawPixmap(int x, int y, QPixmap *pixmap)
-{
-    QPainter::drawPixmap(QPoint(x,y),(*pixmap));
-}
+#endif // RG_ACTIONZOOMPAN_H

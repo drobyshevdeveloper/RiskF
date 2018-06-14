@@ -24,7 +24,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 
-LC_VERSION="1.0.23"
+LC_VERSION="1.0.30"
 VERSION=$${LC_VERSION}
 
 # Для работы отладочных функций закомментируйте следующую строку
@@ -53,6 +53,8 @@ INCLUDEPATH += \
         lib/engine  \
         lib/gui     \
         lib/modification \
+        lib/information \
+        lib/geom    \
         main        \
         ui          \
         ../res
@@ -86,7 +88,12 @@ HEADERS += \
         lib/engine/rg_painterqt.h\
         lib/gui/rg_coordinateevent.h \
         lib/modification/rg_selection.h \
-    lib/engine/rg_pen.h
+        lib/engine/rg_pen.h \
+        lib/engine/rg_overlayrect.h \
+        lib/information/rg_information.h \
+        lib/geom/geom.h \
+    actions/rg_actionzoom.h \
+    actions/rg_actionzoompan.h
 SOURCES += \
         lib/rl_settings.cpp \
         lib/gui/rl_dialogfactory.cpp \
@@ -109,7 +116,12 @@ SOURCES += \
         lib/engine/rg_painterqt.cpp\
         lib/gui/rg_coordinateevent.cpp \
         lib/modification/rg_selection.cpp \
-    lib/engine/rg_pen.cpp
+        lib/engine/rg_pen.cpp \
+        lib/engine/rg_overlayrect.cpp \
+        lib/information/rg_information.cpp \
+    lib/geom/geom.cpp \
+    actions/rg_actionzoom.cpp \
+    actions/rg_actionzoompan.cpp
 
 
 ##################################################################
@@ -121,7 +133,8 @@ HEADERS += \
         ui/rs_actiongroupmanager.h \
         ui/rs_widgetfactory.h \
         ui/rs_dialogfactory.h \
-        ui/rs_graphicview.h
+        ui/rs_graphicview.h \
+        ui/rs_scrollbar.h
 
 SOURCES += \
         ui/rs_centralwidget.cpp \
@@ -130,7 +143,8 @@ SOURCES += \
         ui/rs_actiongroupmanager.cpp \
         ui/rs_widgetfactory.cpp \
         ui/rs_dialogfactory.cpp \
-        ui/rs_graphicview.cpp
+        ui/rs_graphicview.cpp \
+        ui/rs_scrollbar.cpp
 
 
 ##################################################################

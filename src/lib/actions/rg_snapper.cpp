@@ -78,7 +78,7 @@ RG_Vector RG_Snapper::snapPoint(QMouseEvent *e)
 {
     // Реализуем режим привязки позже,
     // сейчас просто изменим кооринаты
-    RG_Vector mouseCoord = RG_Vector(double(e->pos().x()), double(e->pos().y()));
+    RG_Vector mouseCoord = graphicView->toGraph(double(e->pos().x()), double(e->pos().y()));
     return setSnapPoint(mouseCoord);
 }
 
@@ -161,6 +161,11 @@ RG_Entity* RG_Snapper::catchEntity(const RG_Vector &pos)
 {
     double dist = 0.0;
     RG_Entity* en = container->getNearestEntity(pos, &dist);
+
+    // Проверим, если объект слишком далеко, то его мы не нашли
+    if (dist>5.0) {
+        return nullptr;
+    }
 
     RL_DEBUG << "RG_Snapper::catchEntity en=" << en << "; dist=" << dist;
     return en;

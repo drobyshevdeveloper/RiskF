@@ -30,8 +30,10 @@ public:
 
     virtual void setPen(RG_Pen& pen) override;
 
-    virtual void drawLine(const RG_Vector& p1, const RG_Vector& p2);
-    virtual void drawPixmap(int x, int y, QPixmap* pixmap);
+    virtual void drawLine(const RG_Vector& p1, const RG_Vector& p2) override;
+    virtual void drawRect(const QRectF& rect) override;
+    virtual void fillRect(const QRectF& rect, const QColor &color) override;
+    virtual void drawPixmap(int x, int y, QPixmap* pixmap) override;
 
 protected:
     RG_Pen pen;

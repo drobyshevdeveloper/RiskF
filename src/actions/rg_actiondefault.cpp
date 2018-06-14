@@ -21,6 +21,8 @@
 
 #include "rg_selection.h"
 #include "rg_graphicview.h"
+#include "rg_overlayrect.h"
+#include "rg_preview.h"
 
 struct RG_ActionDefault::Points {
     RG_Vector v1;
@@ -55,8 +57,28 @@ void RG_ActionDefault::coordinateEvent(RG_CoordinateEvent *ce)
 
 void RG_ActionDefault::mouseMoveEvent(QMouseEvent *e)
 {
-    RG_Vector mouse = RG_Vector(e->x(), e->y());
+    RG_Vector mouse = graphicView->toGraph(e->x(), e->y());
     pPoints->v2 = mouse;
+
+    switch (getStatus()) {
+    case Neutral:
+        break;
+    case FirstClick:
+        // Реализовать проверку перемещения выбранных сущностей
+
+        // Если перемещения сущностей нет включаем режим выбора прямогольной областью
+        setStatus(SetCorner2);
+        break;
+    case SetCorner2:
+        deletePreview();
+
+        RG_OverlayRect* rect = new RG_OverlayRect(nullptr, {pPoints->v1,pPoints->v2});
+
+        preview->addEntity(rect);
+        drawPreview();
+
+        break;
+    }
 
     RG_Vector snapper = snapPoint(e);
 }
@@ -66,7 +88,7 @@ void RG_ActionDefault::mousePressEvent(QMouseEvent *e)
     if (e->button() == Qt::LeftButton) {
         switch (getStatus()) {
         case Neutral:
-            pPoints->v1 = RG_Vector(e->x(), e->y());
+            pPoints->v1 = graphicView->toGraph(e->x(), e->y());
             setStatus(FirstClick);
             break;
         default:
@@ -77,7 +99,7 @@ void RG_ActionDefault::mousePressEvent(QMouseEvent *e)
 
 void RG_ActionDefault::mouseReleaseEvent(QMouseEvent *e)
 {
-    RG_Vector mouse = RG_Vector(e->x(), e->y());
+    RG_Vector mouse = graphicView->toGraph(e->x(), e->y());
     pPoints->v2 = mouse;
     RG_Entity* en = nullptr;
 
@@ -94,10 +116,40 @@ void RG_ActionDefault::mouseReleaseEvent(QMouseEvent *e)
             graphicView->redraw(RG::RedrawDrawing);
 
             break;
+        case SetCorner2: {
+            RG_Selection s(container, graphicView);
+            s.selectWindow(pPoints->v1, pPoints->v2,
+                           true,
+                           (pPoints->v1.x > pPoints->v2.x)?true:false);
+
+            deletePreview();
+            setStatus(Neutral);
+
+            break;
+        }
         default:
             break;
         }
     }
+}
+
+void RG_ActionDefault::keyPressEvent(QKeyEvent *e)
+{
+    switch(e->key()) {
+    case Qt::Key_Escape:
+        setStatus(Neutral);
+        deletePreview();
+        graphicView->redraw(RG::RedrawOverlay);
+        e->accept();
+        break;
+    default:
+        e->ignore();
+    }
+}
+
+void RG_ActionDefault::keyReleaseEvent(QKeyEvent *e)
+{
+
 }
 
 void RG_ActionDefault::updateMouseCursor()
@@ -105,6 +157,7 @@ void RG_ActionDefault::updateMouseCursor()
 //    RG::SnapperType oldSt = getSnapperType();
 
     setSnapperType(RG::SnapperDefault);
+    graphicView->setMouseCursor(RG::ArrowCursor);
 
 //    if (oldSt != getSnapperType()) {
 //        drawSnapper();
