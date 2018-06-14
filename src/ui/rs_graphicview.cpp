@@ -204,6 +204,7 @@ void RS_GraphicView::mouseReleaseEvent(QMouseEvent *e)
 void RS_GraphicView::wheelEvent(QWheelEvent *e)
 {
     double zoom;
+    RL_DEBUG << "RS_GraphicView::wheelEvent() ========= delta =" << e->delta();
     if (e->delta() > 0) {
         // Колесико мыши повернулось вперед, от пользователя
         // Уменьшим масштаб

@@ -17,6 +17,8 @@
 
 #include "rg_graphicview.h"
 
+#include <cmath>
+
 #include "rl_debug.h"
 #include "rg_painter.h"
 #include "rg_eventhandler.h"
@@ -136,8 +138,8 @@ void RG_GraphicView::zoomWindow(RG_Vector v1, RG_Vector v2)
 void RG_GraphicView::zoomIn(double zoom, const RG_Vector &center)
 {
     // найдем границы отображения в координатах документа
-    RG_Vector v1 = toGraph({0.0, getHeight()});
-    RG_Vector v2 = toGraph({getWidth(), 0.0});
+    RG_Vector v1 = toGraph({0.0, (double)getHeight()});
+    RG_Vector v2 = toGraph({(double)getWidth(), 0.0});
     RG_Vector pos = toGraph(center);
     // Определим границы отображаемой части документа
     // в соответствии с вычисленным масштабом
@@ -151,8 +153,8 @@ void RG_GraphicView::zoomIn(double zoom, const RG_Vector &center)
 void RG_GraphicView::zoomOut(double zoom, const RG_Vector &center)
 {
     // найдем границы отображения в координатах документа
-    RG_Vector v1 = toGraph({0.0, getHeight()});
-    RG_Vector v2 = toGraph({getWidth(), 0.0});
+    RG_Vector v1 = toGraph({0.0, (double)getHeight()});
+    RG_Vector v2 = toGraph({(double)getWidth(), 0.0});
     RG_Vector pos = toGraph(center);
     // Определим границы отображаемой части документа
     // в соответствии с вычисленным масштабом
