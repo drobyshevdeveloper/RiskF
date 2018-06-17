@@ -124,6 +124,8 @@ void RG_EventHandler::mouseMoveEvent(QMouseEvent *e)
 void RG_EventHandler::mousePressEvent(QMouseEvent *e)
 {
     RL_DEBUG << "RG_EventHandler::mousePressEvent Begin";
+    RL_DEBUG << "QMouseEvent =" << e;
+    RL_DEBUG << "e->modifiers() =" << e->modifiers();
 
     if (hasAction()) {
         currentActions.last()->mousePressEvent(e);

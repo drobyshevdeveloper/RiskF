@@ -19,6 +19,7 @@
 
 #include <QScrollBar>
 #include <QGridLayout>
+#include <cmath>
 
 #include "rl_debug.h"
 #include "rg_document.h"
@@ -204,17 +205,32 @@ void RS_GraphicView::mouseReleaseEvent(QMouseEvent *e)
 void RS_GraphicView::wheelEvent(QWheelEvent *e)
 {
     double zoom;
-    RL_DEBUG << "RS_GraphicView::wheelEvent() ========= delta =" << e->delta();
+//    RL_DEBUG << "RS_GraphicView::wheelEvent() ========= delta =" << e->delta();
+//    RL_DEBUG << "source = " << e->source();
+//    RL_DEBUG << "phase =" << e->phase();
+
+    // Если движения отсутстует то ничего не делаем
+    if (e->delta() == 0) {
+        e->accept();
+        return;
+    }
+
+//    if (e->source()==Qt::MouseEventSynthesizedBySystem) {
+//
+//    }
+
     if (e->delta() > 0) {
         // Колесико мыши повернулось вперед, от пользователя
         // Уменьшим масштаб
-        setCurrentAction(new RG_ActionZoom(*container, *this, RG::Out, RG_Vector(e->x(), e->y())));
-        zoom = 1 / 1.37;
+        zoom = 1.0 + 0.137 / 120.0 * std::abs(e->delta());
+        setCurrentAction(new RG_ActionZoom(*container, *this, RG::Out, RG_Vector(e->x(), e->y()),zoom));
+//        zoom = 1.137;
     } else {
         // Колесико мыши повернулось назад, к пользователю
         // Увеличим масштаб
-        zoom = 1.37;
-        setCurrentAction(new RG_ActionZoom(*container, *this, RG::In, RG_Vector(e->x(), e->y())));
+//        zoom = 1.137;
+        zoom = 1.0 + 0.137 / 120.0 * std::abs(e->delta());
+        setCurrentAction(new RG_ActionZoom(*container, *this, RG::In, RG_Vector(e->x(), e->y()),zoom));
     }
 
     // Из-за погрешности вычислений позиция нарисованного курсора может меняться,
@@ -286,6 +302,7 @@ void RS_GraphicView::paintEvent(QPaintEvent *event)
 
 void RS_GraphicView::resizeEvent(QResizeEvent *event)
 {
+    resetOffsetPosition();
     redraw(RG::RedrawAll);
 }
 /**
@@ -310,6 +327,7 @@ void RS_GraphicView::getPixmapForView(QPixmap **pm)
     // Создаем новый буфер с новыми размерами
     (*pm) = new QPixmap(getWidth(), getHeight());
 }
+
 /*
 void RS_GraphicView::slotHScrolled(int value)
 {

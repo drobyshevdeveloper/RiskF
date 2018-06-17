@@ -51,6 +51,7 @@ public:
     RG_Vector operator / (double n) const;
 
     bool operator == (bool valid) const;
+    bool operator == (const RG_Vector& v) const;
     bool operator != (bool valid) const;
     friend std::ostream& operator << (std::ostream& os, const RG_Vector& v);
 

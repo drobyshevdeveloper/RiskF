@@ -65,6 +65,7 @@ protected:
     void resizeEvent(QResizeEvent* event) override;
 
 
+
 private:
     void getPixmapForView(QPixmap **pm);
 

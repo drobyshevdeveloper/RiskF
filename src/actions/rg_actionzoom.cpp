@@ -21,11 +21,13 @@
 RG_ActionZoom::RG_ActionZoom(RG_EntityContainer& container,
                              RG_GraphicView& graphicView,
                              RG::Direction dir,
-                             RG_Vector pos)
+                             RG_Vector pos,
+                             double zoom)
     : RG_ActionInterface("Zoom", container, graphicView)
 {
     dir_ = dir;
     pos_ = pos;
+    zoom_ = zoom;
 }
 
 RG_ActionZoom::~RG_ActionZoom()
@@ -42,10 +44,10 @@ void RG_ActionZoom::init(int status)
 void RG_ActionZoom::trigger()
 {
     if (dir_ == RG::Out) {
-        graphicView->zoomOut(1.137, pos_);
+        graphicView->zoomOut(zoom_, pos_);
     }
     if (dir_ == RG::In) {
-        graphicView->zoomIn(1.137, pos_);
+        graphicView->zoomIn(zoom_, pos_);
     }
 
     finish();

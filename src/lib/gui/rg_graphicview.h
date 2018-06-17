@@ -67,6 +67,7 @@ public:
     RG_Vector getScale() const;
     // Масштабирует заданную область документа на весь экран
     void zoomWindow(RG_Vector v1, RG_Vector v2);
+    void zoomWindowGui(RG_Vector v1, RG_Vector v2);
     // Инструменты масштабирования
     void zoomIn(double zoom, const RG_Vector& center);
     void zoomOut(double zoom, const RG_Vector& center);
@@ -93,6 +94,25 @@ protected:
     void drawLayer2(RG_Painter* painter);
     void drawLayer3(RG_Painter* painter);
 
+    // ==========================================================
+    // Механизм стабилизации представления при изменении масштаба
+    /**
+     * @brief saveOffsetPosition
+     * Сохраняет позицию экрана и соответствующую позицию документа
+     * @param pos - экранная позиция, по которой будет проводится синхронизация
+     */
+    void saveOffsetPosition(const RG_Vector& pos);
+    /**
+     * @brief resetOffsetPosition
+     * Сбрасывает сохраненные позиции экрана
+     */
+    void resetOffsetPosition();
+    /**
+     * @brief syncOffsetPosition
+     * Синхронизирует представление с сохраненными позициями
+     */
+    void syncOffsetPosition();
+
 signals:
 
 public slots:
@@ -110,6 +130,9 @@ protected:
     RG_Vector scale;
 private:
     QMap<RG::OverlayGraphics, RG_EntityContainer*> overlayEntities;
+    // Переменные механизма стабилизации представления при изменении масштаба
+    RG_Vector vGui   = RG_Vector(false);
+    RG_Vector vGraph = RG_Vector(false);
 };
 
 #endif // RG_GRAPHICVIEW_H
