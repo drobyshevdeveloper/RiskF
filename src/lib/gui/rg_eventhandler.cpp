@@ -56,6 +56,16 @@ void RG_EventHandler::setDefaultAction(RG_ActionInterface *action)
     if (action) defaultAction = action;
 }
 
+void RG_EventHandler::onChangedAction()
+{
+    cleanUp();
+    if (hasAction()) {
+        currentActions.last()->resume();
+    } else {
+        defaultAction->resume();
+    }
+}
+
 void RG_EventHandler::killAllActions()
 {
     foreach (auto a, currentActions) {

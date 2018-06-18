@@ -41,6 +41,7 @@ public:
 
     void setContainer(RG_EntityContainer* c);
     void setCurrentAction(RG_ActionInterface* action);
+    virtual void onChangedAction();
 
     void killAllActions();
 

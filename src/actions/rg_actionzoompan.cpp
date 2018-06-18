@@ -43,6 +43,7 @@ void RG_ActionZoomPan::trigger()
         break;
     case SetPanEnd:
         finish();
+        graphicView->onChangedAction();
 //        graphicView->adjustOffsetControl();
         graphicView->redraw();
         break;
@@ -62,7 +63,7 @@ void RG_ActionZoomPan::mouseMoveEvent(QMouseEvent *e)
 void RG_ActionZoomPan::mousePressEvent(QMouseEvent *e)
 {
     if (e->button()==Qt::MiddleButton ||
-            e->button()==Qt::RightButton) {
+            e->button()==Qt::LeftButton) {
         v1.set(e->x(), e->y());
         setStatus(SetPanning);
     }

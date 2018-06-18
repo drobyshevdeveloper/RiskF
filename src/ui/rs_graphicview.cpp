@@ -192,8 +192,16 @@ void RS_GraphicView::mouseMoveEvent(QMouseEvent *e)
 void RS_GraphicView::mousePressEvent(QMouseEvent *e)
 {
     if (e->button()==Qt::MiddleButton) {
+        // Это работает на Windows под управлением мыши
         setCurrentAction(new RG_ActionZoomPan(*container, *this));
     }
+    if (e->modifiers()==Qt::ControlModifier&&
+            e->button()==Qt::LeftButton) {
+        // Это работает на MacBook (но и на Windows)
+        setCurrentAction(new RG_ActionZoomPan(*container, *this));
+
+    }
+
     eventHandler->mousePressEvent(e);
 }
 

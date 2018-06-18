@@ -32,6 +32,7 @@ public:
 
     void setCurrentAction(RG_ActionInterface* action);
     void setDefaultAction(RG_ActionInterface* action);
+    void onChangedAction();
     bool hasAction();
     void cleanUp();
 

@@ -23,6 +23,7 @@
 #include "rg_graphicview.h"
 #include "rg_overlayrect.h"
 #include "rg_preview.h"
+#include "rg_actionzoompan.h"
 
 struct RG_ActionDefault::Points {
     RG_Vector v1;
@@ -78,6 +79,9 @@ void RG_ActionDefault::mouseMoveEvent(QMouseEvent *e)
         drawPreview();
 
         break;
+//    case Panning:
+
+//        break;
     }
 
     RG_Vector snapper = snapPoint(e);
@@ -89,7 +93,15 @@ void RG_ActionDefault::mousePressEvent(QMouseEvent *e)
         switch (getStatus()) {
         case Neutral:
             pPoints->v1 = graphicView->toGraph(e->x(), e->y());
-            setStatus(FirstClick);
+            if (e->modifiers() == Qt::ControlModifier) {
+                //setStatus(Panning);
+                RG_ActionZoomPan* actionZoomPan = new RG_ActionZoomPan(*container, *graphicView);
+                graphicView->setCurrentAction(actionZoomPan);
+                actionZoomPan->mousePressEvent(e);
+
+            } else {
+                setStatus(FirstClick);
+            }
             break;
         default:
             break;
@@ -157,6 +169,10 @@ void RG_ActionDefault::updateMouseCursor()
 //    RG::SnapperType oldSt = getSnapperType();
 
     setSnapperType(RG::SnapperDefault);
+    if (getStatus()==Panning) {
+        graphicView->setMouseCursor(RG::ClosedHandCursor);
+        return;
+    }
     graphicView->setMouseCursor(RG::ArrowCursor);
 
 //    if (oldSt != getSnapperType()) {

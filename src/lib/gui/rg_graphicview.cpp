@@ -276,6 +276,13 @@ void RG_GraphicView::setCurrentAction(RG_ActionInterface *action)
     }
 }
 
+void RG_GraphicView::onChangedAction()
+{
+    if (eventHandler) {
+        eventHandler->onChangedAction();
+    }
+}
+
 RG_EntityContainer* RG_GraphicView::getOverlayContainer(RG::OverlayGraphics position)
 {
     if (overlayEntities[position]) {
