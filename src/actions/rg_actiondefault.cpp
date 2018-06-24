@@ -24,6 +24,8 @@
 #include "rg_overlayrect.h"
 #include "rg_preview.h"
 #include "rg_actionzoompan.h"
+#include "rl_dialogfactory.h"
+#include "rl_dialogfactoryinterface.h"
 
 struct RG_ActionDefault::Points {
     RG_Vector v1;
@@ -85,6 +87,8 @@ void RG_ActionDefault::mouseMoveEvent(QMouseEvent *e)
     }
 
     RG_Vector snapper = snapPoint(e);
+
+    RL_DIALOGFACTORY->updateCoordinateWidget(snapper, snapper);
 }
 
 void RG_ActionDefault::mousePressEvent(QMouseEvent *e)

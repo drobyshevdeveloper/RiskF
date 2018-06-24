@@ -18,6 +18,9 @@
 #ifndef RL_DIALOGFACTORYINTERFACE_H
 #define RL_DIALOGFACTORYINTERFACE_H
 
+class RU_CoordinateWidget;
+class RG_Vector;
+
 /**
  * @brief The RL_DialogFactoryInterface class - Класс интерфейса для вызова диалогов
  */
@@ -25,6 +28,10 @@ class RL_DialogFactoryInterface
 {
 public:
     virtual ~RL_DialogFactoryInterface() = default;
+
+    virtual void updateCoordinateWidget(const RG_Vector& coord1, const RG_Vector& coord2) = 0;
+
+    virtual void setCoordinateWidget(RU_CoordinateWidget* cw) = 0;
 };
 
 #endif // RL_DIALOGFACTORYINTERFACE_H
