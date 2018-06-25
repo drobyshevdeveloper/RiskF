@@ -56,6 +56,16 @@ void RG_EventHandler::setDefaultAction(RG_ActionInterface *action)
     if (action) defaultAction = action;
 }
 
+void RG_EventHandler::onChangedAction()
+{
+    cleanUp();
+    if (hasAction()) {
+        currentActions.last()->resume();
+    } else {
+        defaultAction->resume();
+    }
+}
+
 void RG_EventHandler::killAllActions()
 {
     foreach (auto a, currentActions) {
@@ -124,6 +134,8 @@ void RG_EventHandler::mouseMoveEvent(QMouseEvent *e)
 void RG_EventHandler::mousePressEvent(QMouseEvent *e)
 {
     RL_DEBUG << "RG_EventHandler::mousePressEvent Begin";
+    RL_DEBUG << "QMouseEvent =" << e;
+    RL_DEBUG << "e->modifiers() =" << e->modifiers();
 
     if (hasAction()) {
         currentActions.last()->mousePressEvent(e);

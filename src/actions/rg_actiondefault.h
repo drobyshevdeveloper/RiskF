@@ -26,8 +26,8 @@ public:
     enum Status {
         Neutral,        // Действия отсутствуют
         FirstClick,     // Режим включается при первом нажатии левой кнопки
-        SetCorner2      // Режим выбора второго угла прямоугольной области выбора
-                        //
+        SetCorner2,     // Режим выбора второго угла прямоугольной области выбора
+        Panning         // Режим инструмента рука
     };
     RG_ActionDefault(RG_EntityContainer& container,
                      RG_GraphicView& graphicView);

@@ -106,6 +106,14 @@ bool RG_Vector::operator == (bool valid) const
     return this->valid == valid;
 }
 
+bool RG_Vector::operator == (const RG_Vector& v) const
+{
+    if (!valid) {
+        return false;
+    }
+    return ((v.x==x)&&(v.y==y)&&(v.z==z));
+}
+
 bool RG_Vector::operator != (bool valid) const
 {
     return this->valid != valid;

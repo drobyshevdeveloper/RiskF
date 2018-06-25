@@ -26,7 +26,8 @@ public:
     RG_ActionZoom(RG_EntityContainer& container,
                   RG_GraphicView& graphicView,
                   RG::Direction dir,
-                  RG_Vector pos);
+                  RG_Vector pos,
+                  double zoom);
 
     virtual ~RG_ActionZoom();
 
@@ -36,6 +37,7 @@ public:
 private:
     RG_Vector pos_;
     RG::Direction dir_;
+    double zoom_;
 
 };
 

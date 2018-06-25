@@ -108,6 +108,9 @@ void RG_GraphicView::zoomWindow(RG_Vector v1, RG_Vector v2)
         std::swap(v1.y, v2.y);
     }
 
+//    RL_DEBUG << "RG_GraphicView::zoomWindow() ============";
+//    RL_DEBUG << "TaskRect = (" << v1.x << "," << v1.y << "/" << v2.x << "," << v2.y << ")";
+
     double zoomX = 1000.0;
     double zoomY = 1000.0;
 
@@ -121,22 +124,55 @@ void RG_GraphicView::zoomWindow(RG_Vector v1, RG_Vector v2)
     // Выберем наименьший масштаб, чтобы веся выбранная область поместилась в окно
     zoomX = std::min(zoomX, zoomY);
     zoomY = zoomX;
+    RL_DEBUG << "zoom = " << zoomX;
 
     // Вычислим новое смещение
     double halfPixel = 0;//0.5 / zoomX;
     RG_Vector center = RG_Vector((v2.x+v1.x)/2 - halfPixel, (v2.y+v1.y)/2 - halfPixel);
-    offsetX = std::round(center.x * zoomX  - getWidth()/2 +.5);
-    offsetY = std::round(getHeight()/2 - center.y * zoomY);
+    offsetX = center.x * zoomX  - getWidth()/2.0;//std::round(center.x * zoomX  - getWidth()/2.0);
+    offsetY = getHeight()/2.0 - center.y * zoomY;//std::round(getHeight()/2.0 - center.y * zoomY);
+/*    int left   = (int)(v1.x * zoomX);
+    int right  = (int)(v2.x * zoomX);
+    int top    = (int)(v2.y * zoomY);
+    int bottom = (int)(v1.y * zoomY);
+    offsetX = left + (getWidth() -right +left)/2;
+    offsetY = - top + (getHeight() -bottom +top)/2;
+*/
+
 
     setScale({zoomX, zoomY});
+/*    RL_DEBUG << "l,r,t,b = " << left << ","
+             << right << ","
+             << top << ","
+             << bottom;
 
-    adjustOffsetControl();
+    RL_DEBUG << "Offset =" << offsetX << "," << offsetY;
 
-    redraw(RG::RedrawAll);
+    RL_DEBUG << "ResultRect = ("
+             << toGraphX(0.0) << "," << toGraphY(getHeight()) << "/"
+             << toGraphX(getWidth()) << "," << toGraphY(0.0) << ")";*/
+//    adjustOffsetControl();
+/*
+    RL_DEBUG << "ResultRect = ("
+             << toGraphX(0.0) << "," << toGraphY(getHeight()) << "/"
+             << toGraphX(getWidth()) << "," << toGraphY(0.0) << ")";*/
+//    redraw(RG::RedrawAll);
 }
+
 
 void RG_GraphicView::zoomIn(double zoom, const RG_Vector &center)
 {
+/*    RG_Vector v1 = RG_Vector(0.0, 0.0);
+    RG_Vector v2 = RG_Vector(getWidth(), getHeight());
+
+    v1 = center - (v1 - center) * zoom;
+    v2 = center - (v2 - center) * zoom;
+
+    zoomWindowGui(v1, v2);
+    */
+
+    saveOffsetPosition(center);
+
     // найдем границы отображения в координатах документа
     RG_Vector v1 = toGraph({0.0, (double)getHeight()});
     RG_Vector v2 = toGraph({(double)getWidth(), 0.0});
@@ -147,11 +183,16 @@ void RG_GraphicView::zoomIn(double zoom, const RG_Vector &center)
     v1 = pos - (pos - v1) * zoom;
     v2 = pos + (v2 - pos) * zoom;
     // применим масштаб
-    zoomWindow(v1, v2);    
+    zoomWindow(v1, v2);
+
+    syncOffsetPosition();
+    redraw(RG::RedrawAll);
 }
 
 void RG_GraphicView::zoomOut(double zoom, const RG_Vector &center)
 {
+    saveOffsetPosition(center);
+
     // найдем границы отображения в координатах документа
     RG_Vector v1 = toGraph({0.0, (double)getHeight()});
     RG_Vector v2 = toGraph({(double)getWidth(), 0.0});
@@ -163,6 +204,9 @@ void RG_GraphicView::zoomOut(double zoom, const RG_Vector &center)
     v2 = pos + (v2 - pos) / zoom;
     // применим масштаб
     zoomWindow(v1, v2);
+
+    syncOffsetPosition();
+    redraw(RG::RedrawAll);
 }
 
 void RG_GraphicView::zoomPan(int dx, int dy)
@@ -232,6 +276,13 @@ void RG_GraphicView::setCurrentAction(RG_ActionInterface *action)
     }
 }
 
+void RG_GraphicView::onChangedAction()
+{
+    if (eventHandler) {
+        eventHandler->onChangedAction();
+    }
+}
+
 RG_EntityContainer* RG_GraphicView::getOverlayContainer(RG::OverlayGraphics position)
 {
     if (overlayEntities[position]) {
@@ -274,6 +325,47 @@ void RG_GraphicView::drawLayer3(RG_Painter *painter)
     RL_DEBUG << "RG_GraphicView::drawLayer3 Ok";
 }
 
+
+void RG_GraphicView::saveOffsetPosition(const RG_Vector &pos)
+{
+    // Проверить сохранялась ли уже эта позиция
+    if (pos == vGui) {
+        // Позиция сохранялась, значит данные были сохранены
+        // менять их не стоит потому что может возникнуть паразитное смещение
+        return;
+    }
+
+    // Позиция не сохранялась, сохраним ее
+    vGui = pos;
+    vGraph = toGraph(pos);
+}
+
+void RG_GraphicView::resetOffsetPosition()
+{
+    vGui   = RG_Vector(false);
+    vGraph = RG_Vector(false);
+}
+
+void RG_GraphicView::syncOffsetPosition()
+{
+    if (!vGui) {
+        // механизм синхронизации представления не настроен
+        return;
+    }
+
+    RG_Vector v = toGui(vGraph);
+    if (v==vGui) {
+        // Представление не сместилось, следовательно ничего делать не надо
+        return;
+    }
+
+    // Представление сместилось, необходимо подправить его
+    offsetX = offsetX + v.x - vGui.x;
+    offsetY = offsetY + v.y - vGui.y;
+
+    adjustOffsetControl();
+    redraw(RG::RedrawAll);
+}
 
 void RG_GraphicView::slotHScrolled(int value)
 {
