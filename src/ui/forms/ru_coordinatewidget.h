@@ -15,24 +15,23 @@
 **
 ****************************************************************************/
 
-#include "rs_dialogfactory.h"
+#ifndef RU_COORDINATEWIDGET_H
+#define RU_COORDINATEWIDGET_H
 
-#include "ru_coordinatewidget.h"
+//#include <QWidget>
+class RG_Vector;
 
-RS_DialogFactory::RS_DialogFactory(QWidget *parent, QToolBar *ow)
-    : RL_DialogFactoryInterface()
+#include "ui_ru_coordinatewidget.h"
+
+class RU_CoordinateWidget : public QWidget, public Ui::RU_CoordinateWidget
 {
-    coordinateWidget = nullptr;
-}
+    Q_OBJECT
 
-void RS_DialogFactory::updateCoordinateWidget(const RG_Vector &coord1, const RG_Vector &coord2)
-{
-    if (coordinateWidget) {
-        coordinateWidget->setCoordinate(coord1, coord2);
-    }
-}
+public:
+    RU_CoordinateWidget(QWidget* parent = 0, Qt::WindowFlags fl = 0);
+    ~RU_CoordinateWidget();
 
-void RS_DialogFactory::setCoordinateWidget(RU_CoordinateWidget *cw)
-{
-    coordinateWidget = cw;
-}
+    void setCoordinate(const RG_Vector& coord1, const RG_Vector& coord2);
+};
+
+#endif // RU_COORDINATEWIDGET_H

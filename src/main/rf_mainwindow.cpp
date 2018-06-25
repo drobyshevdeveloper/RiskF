@@ -29,6 +29,7 @@
 #include "rl_dialogfactory.h"
 #include "ru_mdiwindow.h"
 #include "rs_graphicview.h"
+#include "ru_coordinatewidget.h"
 
 RF_MainWindow::RF_MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -43,8 +44,11 @@ RF_MainWindow::RF_MainWindow(QWidget *parent)
 
     // Инициализация строки состояния
     QStatusBar* status_bar = statusBar();
+    coordinateWidget = new RU_CoordinateWidget(status_bar);
+    status_bar->addWidget(coordinateWidget);
 
-//    status_bar->setMinimumHeight( 28 );
+
+    status_bar->setMinimumHeight( 28 );
 
     auto central = new RS_CentralWidget(this);
     setCentralWidget(central);
@@ -66,6 +70,8 @@ RF_MainWindow::RF_MainWindow(QWidget *parent)
     dialogFactory = new RU_DialogFactory(this, widget_factory->option_toolbar);
     if (dialogFactory) {
         RL_DialogFactory::instance()->setFactoryObject(dialogFactory);
+        dialogFactory->setCoordinateWidget(coordinateWidget); // Пока здесь потом надо перенести в
+                                                                // обработку сигнала NewFile
         RL_DEBUG << "create DialogFactory Ok";
     }
 
@@ -106,6 +112,8 @@ void RF_MainWindow::slotFileNew()
     view->addScrollbars();
     view->redraw(RG::RedrawAll);
 
+//    coordinateWidget->setVisible(true);
+//    statusBar()->setVisible(true);
 
     RL_DEBUG << "RF_MainWindow::slotFileNew Ok";
 }
