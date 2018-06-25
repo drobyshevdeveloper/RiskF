@@ -22,8 +22,6 @@
 
 class QWidget;
 class QToolBar;
-class RU_CoordinateWidget;
-
 /**
  * @brief The RS_DialogFactory class - реализация интерфейса создания и отображения диалогов
  */
@@ -31,12 +29,6 @@ class RS_DialogFactory : public RL_DialogFactoryInterface
 {
 public:
     RS_DialogFactory(QWidget* parent, QToolBar* ow);
-
-    void updateCoordinateWidget(const RG_Vector& coord1, const RG_Vector& coord2) override;
-
-    void setCoordinateWidget(RU_CoordinateWidget* cw) override;
-protected:
-    RU_CoordinateWidget* coordinateWidget;
 };
 
 #endif // RS_DIALOGFACTORY_H

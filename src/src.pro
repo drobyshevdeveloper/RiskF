@@ -4,9 +4,9 @@
 #
 #-------------------------------------------------
 
-QT       += core gui widgets
+QT       += core gui
 
-# greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = RiskF
 TEMPLATE = app
@@ -24,7 +24,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 
-LC_VERSION="1.0.32"
+LC_VERSION="1.0.31"
 VERSION=$${LC_VERSION}
 
 # Для работы отладочных функций закомментируйте следующую строку
@@ -57,16 +57,10 @@ INCLUDEPATH += \
         lib/geom    \
         main        \
         ui          \
-        ui/forms    \
         ../res
 
 
 RESOURCES += ../res/icons/icons.qrc
-
-
-FORMS += \
-        ui/forms/ru_coordinatewidget.ui
-
 
 ##################################################################
 # Library
@@ -97,7 +91,9 @@ HEADERS += \
         lib/engine/rg_pen.h \
         lib/engine/rg_overlayrect.h \
         lib/information/rg_information.h \
-        lib/geom/geom.h
+        lib/geom/geom.h \
+    actions/rg_actionzoom.h \
+    actions/rg_actionzoompan.h
 SOURCES += \
         lib/rl_settings.cpp \
         lib/gui/rl_dialogfactory.cpp \
@@ -123,7 +119,9 @@ SOURCES += \
         lib/engine/rg_pen.cpp \
         lib/engine/rg_overlayrect.cpp \
         lib/information/rg_information.cpp \
-        lib/geom/geom.cpp
+    lib/geom/geom.cpp \
+    actions/rg_actionzoom.cpp \
+    actions/rg_actionzoompan.cpp
 
 
 ##################################################################
@@ -136,8 +134,7 @@ HEADERS += \
         ui/rs_widgetfactory.h \
         ui/rs_dialogfactory.h \
         ui/rs_graphicview.h \
-        ui/rs_scrollbar.h \
-        ui/forms/ru_coordinatewidget.h
+        ui/rs_scrollbar.h
 
 SOURCES += \
         ui/rs_centralwidget.cpp \
@@ -147,8 +144,7 @@ SOURCES += \
         ui/rs_widgetfactory.cpp \
         ui/rs_dialogfactory.cpp \
         ui/rs_graphicview.cpp \
-        ui/rs_scrollbar.cpp \
-        ui/forms/ru_coordinatewidget.cpp
+        ui/rs_scrollbar.cpp
 
 
 ##################################################################
@@ -170,12 +166,8 @@ SOURCES += \
 # Actions
 HEADERS += \
         actions/rg_actiondrawline.h \
-        actions/rg_actiondefault.h \
-        actions/rg_actionzoom.h \
-        actions/rg_actionzoompan.h
+        actions/rg_actiondefault.h
 
 SOURCES += \
         actions/rg_actiondrawline.cpp \
-        actions/rg_actiondefault.cpp \
-        actions/rg_actionzoom.cpp \
-        actions/rg_actionzoompan.cpp
+        actions/rg_actiondefault.cpp

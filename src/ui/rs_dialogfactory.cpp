@@ -17,22 +17,8 @@
 
 #include "rs_dialogfactory.h"
 
-#include "ru_coordinatewidget.h"
-
 RS_DialogFactory::RS_DialogFactory(QWidget *parent, QToolBar *ow)
     : RL_DialogFactoryInterface()
 {
-    coordinateWidget = nullptr;
-}
 
-void RS_DialogFactory::updateCoordinateWidget(const RG_Vector &coord1, const RG_Vector &coord2)
-{
-    if (coordinateWidget) {
-        coordinateWidget->setCoordinate(coord1, coord2);
-    }
-}
-
-void RS_DialogFactory::setCoordinateWidget(RU_CoordinateWidget *cw)
-{
-    coordinateWidget = cw;
 }
