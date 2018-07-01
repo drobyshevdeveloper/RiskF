@@ -20,6 +20,8 @@
 #include <QMouseEvent>
 
 #include "rl_debug.h"
+#include "rl_dialogfactory.h"
+#include "rl_dialogfactoryinterface.h"
 #include "rg_previewactioninterface.h"
 #include "rg_actioninterface.h"
 #include "rg_preview.h"
@@ -88,6 +90,12 @@ void RG_ActionDrawLine::mouseMoveEvent(QMouseEvent *e)
                                               ,mouse});
         preview->addEntity(line);
         drawPreview();
+        RL_DIALOGFACTORY->updateCoordinateWidget(points.data.startPoint, mouse);
+
+    }
+
+    if (getStatus() == SetStartpoint) {
+        RL_DIALOGFACTORY->updateCoordinateWidget(mouse, mouse);
     }
 
     RL_DEBUG << "RG_ActionDrawLine::mouseMoveEvent Ok";
