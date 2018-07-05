@@ -293,16 +293,41 @@ RG_EntityContainer* RG_GraphicView::getOverlayContainer(RG::OverlayGraphics posi
     return overlayEntities[position];
 }
 
+/**
+ * @brief RG_GraphicView::drawEntity
+ * начертить на выбранном контексте устройства сущность
+ * с учетом режима вывода выбранных сущностей, а также
+ * вывести управляющие маркеры для выбранных объектов
+ * @param painter - контекст устройства вывода
+ * @param e - сущность, которую необходимо вывести
+ */
+void RG_GraphicView::drawEntity(RG_Painter *painter, RG_Entity *e)
+{
+    if (!e->isVisible()) {
+        return;
+    }
+
+    if (!e->isContainer() && (e->isSelected()!=painter->getDrawSelectOnlyMode()))  {
+            return;
+    }
+
+    e->draw(painter, this);
+
+    if (e->isSelected()) {
+        // Сущность выделена, отобразить маркеры
+        RG_VectorSolutions vs = e->getRefPoints();
+
+        foreach (RG_Vector v, vs.getVector()) {
+            painter->drawMarker(toGui(v));
+        }
+    }
+}
+
 void RG_GraphicView::drawLayer2(RG_Painter *painter)
 {
     RL_DEBUG << "RG_GraphicView::drawLayer2 Begin";
 
-    foreach (RG_Entity* e, container->getEntityList()) {
-        if (!e->isContainer() && (e->isSelected()!=painter->getDrawSelectOnlyMode()))  {
-            continue;
-        }
-        e->draw(painter, this);
-    }
+    drawEntity(painter, container);
 
     RL_DEBUG << "RG_GraphicView::drawLayer2 Ok";
 }

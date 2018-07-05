@@ -44,7 +44,7 @@ void RG_Entity::setSelected(bool select)
     bSelected = select;
 }
 
-bool RG_Entity::isSelected()
+bool RG_Entity::isSelected() const
 {
     return bSelected;
 }
@@ -93,6 +93,35 @@ RG_Vector RG_Entity::getEndPoint() const
     return {};
 }
 
+RG_Marker RG_Entity::getNearestSelectedRef(const RG_Vector &coord) const
+{
+    if (!isSelected()) {
+        // Сущность не выделена, возвращаем пустой маркер
+        return RG_Marker();
+    }
+
+    RG_Marker marker;
+    marker.entity = (RG_Entity*)this;
+    marker.dist = RG_MAXDOUBLE;
+    double distRef;
+
+    RG_VectorSolutions vs = getRefPoints();
+
+    int i = 0;
+    foreach (RG_Vector v, vs.getVector()) {
+        distRef = v.distanceTo(coord);
+        if (marker.dist > distRef) {
+            marker.coord = v;
+            marker.dist = distRef;
+            marker.index = i;
+            marker.valid = true;
+        }
+        i++;
+    }
+
+    return marker;
+}
+
 /**
  * @brief getDistanceToPoint - возвращает расстояние от заданной точки до сущности
  * @param coord - заданная точка
@@ -134,5 +163,10 @@ void RG_Entity::resetBorders()
     double dmin = RG_MINDOUBLE;
     vMin.set(dmax, dmax);
     vMax.set(dmin, dmin);
+}
+
+RG_VectorSolutions RG_Entity::getRefPoints() const
+{
+    return RG_VectorSolutions();
 }
 

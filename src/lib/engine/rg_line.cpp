@@ -93,3 +93,22 @@ void RG_Line::draw(RG_Painter *painter, RG_GraphicView *view)
                       view->toGui(getEndPoint()));
 
 }
+
+void RG_Line::moveRef(RG_Marker &marker, const RG_Vector &offset)
+{
+    if (marker.index==0) {
+        data.startPoint = marker.coord + offset;
+    } else {
+        data.endPoint = marker.coord + offset;
+    }
+}
+
+RG_VectorSolutions RG_Line::getRefPoints() const
+{
+    RG_VectorSolutions vs;
+
+    vs.push_Back(getStartPoint());
+    vs.push_Back(getEndPoint());
+
+    return vs;
+}

@@ -53,7 +53,9 @@ public:
      */
     RG_Entity* getNearestEntity(const RG_Vector& coord,
                                 double* dist) const;
-    virtual double getDistanceToPoint(const RG_Vector &coord, RG_Entity **entity) const override;
+    virtual RG_Marker getNearestSelectedRef(const RG_Vector& coord) const override;
+    virtual double getDistanceToPoint(const RG_Vector &coord,
+                                      RG_Entity **entity) const override;
 
     virtual void clear();
     virtual void draw(RG_Painter* painter, RG_GraphicView* view) override;

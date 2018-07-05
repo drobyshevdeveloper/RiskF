@@ -21,6 +21,7 @@
 #include "rg.h"
 #include "rg_undoable.h"
 #include "rg_vector.h"
+#include "rg_marker.h"
 
 class RG_EntityContainer;
 class RG_Graphic;
@@ -37,7 +38,7 @@ public:
     virtual bool isContainer() const = 0;
 
     virtual void setSelected(bool select);
-    virtual bool isSelected();
+    virtual bool isSelected() const;
     virtual void toggleSelect();
 
     virtual bool isVisible() const;
@@ -53,6 +54,18 @@ public:
      */
     virtual RG_Vector getNearestPointOnEntity(const RG_Vector& coord,
                                               double* dist) const = 0;
+
+    /**
+     * @brief isClickSelectedRef
+     * Определяет находится ли заданная точка внутри маркера (точки-указателя)
+     * @param coord - заданная точка
+     * @param marker - после выполнения метода заполняет описание найденного маркера
+     * по переданному указателю на такой описатель
+     * @return - true - маркер найден
+     *           false - маркер не найден
+     */
+    virtual RG_Marker getNearestSelectedRef(const RG_Vector& coord) const;
+
     /**
      * @brief getDistanceToPoint - определяет расстояние от заданной точки до сущности
      * @param coord - заданная точка
@@ -83,12 +96,21 @@ public:
 
     virtual void draw(RG_Painter* painter, RG_GraphicView* view) = 0;
 
+    virtual void moveRef(RG_Marker& marker, const RG_Vector& offset) {};
+
     RG_Graphic* getGraphic() const;
 
     virtual RG_Vector getStartPoint() const;
     virtual RG_Vector getEndPoint() const;
     RG_Vector getMin() const {return vMin;}
     RG_Vector getMax() const {return vMax;}
+    /**
+     * @brief getRefPoints
+     * Возвращает список ключевых точек сущности
+     * @return
+     */
+    virtual RG_VectorSolutions getRefPoints() const;
+
     /**
      * @brief calculateBorders
      * Вычисляет координаты прямоугольной области, которая ограничивает сущность

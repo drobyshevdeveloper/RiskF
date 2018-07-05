@@ -27,6 +27,10 @@
 #define RG_TOLERANCE2 1.0e-20
 #define RG_TOLERANCE_ANGLE 1.0e-8
 
+// Размеры маркера изменения размеров сущностей
+#define RG_MARKER_SIZE 5
+#define RG_MARKER_SIZE_2 2
+
 class RG
 {
 public:

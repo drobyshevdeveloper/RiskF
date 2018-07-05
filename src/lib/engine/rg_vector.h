@@ -21,6 +21,7 @@
 #include <vector>
 #include <cstdio>
 #include <iosfwd>
+#include <QList>
 
 
 class RG_Vector;
@@ -43,6 +44,9 @@ public:
     double distanceTo(const RG_Vector& v) const;
     // Определить скалярное произведение векторов
     double dot(RG_Vector& v) const;
+
+    // Определить находится ли точка внутри заданного окна
+    bool isInWindow(const RG_Vector& v1, const RG_Vector& v2) const;
 
     operator bool() const;
     RG_Vector operator + (const RG_Vector& v) const;
@@ -72,13 +76,15 @@ class RG_VectorSolutions
 public:
     RG_VectorSolutions() = default;
 
+    QList<RG_Vector> getVector() {return vector;}
     void push_Back(const RG_Vector& v);
     void clear();
     bool empty();
+    RG_Vector getClosest(const RG_Vector& v);
     RG_Vector& operator [] (const size_t i);
 
 private:
-    std::vector<RG_Vector> vector;
+    QList<RG_Vector> vector;
 
 };
 

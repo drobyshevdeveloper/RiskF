@@ -19,7 +19,9 @@
 
 #include <QPen>
 
+#include "rg.h"
 #include "rg_vector.h"
+
 
 RG_PainterQt::RG_PainterQt(QPaintDevice* pd)
     :QPainter(pd)
@@ -52,4 +54,13 @@ void RG_PainterQt::fillRect(const QRectF &rect, const QColor &color)
 void RG_PainterQt::drawPixmap(int x, int y, QPixmap *pixmap)
 {
     QPainter::drawPixmap(QPoint(x,y),(*pixmap));
+}
+
+void RG_PainterQt::drawMarker(const RG_Vector &p)
+{
+    QRectF rect(p.x - RG_MARKER_SIZE_2,
+                p.y - RG_MARKER_SIZE_2,
+                RG_MARKER_SIZE,
+                RG_MARKER_SIZE);
+    QPainter::fillRect(rect,QColor(Qt::blue));
 }

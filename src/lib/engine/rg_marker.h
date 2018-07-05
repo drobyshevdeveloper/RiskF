@@ -15,29 +15,24 @@
 **
 ****************************************************************************/
 
-#ifndef RG_PAINTERQT_H
-#define RG_PAINTERQT_H
+#ifndef RG_MARKER_H
+#define RG_MARKER_H
 
-#include <QPainter>
+#include "rg_vector.h"
 
-#include "rg_painter.h"
-#include "rg_pen.h"
+class RG_Entity;
 
-class RG_PainterQt : public QPainter, public RG_Painter
+class RG_Marker
 {
 public:
-    RG_PainterQt(QPaintDevice *pd);
+    RG_Marker();
 
-    virtual void setPen(RG_Pen& pen) override;
-
-    virtual void drawLine(const RG_Vector& p1, const RG_Vector& p2) override;
-    virtual void drawRect(const QRectF& rect) override;
-    virtual void fillRect(const QRectF& rect, const QColor &color) override;
-    virtual void drawPixmap(int x, int y, QPixmap* pixmap) override;
-    virtual void drawMarker(const RG_Vector& p) override;
-
-protected:
-    RG_Pen pen;
+    bool       valid;  // флаг валидности описания маркера
+    RG_Entity* entity; // ссылка на сущность, которой принадлежит маркер
+    RG_Vector  coord;  // координаты маркера
+    RG_Vector offset;  // смещение до маркера (от заданной точки)
+    double     dist;   // расстояние до маркера (от искомой точки)
+    int        index;  // порядковый номер маркера в списке маркера сущности
 };
 
-#endif // RG_PAINTERQT_H
+#endif // RG_MARKER_H

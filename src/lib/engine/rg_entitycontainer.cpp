@@ -132,7 +132,23 @@ RG_Entity* RG_EntityContainer::getNearestEntity(const RG_Vector &coord, double *
     return en;
 }
 
-double RG_EntityContainer::getDistanceToPoint(const RG_Vector &coord, RG_Entity** entity) const
+RG_Marker RG_EntityContainer::getNearestSelectedRef(const RG_Vector& coord) const
+{
+    RG_Marker marker;
+    marker.dist = RG_MAXDOUBLE;
+
+    foreach (auto e, entities) {
+        RG_Marker m = e->getNearestSelectedRef(coord);
+        if (m.valid && (marker.dist > m.dist)) {
+            marker = m;
+        }
+    }
+
+    return marker;
+}
+
+double RG_EntityContainer::getDistanceToPoint(const RG_Vector &coord,
+                                              RG_Entity** entity) const
 {
     RG_Entity* en = nullptr;
     double distResult = RG_MAXDOUBLE;
@@ -174,8 +190,8 @@ void RG_EntityContainer::draw(RG_Painter *painter, RG_GraphicView *view)
         return;
     }
 
-    foreach (auto a, entities) {
-        a->draw(painter,view);
+    foreach (RG_Entity* e, entities) {
+        view->drawEntity(painter, e);
     }
 }
 

@@ -50,6 +50,9 @@ public:
     virtual void calculateBorders() override;
 
     virtual void draw(RG_Painter* painter, RG_GraphicView* view) override;
+    virtual void moveRef(RG_Marker& marker, const RG_Vector& offset) override;
+
+    RG_VectorSolutions getRefPoints() const override;
 private:
     RG_LineData data;
 };
