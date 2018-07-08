@@ -78,6 +78,7 @@ void RG_ActionDefault::mouseMoveEvent(QMouseEvent *e)
                 marker.offset = marker.coord - pPoints->v1;
                 pPoints->marker = marker;
                 setStatus(MoveRef);
+                break;
             }
         }
 
@@ -161,6 +162,9 @@ void RG_ActionDefault::mouseReleaseEvent(QMouseEvent *e)
 
             break;
         }
+        case MoveRef:
+            setStatus(Neutral);
+            break;
         default:
             break;
         }
