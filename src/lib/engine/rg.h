@@ -18,8 +18,8 @@
 #ifndef RG_H
 #define RG_H
 
-#define RG_MAXDOUBLE 1.0E+10;
-#define RG_MINDOUBLE -1.0E+10;
+#define RG_MAXDOUBLE 1.0E+10
+#define RG_MINDOUBLE -1.0E+10
 //tolerance
 #define RG_TOLERANCE 1.0e-10
 //squared tolerance

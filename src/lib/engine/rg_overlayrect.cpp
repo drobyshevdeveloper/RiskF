@@ -40,6 +40,13 @@ RG_OverlayRect::~RG_OverlayRect()
 {
 }
 
+RG_Entity* RG_OverlayRect::clone()
+{
+    RG_OverlayRect* rect = new RG_OverlayRect(*this);
+    rect->initID();
+    return rect;
+}
+
 void RG_OverlayRect::calculateBorders()
 {
     vMin.x = data.corner1.x;

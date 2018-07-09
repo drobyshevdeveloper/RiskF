@@ -34,6 +34,9 @@ public:
     RG_Entity(RG_EntityContainer* parent);
     virtual ~RG_Entity();
 
+    virtual RG_Entity* clone() = 0;
+    void reparent(RG_EntityContainer* parent);
+
     virtual RG::EntityType rtti() const {return RG::EntityUnknow;}
     virtual bool isContainer() const = 0;
 
@@ -97,6 +100,7 @@ public:
     virtual void draw(RG_Painter* painter, RG_GraphicView* view) = 0;
 
     virtual void moveRef(RG_Marker& marker, const RG_Vector& offset) {};
+    virtual void moveRef(const RG_Vector& ref, const RG_Vector& offset) {};
 
     RG_Graphic* getGraphic() const;
 

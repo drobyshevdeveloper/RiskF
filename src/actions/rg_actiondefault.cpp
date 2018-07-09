@@ -97,8 +97,15 @@ void RG_ActionDefault::mouseMoveEvent(QMouseEvent *e)
         break;
     }
     case MoveRef:
+        deletePreview();
+        preview->addSelectionFrom(container);
+        preview->moveRef(pPoints->marker.coord,
+                         pPoints->v2 - pPoints->v1);
+        drawPreview();
+        /*
         pPoints->marker.entity->moveRef(pPoints->marker, pPoints->v2 - pPoints->v1);
         graphicView->redraw();
+        */
         break;
 //    case Panning:
 

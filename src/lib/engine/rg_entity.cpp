@@ -33,6 +33,11 @@ RG_Entity::~RG_Entity()
 
 }
 
+void RG_Entity::reparent(RG_EntityContainer *parent)
+{
+    this->parent = parent;
+}
+
 void RG_Entity::initID()
 {
     static unsigned long int idCounter = 0;

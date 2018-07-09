@@ -28,6 +28,7 @@ public:
     virtual ~RG_Preview();
 
     virtual void addEntity(RG_Entity* entity) override;
+    virtual void addSelectionFrom(RG_EntityContainer* container);
 
 //    void deletePreview();
 //    void drawPreview();

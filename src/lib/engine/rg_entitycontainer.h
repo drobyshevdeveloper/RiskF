@@ -30,6 +30,8 @@ public:
     RG_EntityContainer(RG_EntityContainer* parent, bool owner = true);
     virtual ~RG_EntityContainer();
 
+    virtual RG_Entity* clone();
+
     virtual RG::EntityType rtti() const override{return RG::EntityContainer;}
     virtual bool isContainer() const override {return true;}
     bool isOwner() const {return owner;}
@@ -59,6 +61,7 @@ public:
 
     virtual void clear();
     virtual void draw(RG_Painter* painter, RG_GraphicView* view) override;
+    virtual void moveRef(const RG_Vector& ref, const RG_Vector& offset) override;
 
     virtual void calculateBorders() override;
     void adjustBorders(const RG_Entity* e);

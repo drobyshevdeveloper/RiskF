@@ -38,6 +38,8 @@ public:
     RG_Line(RG_EntityContainer *parent,
             const RG_LineData& d);
 
+    virtual RG_Entity* clone() override;
+
     virtual RG::EntityType rtti() const override {
         return RG::EntityLine;
     }
@@ -51,6 +53,9 @@ public:
 
     virtual void draw(RG_Painter* painter, RG_GraphicView* view) override;
     virtual void moveRef(RG_Marker& marker, const RG_Vector& offset) override;
+    virtual void moveRef(const RG_Vector& ref, const RG_Vector& offset) override;
+    void moveStartPoint(const RG_Vector& offset);
+    void moveEndPoint(const RG_Vector& offset);
 
     RG_VectorSolutions getRefPoints() const override;
 private:

@@ -47,6 +47,8 @@ public:
 
     virtual ~RG_OverlayRect();
 
+    virtual RG_Entity* clone() override;
+
     virtual RG::EntityType rtti() const override {return RG::EntityOverlayRect;}
 
     virtual void calculateBorders() override;

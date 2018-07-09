@@ -32,6 +32,13 @@ RG_Line::RG_Line(RG_EntityContainer *parent, const RG_LineData &d)
     calculateBorders();
 }
 
+RG_Entity* RG_Line::clone()
+{
+    RG_Line* l = new RG_Line(*this);
+    l->initID();
+    return l;
+}
+
 RG_Vector RG_Line::getNearestPointOnEntity(const RG_Vector &coord, double *dist) const
 {
     // Используем формулу: proj_b_to_a = a * dot(a, b)/dot(a,a) (dot - скалярное произведение векторов)
@@ -101,6 +108,31 @@ void RG_Line::moveRef(RG_Marker &marker, const RG_Vector &offset)
     } else {
         data.endPoint = marker.coord + offset;
     }
+}
+
+void RG_Line::moveRef(const RG_Vector &ref, const RG_Vector &offset)
+{
+    if ((std::abs(getStartPoint().x-ref.x)<RG_TOLERANCE) &&
+        (std::abs(getStartPoint().y-ref.y)<RG_TOLERANCE)) {
+        moveStartPoint(offset);
+        return;
+    }
+    if ((std::abs(getEndPoint().x-ref.x)<RG_TOLERANCE) &&
+        (std::abs(getEndPoint().y-ref.y)<RG_TOLERANCE)) {
+        moveEndPoint(offset);
+    }
+}
+
+void RG_Line::moveStartPoint(const RG_Vector &offset)
+{
+    data.startPoint = data.startPoint + offset;
+    calculateBorders();
+}
+
+void RG_Line::moveEndPoint(const RG_Vector &offset)
+{
+    data.endPoint = data.endPoint + offset;
+    calculateBorders();
 }
 
 RG_VectorSolutions RG_Line::getRefPoints() const
