@@ -27,3 +27,10 @@ RG_Document::~RG_Document()
 {
 
 }
+
+void RG_Document::removeUndoable(RG_Undoable *u)
+{
+    if (u) {
+        removeEntity((RG_Entity*)u);
+    }
+}

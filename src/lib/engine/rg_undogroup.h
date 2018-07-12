@@ -15,20 +15,29 @@
 **
 ****************************************************************************/
 
-#ifndef RG_DOCUMENT_H
-#define RG_DOCUMENT_H
+#ifndef RG_UNDOGROUP_H
+#define RG_UNDOGROUP_H
 
-#include "rg_entitycontainer.h"
-#include "rg_undo.h"
+#include <vector>
 
-class RG_Document : public RG_EntityContainer, RG_Undo
+class RG_Undoable;
+
+class RG_UndoGroup
 {
 public:
-    RG_Document(RG_EntityContainer* parent);
-    virtual ~RG_Document();
+    RG_UndoGroup();
 
-    virtual void removeUndoable(RG_Undoable* u);
-    virtual void newDoc() = 0;
+    void removeUndoable(RG_Undoable* u);
+    /**
+     * @brief clear
+     * Очищает список Undo
+     */
+    void clear();
+
+    std::vector<RG_Undoable*> getUndoables() const;
+
+private:
+    std::vector<RG_Undoable*> undoables;
 };
 
-#endif // RG_DOCUMENT_H
+#endif // RG_UNDOGROUP_H

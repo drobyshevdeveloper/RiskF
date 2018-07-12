@@ -19,10 +19,21 @@
 
 RG_Undoable::RG_Undoable()
 {
-
+    undoState = false;
 }
 
 RG_Undoable::~RG_Undoable()
 {
 
+}
+
+void RG_Undoable::setUndoState(bool undoState)
+{
+    this->undoState = undoState;
+}
+
+void RG_Undoable::changeUndoState()
+{
+    setUndoState(!isUndone());
+    onChangeUndoState();
 }

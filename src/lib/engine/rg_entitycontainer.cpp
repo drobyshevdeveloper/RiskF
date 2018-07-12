@@ -63,6 +63,18 @@ void RG_EntityContainer::addEntity(RG_Entity *entity)
     adjustBorders(entity);
 }
 
+void RG_EntityContainer::removeEntity(RG_Entity *entity)
+{
+    if (!entity) {
+        return;
+    }
+    entities.removeOne(entity);
+    if (owner) {
+        delete entity;
+    }
+    calculateBorders();
+}
+
 const QList<RG_Entity *> RG_EntityContainer::getEntityList()
 {
     return entities;

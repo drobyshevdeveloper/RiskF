@@ -37,6 +37,8 @@ public:
     virtual RG_Entity* clone() = 0;
     void reparent(RG_EntityContainer* parent);
 
+    virtual void onChangeUndoState() override;
+
     virtual RG::EntityType rtti() const {return RG::EntityUnknow;}
     virtual bool isContainer() const = 0;
 

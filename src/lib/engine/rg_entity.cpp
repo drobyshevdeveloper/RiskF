@@ -38,6 +38,11 @@ void RG_Entity::reparent(RG_EntityContainer *parent)
     this->parent = parent;
 }
 
+void RG_Entity::onChangeUndoState()
+{
+
+}
+
 void RG_Entity::initID()
 {
     static unsigned long int idCounter = 0;
@@ -61,11 +66,15 @@ void RG_Entity::toggleSelect()
 
 bool RG_Entity::isVisible() const
 {
-    if (bVisible) {
-        return true;
+    if (!bVisible) {
+        return false;
     }
 
-    return false;
+    if (isUndone()) {
+        return false;
+    }
+
+    return true;
 }
 
 void RG_Entity::setVisible(bool v)

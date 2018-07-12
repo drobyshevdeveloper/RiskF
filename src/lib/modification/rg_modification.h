@@ -15,20 +15,24 @@
 **
 ****************************************************************************/
 
-#ifndef RG_DOCUMENT_H
-#define RG_DOCUMENT_H
+#ifndef RG_MODIFICATION_H
+#define RG_MODIFICATION_H
 
-#include "rg_entitycontainer.h"
-#include "rg_undo.h"
+class RG_EntityContainer;
+class RG_GraphicView;
+class RG_Vector;
 
-class RG_Document : public RG_EntityContainer, RG_Undo
+class RG_Modification
 {
 public:
-    RG_Document(RG_EntityContainer* parent);
-    virtual ~RG_Document();
+    RG_Modification(RG_EntityContainer* container, RG_GraphicView* graphicView);
 
-    virtual void removeUndoable(RG_Undoable* u);
-    virtual void newDoc() = 0;
+    void moveRef(const RG_Vector& ref, const RG_Vector& offset);
+protected:
+
+private:
+    RG_EntityContainer* container;
+    RG_GraphicView* graphicView;
 };
 
-#endif // RG_DOCUMENT_H
+#endif // RG_MODIFICATION_H

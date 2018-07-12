@@ -15,20 +15,24 @@
 **
 ****************************************************************************/
 
-#ifndef RG_DOCUMENT_H
-#define RG_DOCUMENT_H
+#include "rg_undogroup.h"
 
-#include "rg_entitycontainer.h"
-#include "rg_undo.h"
-
-class RG_Document : public RG_EntityContainer, RG_Undo
+RG_UndoGroup::RG_UndoGroup()
 {
-public:
-    RG_Document(RG_EntityContainer* parent);
-    virtual ~RG_Document();
 
-    virtual void removeUndoable(RG_Undoable* u);
-    virtual void newDoc() = 0;
-};
+}
 
-#endif // RG_DOCUMENT_H
+void RG_UndoGroup::removeUndoable(RG_Undoable *u)
+{
+
+}
+
+void RG_UndoGroup::clear()
+{
+    undoables.clear();
+}
+
+std::vector<RG_Undoable*> RG_UndoGroup::getUndoables() const
+{
+    return undoables;
+}

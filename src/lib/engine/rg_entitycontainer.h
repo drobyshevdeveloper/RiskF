@@ -43,6 +43,7 @@ public:
 
 
     virtual void addEntity(RG_Entity* entity);
+    void removeEntity(RG_Entity* entity);
     const QList<RG_Entity*> getEntityList();
 
     virtual RG_Vector getNearestPointOnEntity(const RG_Vector& coord,
