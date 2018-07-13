@@ -55,7 +55,9 @@ public:
     enum ActionType {
         ActionNone,
         ActionDefault,
-        ActionDrawLine
+        ActionDrawLine,
+        ActionUndo,
+        ActionRedo
     };
 
     /**

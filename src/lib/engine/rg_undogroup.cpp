@@ -17,6 +17,8 @@
 
 #include "rg_undogroup.h"
 
+#include "rg_undoable.h"
+
 RG_UndoGroup::RG_UndoGroup()
 {
 
@@ -25,6 +27,13 @@ RG_UndoGroup::RG_UndoGroup()
 void RG_UndoGroup::removeUndoable(RG_Undoable *u)
 {
 
+}
+
+void RG_UndoGroup::changeUndoState()
+{
+    for(RG_Undoable* u: undoables) {
+        u->changeUndoState();
+    }
 }
 
 void RG_UndoGroup::clear()

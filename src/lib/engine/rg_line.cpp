@@ -16,6 +16,9 @@
 ****************************************************************************/
 
 #include "rg_line.h"
+
+#include <cmath>
+
 #include "rg_pen.h"
 #include "rg_painter.h"
 #include "rg_graphicview.h"

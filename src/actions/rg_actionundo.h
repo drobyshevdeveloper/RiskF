@@ -15,23 +15,25 @@
 **
 ****************************************************************************/
 
-#include "rg_document.h"
+#ifndef RG_ACTIONUNDO_H
+#define RG_ACTIONUNDO_H
 
-RG_Document::RG_Document(RG_EntityContainer *parent)
-    : RG_EntityContainer(parent)
-    , RG_Undo()
+#include "rg_actioninterface.h"
+
+class RG_ActionUndo : public RG_ActionInterface
 {
+public:
+    RG_ActionUndo(RG_EntityContainer& container,
+                  RG_GraphicView& graphicView,
+                  bool bUndo);
 
-}
+    virtual ~RG_ActionUndo();
 
-RG_Document::~RG_Document()
-{
+    void init(int status=0) override;
 
-}
+    void trigger();
+private:
+    bool bUndo_;
+};
 
-void RG_Document::removeUndoable(RG_Undoable *u)
-{
-    if (u) {
-        removeEntity((RG_Entity*)u);
-    }
-}
+#endif // RG_ACTIONUNDO_H

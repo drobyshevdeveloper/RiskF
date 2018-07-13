@@ -15,23 +15,40 @@
 **
 ****************************************************************************/
 
-#include "rg_document.h"
+#include "rg_actionundo.h"
 
-RG_Document::RG_Document(RG_EntityContainer *parent)
-    : RG_EntityContainer(parent)
-    , RG_Undo()
+#include "rg_graphic.h"
+#include "rg_graphicview.h"
+
+RG_ActionUndo::RG_ActionUndo(RG_EntityContainer &container,
+                             RG_GraphicView &graphicView,
+                             bool bUndo)
+    : RG_ActionInterface("Action Undo", container, graphicView)
+    , bUndo_(bUndo)
 {
 
 }
 
-RG_Document::~RG_Document()
+RG_ActionUndo::~RG_ActionUndo()
 {
 
 }
 
-void RG_Document::removeUndoable(RG_Undoable *u)
+void RG_ActionUndo::init(int status)
 {
-    if (u) {
-        removeEntity((RG_Entity*)u);
+    RG_ActionInterface::init(status);
+    trigger();
+}
+
+void RG_ActionUndo::trigger()
+{
+    if (bUndo_) {
+        // Undo
+        graphic->undo();
+    } else {
+        // Redo
+        graphic->redo();
     }
+    graphicView->redraw(RG::RedrawDrawing);
+    finish();
 }

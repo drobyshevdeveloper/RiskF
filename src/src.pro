@@ -101,7 +101,8 @@ HEADERS += \
     lib/engine/rg_marker.h \
     lib/modification/rg_modification.h \
     lib/engine/rg_undo.h \
-    lib/engine/rg_undogroup.h
+    lib/engine/rg_undogroup.h \
+    actions/rg_actionundo.h
 SOURCES += \
         lib/rl_settings.cpp \
         lib/gui/rl_dialogfactory.cpp \
@@ -131,7 +132,8 @@ SOURCES += \
     lib/engine/rg_marker.cpp \
     lib/modification/rg_modification.cpp \
     lib/engine/rg_undo.cpp \
-    lib/engine/rg_undogroup.cpp
+    lib/engine/rg_undogroup.cpp \
+    actions/rg_actionundo.cpp
 
 
 ##################################################################

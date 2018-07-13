@@ -23,11 +23,16 @@
 
 class RG_UndoGroup;
 class RG_Undoable;
+#include "rg_undogroup.h"
+#include "rg_undoable.h"
 
 class RG_Undo
 {
 public:
     RG_Undo();
+
+    virtual void undo();
+    virtual void redo();
 
     void beginUndoGroup();
     void endUndoGroup();

@@ -42,6 +42,10 @@ RG_ActionInterface* RS_ActionHandler::setCurrentAction(RG::ActionType a_type)
         a = new RG_ActionDrawLine(*document, *graphicView);
 
         break;
+    case RG::ActionUndo:
+        break;
+    case RG::ActionRedo:
+        break;
     }
 
     if (a) {
@@ -81,4 +85,14 @@ void RS_ActionHandler::slotInsertRoom()
 void RS_ActionHandler::slotSelect()
 {
     setCurrentAction(RG::ActionDefault);
+}
+
+void RS_ActionHandler::slotUndo()
+{
+    setCurrentAction(RG::ActionUndo);
+}
+
+void RS_ActionHandler::slotRedo()
+{
+    setCurrentAction(RG::ActionRedo);
 }

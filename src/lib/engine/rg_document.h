@@ -21,7 +21,7 @@
 #include "rg_entitycontainer.h"
 #include "rg_undo.h"
 
-class RG_Document : public RG_EntityContainer, RG_Undo
+class RG_Document : public RG_EntityContainer, public RG_Undo
 {
 public:
     RG_Document(RG_EntityContainer* parent);

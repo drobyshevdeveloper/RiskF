@@ -28,6 +28,7 @@ public:
     RG_UndoGroup();
 
     void removeUndoable(RG_Undoable* u);
+    void changeUndoState();
     /**
      * @brief clear
      * Очищает список Undo

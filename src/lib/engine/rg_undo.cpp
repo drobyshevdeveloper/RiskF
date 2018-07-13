@@ -24,10 +24,31 @@
 RG_Undo::RG_Undo()
 {
     undoIndex = 0;
+    undoList.clear();
+}
+
+void RG_Undo::undo()
+{
+    if (undoIndex <= 0) {
+        RL_DEBUG << "RG_Undo::undo() Нет элементов в списке Undo";
+        return;
+    }
+
+    undoList[undoIndex--]->changeUndoState();
+}
+
+void RG_Undo::redo()
+{
+    if (undoIndex >= undoList.size()) {
+        RL_DEBUG << "RG_Undo::redo() Нет элементов в списке Undo для повторения";
+        return;
+    }
+    undoList[++undoIndex]->changeUndoState();
 }
 
 void RG_Undo::beginUndoGroup()
 {
+    RL_DEBUG << "RG_Undo::beginUndoGroup() undoList.size() =" << undoList.size();
     while (undoList.size() > undoIndex) {
         // Если текущая позиция в списке отмененных операций
         // меньше размера списка Undo (т.е. после отмены нескольких
