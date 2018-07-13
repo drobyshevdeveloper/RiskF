@@ -43,4 +43,9 @@ void RU_CoordinateWidget::setCoordinate(const RG_Vector &coord1, const RG_Vector
     str1 = "X=" + QString::number(coord1.x) +
            "; Y=" + QString::number(coord1.y);
     lCoord1->setText(str1);
+    QString str2;
+    str2 = "X=" + QString::number(coord2.x) +
+           "; Y=" + QString::number(coord2.y);
+    lCoord1a->setText(str2);
+
 }

@@ -37,6 +37,7 @@ RG_Snapper::RG_Snapper(RG_EntityContainer &container, RG_GraphicView &graphicVie
     , graphicView(&graphicView)
     , snapIndicator(new Indicator)
 {
+    setSnapperType(RG::SnapperDefault);
 }
 
 void RG_Snapper::init(int status)

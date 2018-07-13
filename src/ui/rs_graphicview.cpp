@@ -52,8 +52,6 @@ RS_GraphicView::RS_GraphicView(QWidget *parent, Qt::WindowFlags f, RG_Document *
     setMouseTracking(true);
     setFocusPolicy(Qt::ClickFocus);
 
-    setScale({2.0, 2.0});
-
     bScrollbars = false;
 }
 

@@ -50,7 +50,8 @@ RG_ActionDefault::~RG_ActionDefault()
 
 void RG_ActionDefault::init(int status)
 {
-    RG_PreviewActionInterface::init(status);
+//    RG_PreviewActionInterface::init(status);
+    RG_PreviewActionInterface::init(Neutral);
 }
 
 void RG_ActionDefault::coordinateEvent(RG_CoordinateEvent *ce)
@@ -155,6 +156,12 @@ void RG_ActionDefault::keyPressEvent(QKeyEvent *e)
     case Qt::Key_Escape:
         setStatus(Neutral);
         deletePreview();
+
+        {
+            RG_Selection s(container, graphicView);
+            s.deselectAll();
+        }
+
         graphicView->redraw(RG::RedrawOverlay);
         e->accept();
         break;
