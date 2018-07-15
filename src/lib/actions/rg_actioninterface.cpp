@@ -17,6 +17,7 @@
 
 #include "rg_actioninterface.h"
 
+#include "rl_debug.h"
 #include "rg_entitycontainer.h"
 #include "rg_graphic.h"
 
@@ -27,6 +28,15 @@ RG_ActionInterface::RG_ActionInterface(const char* name,
 {
     this->name = name;
     graphic = container.getGraphic();
+    if (!graphic) {
+        RL_DEBUG << "RG_ActionInterface::RG_ActionInterface() ERROR: RG_Graphic is not find";
+        qFatal("RG_ActionInterface::RG_ActionInterface() ERROR: RG_Graphic is not find");
+    }
+    document = container.getDocument();
+    if (!document) {
+        RL_DEBUG << "RG_ActionInterface::RG_ActionInterface() ERROR: RG_Document is not find";
+        qFatal("RG_ActionInterface::RG_ActionInterface() ERROR: RG_Document is not find");
+    }
 
     actionType = RG::ActionNone;
 }

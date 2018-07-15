@@ -27,8 +27,10 @@ public:
     RG_Document(RG_EntityContainer* parent);
     virtual ~RG_Document();
 
+    bool isDocument() const override {return true;}
     virtual void removeUndoable(RG_Undoable* u);
     virtual void newDoc() = 0;
+
 };
 
 #endif // RG_DOCUMENT_H

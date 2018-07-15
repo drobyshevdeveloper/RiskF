@@ -51,9 +51,9 @@ void RG_ActionDrawLine::trigger()
 {
     RG_Line* line = new RG_Line(container, points.data);
     container->addEntity(line);
-    graphic->beginUndoGroup();
-    graphic->addUndoable(line);
-    graphic->endUndoGroup();
+    document->beginUndoGroup();
+    document->addUndoable(line);
+    document->endUndoGroup();
 }
 
 void RG_ActionDrawLine::coordinateEvent(RG_CoordinateEvent *ce)

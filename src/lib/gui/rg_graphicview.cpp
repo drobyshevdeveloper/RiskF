@@ -341,6 +341,12 @@ void RG_GraphicView::drawLayer3(RG_Painter *painter)
     }
 
     foreach (RG_EntityContainer* oe, overlayEntities) {
+        // Debug
+        if (oe==overlayEntities[RG::ActionPreviewEntity]) {
+            if (!oe->getEntityList().empty()) {
+                RL_DEBUG << "ActionPreviewEntity";
+            }
+        }
         foreach (RG_Entity* e, oe->getEntityList()) {
             RL_DEBUG << e;
             e->draw(painter, this);

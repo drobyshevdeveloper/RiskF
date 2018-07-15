@@ -17,18 +17,77 @@
 
 #include "rg_modification.h"
 
+#include "rl_debug.h"
 #include "rg_vector.h"
 #include "rg_entitycontainer.h"
 #include "rg_graphicview.h"
+#include "rg_document.h"
 
 RG_Modification::RG_Modification(RG_EntityContainer *container, RG_GraphicView* graphicView)
     : container(container)
     , graphicView(graphicView)
 {
-
+    document = container->getDocument();
+    if (!document) {
+        RL_DEBUG << "RG_Modification::RG_Modification() ERROR: RG_Document is not find";
+        qFatal("RG_Modification::RG_Modification() ERROR: RG_Document is not find");
+    }
 }
 
 void RG_Modification::moveRef(const RG_Vector &ref, const RG_Vector &offset)
 {
+    /*
+    RG_EntityContainer addList;
+    for (RG_Entity* en: container->getEntityList()) {
+        if (en->isSelected()) {
+            RG_Entity* en_copy = en->clone();
+            en_copy->moveRef(ref, offset);
+            en_copy->setSelected(false);
+            addList.addEntity(en_copy);
+        }
+    }
+    */
+}
 
+void RG_Modification::moveRef(const RG_MoveRefData &data)
+{
+    std::vector<RG_Entity*> addList;
+
+    for (RG_Entity* en: container->getEntityList()) {
+        if (en->isSelected()) {
+            RG_Entity* en_copy = en->clone();
+            en_copy->moveRef(data.ref, data.offset);
+            //en_copy->setSelected(false);
+            addList.push_back(en_copy);
+        }
+    }
+    applyModification(addList);
+}
+
+void RG_Modification::applyModification(std::vector<RG_Entity *> &list)
+{
+    document->beginUndoGroup();
+    deselectOriginals();
+    addNewEntities(list);
+    document->endUndoGroup();
+    graphicView->redraw(RG::RedrawDrawing);
+}
+
+void RG_Modification::deselectOriginals()
+{
+    for (RG_Entity* en: container->getEntityList()) {
+        if (en->isSelected()) {
+            en->setSelected(false);
+            en->changeUndoState();
+            document->addUndoable(en);
+        }
+    }
+}
+
+void RG_Modification::addNewEntities(std::vector<RG_Entity *> &list)
+{
+    for (RG_Entity* en: list) {
+        container->addEntity(en);
+        document->addUndoable(en);
+    }
 }

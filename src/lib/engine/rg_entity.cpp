@@ -40,7 +40,7 @@ void RG_Entity::reparent(RG_EntityContainer *parent)
 
 void RG_Entity::onChangeUndoState()
 {
-
+    setSelected(false);
 }
 
 void RG_Entity::initID()
@@ -95,6 +95,18 @@ RG_Graphic* RG_Entity::getGraphic() const
         return nullptr;
     }
     return parent->getGraphic();
+}
+
+RG_Document* RG_Entity::getDocument() const
+{
+    if (isDocument()) {
+        RG_Document const* ret=static_cast<RG_Document const*>(this);
+        return const_cast<RG_Document*>(ret);
+    }
+    if (!parent) {
+        return nullptr;
+    }
+    return parent->getDocument();
 }
 
 RG_Vector RG_Entity::getStartPoint() const

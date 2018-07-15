@@ -18,9 +18,21 @@
 #ifndef RG_MODIFICATION_H
 #define RG_MODIFICATION_H
 
+#include <vector>
+
+#include "rg_vector.h"
+
+class RG_Entity;
 class RG_EntityContainer;
 class RG_GraphicView;
-class RG_Vector;
+class RG_Document;
+
+class RG_MoveRefData
+{
+public:
+    RG_Vector ref;
+    RG_Vector offset;
+};
 
 class RG_Modification
 {
@@ -28,11 +40,16 @@ public:
     RG_Modification(RG_EntityContainer* container, RG_GraphicView* graphicView);
 
     void moveRef(const RG_Vector& ref, const RG_Vector& offset);
+    void moveRef(const RG_MoveRefData& data);
 protected:
+    void applyModification(std::vector<RG_Entity*>& list);
+    void deselectOriginals();
+    void addNewEntities(std::vector<RG_Entity*>& list);
 
 private:
     RG_EntityContainer* container;
     RG_GraphicView* graphicView;
+    RG_Document* document;
 };
 
 #endif // RG_MODIFICATION_H

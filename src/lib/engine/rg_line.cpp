@@ -91,6 +91,7 @@ void RG_Line::draw(RG_Painter *painter, RG_GraphicView *view)
         return;
     }
 
+
     RG_Pen pen;
     pen.setColor(QColor(Qt::black));
 

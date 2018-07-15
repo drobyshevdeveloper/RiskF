@@ -25,6 +25,7 @@
 
 class RG_EntityContainer;
 class RG_Graphic;
+class RG_Document;
 class RG_Painter;
 class RG_GraphicView;
 
@@ -41,6 +42,7 @@ public:
 
     virtual RG::EntityType rtti() const {return RG::EntityUnknow;}
     virtual bool isContainer() const = 0;
+    virtual bool isDocument() const {return false;}
 
     virtual void setSelected(bool select);
     virtual bool isSelected() const;
@@ -105,6 +107,7 @@ public:
     virtual void moveRef(const RG_Vector& ref, const RG_Vector& offset) {};
 
     RG_Graphic* getGraphic() const;
+    RG_Document* getDocument() const;
 
     virtual RG_Vector getStartPoint() const;
     virtual RG_Vector getEndPoint() const;

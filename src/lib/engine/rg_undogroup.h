@@ -27,6 +27,7 @@ class RG_UndoGroup
 public:
     RG_UndoGroup();
 
+    void addUndoable(RG_Undoable* u);
     void removeUndoable(RG_Undoable* u);
     void changeUndoState();
     /**

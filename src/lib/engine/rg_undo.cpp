@@ -23,13 +23,14 @@
 
 RG_Undo::RG_Undo()
 {
-    undoIndex = 0;
+    RL_DEBUG << "RG_Undo::RG_Undo()";
+    undoIndex = -1;
     undoList.clear();
 }
 
 void RG_Undo::undo()
 {
-    if (undoIndex <= 0) {
+    if (undoIndex < 0) {
         RL_DEBUG << "RG_Undo::undo() Нет элементов в списке Undo";
         return;
     }
@@ -39,7 +40,7 @@ void RG_Undo::undo()
 
 void RG_Undo::redo()
 {
-    if (undoIndex >= undoList.size()) {
+    if (undoIndex+1 >= undoList.size()) {
         RL_DEBUG << "RG_Undo::redo() Нет элементов в списке Undo для повторения";
         return;
     }
@@ -49,7 +50,7 @@ void RG_Undo::redo()
 void RG_Undo::beginUndoGroup()
 {
     RL_DEBUG << "RG_Undo::beginUndoGroup() undoList.size() =" << undoList.size();
-    while (undoList.size() > undoIndex) {
+    while (undoList.size() > undoIndex+1) {
         // Если текущая позиция в списке отмененных операций
         // меньше размера списка Undo (т.е. после отмены нескольких
         // операций вновь происходит изменение документа)
@@ -58,6 +59,14 @@ void RG_Undo::beginUndoGroup()
         for (RG_Undoable* u: ug->getUndoables()) {
             if (u) {
                 if (u->isUndone()) {
+                    // Удалим все ссылки на сущность из списка Undo
+                    // просматриваем все группы, кроме текущей
+                    for (auto ug2: undoList) {
+                        if (ug2!=ug) {
+                            ug2->removeUndoable(u);
+                        }
+                    }
+                    // Удалим сущность из документа
                     removeUndoable(u);
                 }
             }
@@ -67,6 +76,7 @@ void RG_Undo::beginUndoGroup()
         // Удаляем один шаг (группу) списка Undo
         undoList.pop_back();
     }
+
     // Создаем новую группу
     currentGroup = std::make_shared<RG_UndoGroup>();
 }
@@ -90,7 +100,7 @@ void RG_Undo::addUndoable(RG_Undoable* u)
         RL_DEBUG << "RG_Undo::addUndoable ERROR: RG_Undoable = nullptr";
         return;
     }
-    currentGroup->getUndoables().push_back(u);
+    currentGroup->addUndoable(u);
 }
 
 void RG_Undo::addUndoGroup(std::shared_ptr<RG_UndoGroup> ug)
@@ -100,4 +110,5 @@ void RG_Undo::addUndoGroup(std::shared_ptr<RG_UndoGroup> ug)
         return;
     }
     undoList.push_back(ug);
+    undoIndex++;
 }

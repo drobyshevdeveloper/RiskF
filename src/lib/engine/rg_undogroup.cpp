@@ -17,6 +17,8 @@
 
 #include "rg_undogroup.h"
 
+#include <algorithm>
+
 #include "rg_undoable.h"
 
 RG_UndoGroup::RG_UndoGroup()
@@ -24,9 +26,20 @@ RG_UndoGroup::RG_UndoGroup()
 
 }
 
+void RG_UndoGroup::addUndoable(RG_Undoable *u)
+{
+    if (!u) {
+        return;
+    }
+    undoables.push_back(u);
+}
+
 void RG_UndoGroup::removeUndoable(RG_Undoable *u)
 {
-
+    auto it = std::find(undoables.begin(), undoables.end(), u);
+    if (it!=undoables.end()) {
+        undoables.erase(it);
+    }
 }
 
 void RG_UndoGroup::changeUndoState()

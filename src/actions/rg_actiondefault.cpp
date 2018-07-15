@@ -26,6 +26,7 @@
 #include "rg_actionzoompan.h"
 #include "rl_dialogfactory.h"
 #include "rl_dialogfactoryinterface.h"
+#include "rg_modification.h"
 
 struct RG_ActionDefault::Points {
     RG_Vector v1;
@@ -169,9 +170,16 @@ void RG_ActionDefault::mouseReleaseEvent(QMouseEvent *e)
 
             break;
         }
-        case MoveRef:
+        case MoveRef: {
+            RG_Modification m(container, graphicView);
+            RG_MoveRefData data;
+            data.ref = pPoints->marker.coord;
+            data.offset = pPoints->v2 - pPoints->v1;
+            m.moveRef(data);
+            deletePreview();
             setStatus(Neutral);
             break;
+        }
         default:
             break;
         }

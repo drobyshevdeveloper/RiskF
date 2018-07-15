@@ -44,7 +44,7 @@ public:
 private:
     int undoIndex;
     std::vector<std::shared_ptr<RG_UndoGroup>> undoList;
-    std::shared_ptr<RG_UndoGroup> currentGroup;
+    std::shared_ptr<RG_UndoGroup> currentGroup {nullptr};
 };
 
 #endif // RG_UNDO_H
