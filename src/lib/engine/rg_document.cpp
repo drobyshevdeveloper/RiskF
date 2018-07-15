@@ -19,6 +19,7 @@
 
 RG_Document::RG_Document(RG_EntityContainer *parent)
     : RG_EntityContainer(parent)
+    , RG_Undo()
 {
 
 }
@@ -26,4 +27,11 @@ RG_Document::RG_Document(RG_EntityContainer *parent)
 RG_Document::~RG_Document()
 {
 
+}
+
+void RG_Document::removeUndoable(RG_Undoable *u)
+{
+    if (u) {
+        removeEntity((RG_Entity*)u);
+    }
 }

@@ -16,6 +16,9 @@
 ****************************************************************************/
 
 #include "rg_line.h"
+
+#include <cmath>
+
 #include "rg_pen.h"
 #include "rg_painter.h"
 #include "rg_graphicview.h"
@@ -30,6 +33,13 @@ RG_Line::RG_Line(RG_EntityContainer *parent, const RG_LineData &d)
     : RG_AtomicEntity(parent), data(d)
 {
     calculateBorders();
+}
+
+RG_Entity* RG_Line::clone()
+{
+    RG_Line* l = new RG_Line(*this);
+    l->initID();
+    return l;
 }
 
 RG_Vector RG_Line::getNearestPointOnEntity(const RG_Vector &coord, double *dist) const
@@ -81,6 +91,7 @@ void RG_Line::draw(RG_Painter *painter, RG_GraphicView *view)
         return;
     }
 
+
     RG_Pen pen;
     pen.setColor(QColor(Qt::black));
 
@@ -92,4 +103,48 @@ void RG_Line::draw(RG_Painter *painter, RG_GraphicView *view)
     painter->drawLine(view->toGui(getStartPoint()),
                       view->toGui(getEndPoint()));
 
+}
+
+void RG_Line::moveRef(RG_Marker &marker, const RG_Vector &offset)
+{
+    if (marker.index==0) {
+        data.startPoint = marker.coord + offset;
+    } else {
+        data.endPoint = marker.coord + offset;
+    }
+}
+
+void RG_Line::moveRef(const RG_Vector &ref, const RG_Vector &offset)
+{
+    if ((std::abs(getStartPoint().x-ref.x)<RG_TOLERANCE) &&
+        (std::abs(getStartPoint().y-ref.y)<RG_TOLERANCE)) {
+        moveStartPoint(offset);
+        return;
+    }
+    if ((std::abs(getEndPoint().x-ref.x)<RG_TOLERANCE) &&
+        (std::abs(getEndPoint().y-ref.y)<RG_TOLERANCE)) {
+        moveEndPoint(offset);
+    }
+}
+
+void RG_Line::moveStartPoint(const RG_Vector &offset)
+{
+    data.startPoint = data.startPoint + offset;
+    calculateBorders();
+}
+
+void RG_Line::moveEndPoint(const RG_Vector &offset)
+{
+    data.endPoint = data.endPoint + offset;
+    calculateBorders();
+}
+
+RG_VectorSolutions RG_Line::getRefPoints() const
+{
+    RG_VectorSolutions vs;
+
+    vs.push_Back(getStartPoint());
+    vs.push_Back(getEndPoint());
+
+    return vs;
 }

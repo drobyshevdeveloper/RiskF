@@ -24,6 +24,14 @@ class RG_Undoable
 public:
     RG_Undoable();
     virtual ~RG_Undoable();
+
+    bool isUndone() const {return undoState;}
+    void setUndoState(bool undoState);
+    void changeUndoState();
+
+    virtual void onChangeUndoState() = 0;
+private:
+    bool undoState;
 };
 
 #endif // RG_UNDOABLE_H

@@ -35,6 +35,7 @@ public:
     virtual void drawRect(const QRectF& rect) = 0;
     virtual void fillRect(const QRectF& rect, const QColor& color) = 0;
     virtual void drawPixmap(int x, int y, QPixmap* pixmap) = 0;
+    virtual void drawMarker(const RG_Vector& p) = 0;
 
     /**
      * @brief setDrawSelectOnlyMode -

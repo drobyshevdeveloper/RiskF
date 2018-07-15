@@ -47,6 +47,8 @@ public slots:
     void slotInsertRoom();
     // === Edit ===
     void slotSelect();    // инструмент по умолчанию
+    void slotUndo();
+    void slotRedo();
 
 private:
     RG_GraphicView* graphicView;

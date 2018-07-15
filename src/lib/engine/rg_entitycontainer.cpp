@@ -41,6 +41,14 @@ RG_EntityContainer::~RG_EntityContainer()
     }
 }
 
+RG_Entity* RG_EntityContainer::clone()
+{
+    // Надо реализовать
+    RG_EntityContainer* ec = new RG_EntityContainer(*this);
+    ec->initID();
+    return ec;
+}
+
 void RG_EntityContainer::setOwner(bool owner)
 {
     this->owner = owner;
@@ -53,6 +61,18 @@ void RG_EntityContainer::addEntity(RG_Entity *entity)
     }
     entities.append(entity);
     adjustBorders(entity);
+}
+
+void RG_EntityContainer::removeEntity(RG_Entity *entity)
+{
+    if (!entity) {
+        return;
+    }
+    entities.removeOne(entity);
+    if (owner) {
+        delete entity;
+    }
+    calculateBorders();
 }
 
 const QList<RG_Entity *> RG_EntityContainer::getEntityList()
@@ -132,7 +152,23 @@ RG_Entity* RG_EntityContainer::getNearestEntity(const RG_Vector &coord, double *
     return en;
 }
 
-double RG_EntityContainer::getDistanceToPoint(const RG_Vector &coord, RG_Entity** entity) const
+RG_Marker RG_EntityContainer::getNearestSelectedRef(const RG_Vector& coord) const
+{
+    RG_Marker marker;
+    marker.dist = RG_MAXDOUBLE;
+
+    foreach (auto e, entities) {
+        RG_Marker m = e->getNearestSelectedRef(coord);
+        if (m.valid && (marker.dist > m.dist)) {
+            marker = m;
+        }
+    }
+
+    return marker;
+}
+
+double RG_EntityContainer::getDistanceToPoint(const RG_Vector &coord,
+                                              RG_Entity** entity) const
 {
     RG_Entity* en = nullptr;
     double distResult = RG_MAXDOUBLE;
@@ -174,9 +210,17 @@ void RG_EntityContainer::draw(RG_Painter *painter, RG_GraphicView *view)
         return;
     }
 
-    foreach (auto a, entities) {
-        a->draw(painter,view);
+    foreach (RG_Entity* e, entities) {
+        view->drawEntity(painter, e);
     }
+}
+
+void RG_EntityContainer::moveRef(const RG_Vector& ref, const RG_Vector& offset)
+{
+    foreach (RG_Entity* e, entities) {
+        e->moveRef(ref, offset);
+    }
+    calculateBorders();
 }
 
 void RG_EntityContainer::calculateBorders()

@@ -15,22 +15,36 @@
 **
 ****************************************************************************/
 
-#ifndef RG_DOCUMENT_H
-#define RG_DOCUMENT_H
+#ifndef RG_UNDO_H
+#define RG_UNDO_H
 
-#include "rg_entitycontainer.h"
-#include "rg_undo.h"
+#include <vector>
+#include <memory>
 
-class RG_Document : public RG_EntityContainer, public RG_Undo
+class RG_UndoGroup;
+class RG_Undoable;
+#include "rg_undogroup.h"
+#include "rg_undoable.h"
+
+class RG_Undo
 {
 public:
-    RG_Document(RG_EntityContainer* parent);
-    virtual ~RG_Document();
+    RG_Undo();
 
-    bool isDocument() const override {return true;}
-    virtual void removeUndoable(RG_Undoable* u);
-    virtual void newDoc() = 0;
+    virtual void undo();
+    virtual void redo();
 
+    void beginUndoGroup();
+    void endUndoGroup();
+    void addUndoable(RG_Undoable* u);
+    virtual void removeUndoable(RG_Undoable* u) = 0;
+    void addUndoGroup(std::shared_ptr<RG_UndoGroup> ug);
+
+
+private:
+    int undoIndex;
+    std::vector<std::shared_ptr<RG_UndoGroup>> undoList;
+    std::shared_ptr<RG_UndoGroup> currentGroup {nullptr};
 };
 
-#endif // RG_DOCUMENT_H
+#endif // RG_UNDO_H

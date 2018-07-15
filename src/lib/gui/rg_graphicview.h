@@ -28,6 +28,7 @@ class RG_ActionInterface;
 class RG_EntityContainer;
 class RG_EventHandler;
 class RG_Painter;
+class RG_Entity;
 
 class RG_GraphicView : public QWidget
 {
@@ -90,6 +91,8 @@ public:
 
 
     RG_EntityContainer* getOverlayContainer(RG::OverlayGraphics position);
+
+    void drawEntity(RG_Painter* painter, RG_Entity* e);
 
 protected:
     void drawLayer2(RG_Painter* painter);

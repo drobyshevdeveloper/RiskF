@@ -30,6 +30,8 @@ public:
     RG_EntityContainer(RG_EntityContainer* parent, bool owner = true);
     virtual ~RG_EntityContainer();
 
+    virtual RG_Entity* clone();
+
     virtual RG::EntityType rtti() const override{return RG::EntityContainer;}
     virtual bool isContainer() const override {return true;}
     bool isOwner() const {return owner;}
@@ -41,6 +43,7 @@ public:
 
 
     virtual void addEntity(RG_Entity* entity);
+    void removeEntity(RG_Entity* entity);
     const QList<RG_Entity*> getEntityList();
 
     virtual RG_Vector getNearestPointOnEntity(const RG_Vector& coord,
@@ -53,10 +56,13 @@ public:
      */
     RG_Entity* getNearestEntity(const RG_Vector& coord,
                                 double* dist) const;
-    virtual double getDistanceToPoint(const RG_Vector &coord, RG_Entity **entity) const override;
+    virtual RG_Marker getNearestSelectedRef(const RG_Vector& coord) const override;
+    virtual double getDistanceToPoint(const RG_Vector &coord,
+                                      RG_Entity **entity) const override;
 
     virtual void clear();
     virtual void draw(RG_Painter* painter, RG_GraphicView* view) override;
+    virtual void moveRef(const RG_Vector& ref, const RG_Vector& offset) override;
 
     virtual void calculateBorders() override;
     void adjustBorders(const RG_Entity* e);

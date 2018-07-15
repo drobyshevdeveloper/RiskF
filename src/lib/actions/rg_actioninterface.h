@@ -28,6 +28,7 @@ class QKeyEvent;
 class RG_EntityContainer;
 class RG_GraphicView;
 class RG_Graphic;
+class RG_Document;
 class RG_CoordinateEvent;
 
 class RG_ActionInterface : public QObject, public RG_Snapper
@@ -60,6 +61,7 @@ public slots:
 protected:
     const char* name;
     RG_Graphic* graphic;
+    RG_Document* document;
 
     RG::ActionType actionType;
 private:

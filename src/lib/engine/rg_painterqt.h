@@ -34,6 +34,7 @@ public:
     virtual void drawRect(const QRectF& rect) override;
     virtual void fillRect(const QRectF& rect, const QColor &color) override;
     virtual void drawPixmap(int x, int y, QPixmap* pixmap) override;
+    virtual void drawMarker(const RG_Vector& p) override;
 
 protected:
     RG_Pen pen;

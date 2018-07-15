@@ -15,22 +15,41 @@
 **
 ****************************************************************************/
 
-#ifndef RG_DOCUMENT_H
-#define RG_DOCUMENT_H
+#ifndef RG_MODIFICATION_H
+#define RG_MODIFICATION_H
 
-#include "rg_entitycontainer.h"
-#include "rg_undo.h"
+#include <vector>
 
-class RG_Document : public RG_EntityContainer, public RG_Undo
+#include "rg_vector.h"
+
+class RG_Entity;
+class RG_EntityContainer;
+class RG_GraphicView;
+class RG_Document;
+
+class RG_MoveRefData
 {
 public:
-    RG_Document(RG_EntityContainer* parent);
-    virtual ~RG_Document();
-
-    bool isDocument() const override {return true;}
-    virtual void removeUndoable(RG_Undoable* u);
-    virtual void newDoc() = 0;
-
+    RG_Vector ref;
+    RG_Vector offset;
 };
 
-#endif // RG_DOCUMENT_H
+class RG_Modification
+{
+public:
+    RG_Modification(RG_EntityContainer* container, RG_GraphicView* graphicView);
+
+    void moveRef(const RG_Vector& ref, const RG_Vector& offset);
+    void moveRef(const RG_MoveRefData& data);
+protected:
+    void applyModification(std::vector<RG_Entity*>& list);
+    void deselectOriginals();
+    void addNewEntities(std::vector<RG_Entity*>& list);
+
+private:
+    RG_EntityContainer* container;
+    RG_GraphicView* graphicView;
+    RG_Document* document;
+};
+
+#endif // RG_MODIFICATION_H

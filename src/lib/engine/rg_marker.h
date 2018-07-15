@@ -15,22 +15,24 @@
 **
 ****************************************************************************/
 
-#ifndef RG_DOCUMENT_H
-#define RG_DOCUMENT_H
+#ifndef RG_MARKER_H
+#define RG_MARKER_H
 
-#include "rg_entitycontainer.h"
-#include "rg_undo.h"
+#include "rg_vector.h"
 
-class RG_Document : public RG_EntityContainer, public RG_Undo
+class RG_Entity;
+
+class RG_Marker
 {
 public:
-    RG_Document(RG_EntityContainer* parent);
-    virtual ~RG_Document();
+    RG_Marker();
 
-    bool isDocument() const override {return true;}
-    virtual void removeUndoable(RG_Undoable* u);
-    virtual void newDoc() = 0;
-
+    bool       valid;  // флаг валидности описания маркера
+    RG_Entity* entity; // ссылка на сущность, которой принадлежит маркер
+    RG_Vector  coord;  // координаты маркера
+    RG_Vector offset;  // смещение до маркера (от заданной точки)
+    double     dist;   // расстояние до маркера (от искомой точки)
+    int        index;  // порядковый номер маркера в списке маркера сущности
 };
 
-#endif // RG_DOCUMENT_H
+#endif // RG_MARKER_H

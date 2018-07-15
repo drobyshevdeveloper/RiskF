@@ -26,8 +26,8 @@ public:
     RG_Graphic(RG_EntityContainer* parent = nullptr);
     virtual ~RG_Graphic();
 
-    virtual RG::EntityType rtti() {return RG::EntityGraphic;}
-    virtual void newDoc();
+    virtual RG::EntityType rtti() const override {return RG::EntityGraphic;}
+    virtual void newDoc() override;
 
 
 };

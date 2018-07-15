@@ -76,6 +76,14 @@ double RG_Vector::dot(RG_Vector &v) const
     return x*v.x + y*v.y; //+ z*v.z;
 }
 
+bool RG_Vector::isInWindow(const RG_Vector &v1, const RG_Vector &v2) const
+{
+    return (x>=std::min(v1.x, v2.x) &&
+            x<=std::max(v1.x, v2.x) &&
+            y>=std::min(v1.y, v2.y) &&
+            y<=std::max(v1.y, v2.y));
+}
+
 RG_Vector RG_Vector::operator +(const RG_Vector& v) const
 {
     return {x + v.x, y + v.y, z + v.z};
@@ -136,6 +144,28 @@ void RG_VectorSolutions::clear()
 bool RG_VectorSolutions::empty()
 {
     return vector.empty();
+}
+
+/**
+ * @brief RG_VectorSolutions::getClosest
+ * найти ближайшую точку из набора к заданной
+ * @param v - заданная точка
+ * @return
+ */
+RG_Vector RG_VectorSolutions::getClosest(const RG_Vector &v)
+{
+    double minDist = RG_MAXDOUBLE;
+    RG_Vector ret = RG_Vector(false);
+
+    foreach (RG_Vector pt, vector) {
+        double dist = pt.distanceTo(v);
+        if (dist<minDist) {
+            ret = pt;
+            minDist = dist;
+        }
+    }
+
+    return ret;
 }
 
 RG_Vector& RG_VectorSolutions::operator [](size_t i)

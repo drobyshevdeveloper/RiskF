@@ -62,6 +62,15 @@ void RS_ActionFactory::fillActionContainer(QMap<QString, QAction *> &a_map, RS_A
     action->setObjectName("Select");
     a_map["Select"] = action;
 
+    action = new QAction(tr("&Undo"), agm->edit);
+    action->setIcon(QIcon(":/icons/file.svg"));
+    connect(action, SIGNAL(triggered(bool)), action_handler, SLOT(slotUndo()));
+    action->setObjectName("Undo");
+    a_map["Undo"] = action;
 
-
+    action = new QAction(tr("&Redo"), agm->edit);
+    action->setIcon(QIcon(":/icons/file-plus.svg"));
+    connect(action, SIGNAL(triggered(bool)), action_handler, SLOT(slotRedo()));
+    action->setObjectName("Redo");
+    a_map["Redo"] = action;
 }

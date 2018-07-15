@@ -28,6 +28,7 @@
 #include "rg_line.h"
 #include "rg_graphicview.h"
 #include "rg_coordinateevent.h"
+#include "rg_graphic.h"
 
 RG_ActionDrawLine::RG_ActionDrawLine(RG_EntityContainer &container, RG_GraphicView &graphicView)
     : RG_PreviewActionInterface("Draw line", container, graphicView)
@@ -46,6 +47,15 @@ void RG_ActionDrawLine::init(int status)
     drawSnapper();
 }
 
+void RG_ActionDrawLine::trigger()
+{
+    RG_Line* line = new RG_Line(container, points.data);
+    container->addEntity(line);
+    document->beginUndoGroup();
+    document->addUndoable(line);
+    document->endUndoGroup();
+}
+
 void RG_ActionDrawLine::coordinateEvent(RG_CoordinateEvent *ce)
 {
     RG_Vector mouse = ce->getCoordinate();
@@ -60,8 +70,7 @@ void RG_ActionDrawLine::coordinateEvent(RG_CoordinateEvent *ce)
         // Режим установки второй точки линии
         points.data.endPoint = mouse;
 
-        RG_Line* line = new RG_Line(container, points.data);
-        container->addEntity(line);
+        trigger();
         deletePreview();
         graphicView->redraw(RG::RedrawDrawing);
         setStatus(SetStartpoint);

@@ -35,6 +35,7 @@ public:
     virtual ~RG_ActionDrawLine();
 
     virtual void init(int status=SetStartpoint) override;
+    void trigger();
     virtual void coordinateEvent(RG_CoordinateEvent* ce) override;
 
     virtual void mousePressEvent(QMouseEvent* e) override;

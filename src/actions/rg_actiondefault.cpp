@@ -26,10 +26,12 @@
 #include "rg_actionzoompan.h"
 #include "rl_dialogfactory.h"
 #include "rl_dialogfactoryinterface.h"
+#include "rg_modification.h"
 
 struct RG_ActionDefault::Points {
     RG_Vector v1;
     RG_Vector v2;
+    RG_Marker marker;
 };
 
 RG_ActionDefault::RG_ActionDefault(RG_EntityContainer &container,
@@ -61,6 +63,7 @@ void RG_ActionDefault::coordinateEvent(RG_CoordinateEvent *ce)
 
 void RG_ActionDefault::mouseMoveEvent(QMouseEvent *e)
 {
+    RG_Marker marker;
     RG_Vector mouse = graphicView->toGraph(e->x(), e->y());
     pPoints->v2 = mouse;
 
@@ -69,11 +72,22 @@ void RG_ActionDefault::mouseMoveEvent(QMouseEvent *e)
         break;
     case FirstClick:
         // Реализовать проверку перемещения выбранных сущностей
+        marker = container->getNearestSelectedRef(pPoints->v1);
+        if (marker.valid) {
+            RG_Vector d(RG_MARKER_SIZE_2, RG_MARKER_SIZE_2);
+            if (pPoints->v1.isInWindow(marker.coord-d, marker.coord+d)) {
+                marker.offset = marker.coord - pPoints->v1;
+                pPoints->marker = marker;
+                setStatus(MoveRef);
+                break;
+            }
+        }
 
         // Если перемещения сущностей нет включаем режим выбора прямогольной областью
         setStatus(SetCorner2);
         break;
     case SetCorner2:
+    {
         deletePreview();
 
         RG_OverlayRect* rect = new RG_OverlayRect(nullptr, {pPoints->v1,pPoints->v2});
@@ -81,6 +95,18 @@ void RG_ActionDefault::mouseMoveEvent(QMouseEvent *e)
         preview->addEntity(rect);
         drawPreview();
 
+        break;
+    }
+    case MoveRef:
+        deletePreview();
+        preview->addSelectionFrom(container);
+        preview->moveRef(pPoints->marker.coord,
+                         pPoints->v2 - pPoints->v1);
+        drawPreview();
+        /*
+        pPoints->marker.entity->moveRef(pPoints->marker, pPoints->v2 - pPoints->v1);
+        graphicView->redraw();
+        */
         break;
 //    case Panning:
 
@@ -142,6 +168,16 @@ void RG_ActionDefault::mouseReleaseEvent(QMouseEvent *e)
             deletePreview();
             setStatus(Neutral);
 
+            break;
+        }
+        case MoveRef: {
+            RG_Modification m(container, graphicView);
+            RG_MoveRefData data;
+            data.ref = pPoints->marker.coord;
+            data.offset = pPoints->v2 - pPoints->v1;
+            m.moveRef(data);
+            deletePreview();
+            setStatus(Neutral);
             break;
         }
         default:

@@ -24,7 +24,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 
-LC_VERSION="1.0.32"
+LC_VERSION="1.0.36"
 VERSION=$${LC_VERSION}
 
 # Для работы отладочных функций закомментируйте следующую строку
@@ -97,7 +97,12 @@ HEADERS += \
         lib/engine/rg_pen.h \
         lib/engine/rg_overlayrect.h \
         lib/information/rg_information.h \
-        lib/geom/geom.h
+        lib/geom/geom.h \
+    lib/engine/rg_marker.h \
+    lib/modification/rg_modification.h \
+    lib/engine/rg_undo.h \
+    lib/engine/rg_undogroup.h \
+    actions/rg_actionundo.h
 SOURCES += \
         lib/rl_settings.cpp \
         lib/gui/rl_dialogfactory.cpp \
@@ -123,7 +128,12 @@ SOURCES += \
         lib/engine/rg_pen.cpp \
         lib/engine/rg_overlayrect.cpp \
         lib/information/rg_information.cpp \
-        lib/geom/geom.cpp
+        lib/geom/geom.cpp \
+    lib/engine/rg_marker.cpp \
+    lib/modification/rg_modification.cpp \
+    lib/engine/rg_undo.cpp \
+    lib/engine/rg_undogroup.cpp \
+    actions/rg_actionundo.cpp
 
 
 ##################################################################

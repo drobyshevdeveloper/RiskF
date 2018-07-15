@@ -34,3 +34,15 @@ void RG_Preview::addEntity(RG_Entity *entity)
 {
     RG_EntityContainer::addEntity(entity);
 }
+
+void RG_Preview::addSelectionFrom(RG_EntityContainer *container)
+{
+    foreach (RG_Entity* e, container->getEntityList()) {
+        if (e->isSelected()) {
+            RG_Entity* ec = e->clone();
+            ec->setSelected(false);
+            ec->reparent(nullptr);
+            addEntity(ec);
+        }
+    }
+}

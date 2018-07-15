@@ -33,6 +33,16 @@ RG_Entity::~RG_Entity()
 
 }
 
+void RG_Entity::reparent(RG_EntityContainer *parent)
+{
+    this->parent = parent;
+}
+
+void RG_Entity::onChangeUndoState()
+{
+    setSelected(false);
+}
+
 void RG_Entity::initID()
 {
     static unsigned long int idCounter = 0;
@@ -44,7 +54,7 @@ void RG_Entity::setSelected(bool select)
     bSelected = select;
 }
 
-bool RG_Entity::isSelected()
+bool RG_Entity::isSelected() const
 {
     return bSelected;
 }
@@ -56,11 +66,15 @@ void RG_Entity::toggleSelect()
 
 bool RG_Entity::isVisible() const
 {
-    if (bVisible) {
-        return true;
+    if (!bVisible) {
+        return false;
     }
 
-    return false;
+    if (isUndone()) {
+        return false;
+    }
+
+    return true;
 }
 
 void RG_Entity::setVisible(bool v)
@@ -83,6 +97,18 @@ RG_Graphic* RG_Entity::getGraphic() const
     return parent->getGraphic();
 }
 
+RG_Document* RG_Entity::getDocument() const
+{
+    if (isDocument()) {
+        RG_Document const* ret=static_cast<RG_Document const*>(this);
+        return const_cast<RG_Document*>(ret);
+    }
+    if (!parent) {
+        return nullptr;
+    }
+    return parent->getDocument();
+}
+
 RG_Vector RG_Entity::getStartPoint() const
 {
     return {};
@@ -91,6 +117,35 @@ RG_Vector RG_Entity::getStartPoint() const
 RG_Vector RG_Entity::getEndPoint() const
 {
     return {};
+}
+
+RG_Marker RG_Entity::getNearestSelectedRef(const RG_Vector &coord) const
+{
+    if (!isSelected()) {
+        // Сущность не выделена, возвращаем пустой маркер
+        return RG_Marker();
+    }
+
+    RG_Marker marker;
+    marker.entity = (RG_Entity*)this;
+    marker.dist = RG_MAXDOUBLE;
+    double distRef;
+
+    RG_VectorSolutions vs = getRefPoints();
+
+    int i = 0;
+    foreach (RG_Vector v, vs.getVector()) {
+        distRef = v.distanceTo(coord);
+        if (marker.dist > distRef) {
+            marker.coord = v;
+            marker.dist = distRef;
+            marker.index = i;
+            marker.valid = true;
+        }
+        i++;
+    }
+
+    return marker;
 }
 
 /**
@@ -134,5 +189,10 @@ void RG_Entity::resetBorders()
     double dmin = RG_MINDOUBLE;
     vMin.set(dmax, dmax);
     vMax.set(dmin, dmin);
+}
+
+RG_VectorSolutions RG_Entity::getRefPoints() const
+{
+    return RG_VectorSolutions();
 }
 

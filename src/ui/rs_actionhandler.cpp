@@ -18,9 +18,10 @@
 #include "rs_actionhandler.h"
 
 #include "rl_debug.h"
-#include "rg_actiondrawline.h"
 #include "rg_document.h"
 #include "rg_graphicview.h"
+#include "rg_actiondrawline.h"
+#include "rg_actionundo.h"
 
 RS_ActionHandler::RS_ActionHandler(QObject *parent)
     : QObject(parent)
@@ -40,7 +41,14 @@ RG_ActionInterface* RS_ActionHandler::setCurrentAction(RG::ActionType a_type)
         break;
     case RG::ActionDrawLine:
         a = new RG_ActionDrawLine(*document, *graphicView);
+        break;
 
+    case RG::ActionUndo:
+        a = new RG_ActionUndo(*document, *graphicView, true);
+        break;
+
+    case RG::ActionRedo:
+        a = new RG_ActionUndo(*document, *graphicView, false);
         break;
     }
 
@@ -81,4 +89,14 @@ void RS_ActionHandler::slotInsertRoom()
 void RS_ActionHandler::slotSelect()
 {
     setCurrentAction(RG::ActionDefault);
+}
+
+void RS_ActionHandler::slotUndo()
+{
+    setCurrentAction(RG::ActionUndo);
+}
+
+void RS_ActionHandler::slotRedo()
+{
+    setCurrentAction(RG::ActionRedo);
 }

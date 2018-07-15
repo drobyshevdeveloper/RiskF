@@ -39,7 +39,9 @@ RS_WidgetFactory::RS_WidgetFactory(RF_MainWindow* main_win,
             << a_map["InsertLine"]
             << a_map["InsertRoom"];
     edit_actions
-            << a_map["Select"];
+            << a_map["Select"]
+            << a_map["Undo"]
+            << a_map["Redo"];
 
 }
 

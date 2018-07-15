@@ -15,22 +15,8 @@
 **
 ****************************************************************************/
 
-#ifndef RG_DOCUMENT_H
-#define RG_DOCUMENT_H
-
-#include "rg_entitycontainer.h"
-#include "rg_undo.h"
-
-class RG_Document : public RG_EntityContainer, public RG_Undo
-{
-public:
-    RG_Document(RG_EntityContainer* parent);
-    virtual ~RG_Document();
-
-    bool isDocument() const override {return true;}
-    virtual void removeUndoable(RG_Undoable* u);
-    virtual void newDoc() = 0;
-
-};
-
-#endif // RG_DOCUMENT_H
+#include "rg_marker.h"
+RG_Marker::RG_Marker() {
+    valid = false;
+    entity = nullptr;
+}

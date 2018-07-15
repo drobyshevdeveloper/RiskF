@@ -27,7 +27,8 @@ public:
         Neutral,        // Действия отсутствуют
         FirstClick,     // Режим включается при первом нажатии левой кнопки
         SetCorner2,     // Режим выбора второго угла прямоугольной области выбора
-        Panning         // Режим инструмента рука
+        Panning,        // Режим инструмента рука
+        MoveRef         // Перетаскивание маркеров
     };
     RG_ActionDefault(RG_EntityContainer& container,
                      RG_GraphicView& graphicView);
