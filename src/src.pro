@@ -98,11 +98,11 @@ HEADERS += \
         lib/engine/rg_overlayrect.h \
         lib/information/rg_information.h \
         lib/geom/geom.h \
-    lib/engine/rg_marker.h \
-    lib/modification/rg_modification.h \
-    lib/engine/rg_undo.h \
-    lib/engine/rg_undogroup.h \
-    actions/rg_actionundo.h
+        lib/engine/rg_marker.h \
+        lib/modification/rg_modification.h \
+        lib/engine/rg_undo.h \
+        lib/engine/rg_undogroup.h \
+    lib/engine/rg_rectangle.h
 SOURCES += \
         lib/rl_settings.cpp \
         lib/gui/rl_dialogfactory.cpp \
@@ -129,11 +129,11 @@ SOURCES += \
         lib/engine/rg_overlayrect.cpp \
         lib/information/rg_information.cpp \
         lib/geom/geom.cpp \
-    lib/engine/rg_marker.cpp \
-    lib/modification/rg_modification.cpp \
-    lib/engine/rg_undo.cpp \
-    lib/engine/rg_undogroup.cpp \
-    actions/rg_actionundo.cpp
+        lib/engine/rg_marker.cpp \
+        lib/modification/rg_modification.cpp \
+        lib/engine/rg_undo.cpp \
+        lib/engine/rg_undogroup.cpp \
+    lib/engine/rg_rectangle.cpp
 
 
 ##################################################################
@@ -182,10 +182,12 @@ HEADERS += \
         actions/rg_actiondrawline.h \
         actions/rg_actiondefault.h \
         actions/rg_actionzoom.h \
-        actions/rg_actionzoompan.h
+        actions/rg_actionzoompan.h \
+        actions/rg_actionundo.h
 
 SOURCES += \
         actions/rg_actiondrawline.cpp \
         actions/rg_actiondefault.cpp \
         actions/rg_actionzoom.cpp \
-        actions/rg_actionzoompan.cpp
+        actions/rg_actionzoompan.cpp \
+        actions/rg_actionundo.cpp
