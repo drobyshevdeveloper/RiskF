@@ -22,6 +22,7 @@
 #include "rg_graphicview.h"
 #include "rg_actiondrawline.h"
 #include "rg_actionundo.h"
+#include "rg_actiondrawrectangle.h"
 
 RS_ActionHandler::RS_ActionHandler(QObject *parent)
     : QObject(parent)
@@ -50,6 +51,9 @@ RG_ActionInterface* RS_ActionHandler::setCurrentAction(RG::ActionType a_type)
     case RG::ActionRedo:
         a = new RG_ActionUndo(*document, *graphicView, false);
         break;
+
+    case RG::ActionDrawRectangle:
+        a = new RG_ActionDrawRectangle(*document, *graphicView);
     }
 
     if (a) {
@@ -81,7 +85,7 @@ void RS_ActionHandler::slotInsertLine()
 void RS_ActionHandler::slotInsertRoom()
 {
     RL_DEBUG << "RS_ActionHandler::slotInsertRoom() Begin";
-
+    setCurrentAction(RG::ActionDrawRectangle);
     RL_DEBUG << "RS_ActionHandler::slotInsertRoom() Ok";
 }
 

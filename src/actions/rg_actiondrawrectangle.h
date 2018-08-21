@@ -20,12 +20,14 @@
 
 #include "rg_previewactioninterface.h"
 
+#include "rg_rectangle.h"
+
 class RG_ActionDrawRectangle: public RG_PreviewActionInterface
 {
 public:
     enum {
-        setStartPoint,
-        setEndPoint
+        SetStartPoint,
+        SetEndPoint
     };
 
     RG_ActionDrawRectangle(RG_EntityContainer& container,
@@ -33,7 +35,7 @@ public:
 
     virtual ~RG_ActionDrawRectangle();
 
-    virtual void init(int status=SetStartpoint) override;
+    virtual void init(int status=SetStartPoint) override;
     void trigger();
     virtual void coordinateEvent(RG_CoordinateEvent* ce) override;
 
@@ -43,7 +45,7 @@ public:
     virtual void updateMouseCursor() override;
 private:
     struct Points {
-        RG_LineData data;
+        RG_RectangleData data;
     };
     Points points;
 

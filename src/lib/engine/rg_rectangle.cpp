@@ -17,6 +17,7 @@
 
 #include "rg_rectangle.h"
 
+#include "rl_debug.h"
 #include "rg_painter.h"
 #include "rg_graphicview.h"
 
@@ -107,10 +108,10 @@ void RG_Rectangle::calculateBorders()
 void RG_Rectangle::draw(RG_Painter *painter, RG_GraphicView *view)
 {
     RG_VectorSolutions vs = getRefPoints();
-    painter->drawLine(vs[0], vs[1]);
-    painter->drawLine(vs[1], vs[2]);
-    painter->drawLine(vs[2], vs[3]);
-    painter->drawLine(vs[3], vs[0]);
+    painter->drawLine(view->toGui(vs[0]), view->toGui(vs[1]));
+    painter->drawLine(view->toGui(vs[1]), view->toGui(vs[2]));
+    painter->drawLine(view->toGui(vs[2]), view->toGui(vs[3]));
+    painter->drawLine(view->toGui(vs[3]), view->toGui(vs[0]));
 }
 
 void RG_Rectangle::moveRef(RG_Marker &marker, const RG_Vector &offset)
@@ -139,12 +140,14 @@ void RG_Rectangle::moveRef(const RG_Vector &ref, const RG_Vector &offset)
 
 void RG_Rectangle::moveVertex1(const RG_Vector &offset)
 {
+    RL_DEBUG << "RG_Rectangle::moveVertex1";
     data.corner1 = data.corner1 + offset;
     calculateBorders();
 }
 
 void RG_Rectangle::moveVertex2(const RG_Vector &offset)
 {
+    RL_DEBUG << "RG_Rectangle::moveVertex2";
     data.corner2.x = data.corner2.x + offset.x;
     data.corner1.y = data.corner1.y + offset.y;
     calculateBorders();
@@ -152,12 +155,14 @@ void RG_Rectangle::moveVertex2(const RG_Vector &offset)
 
 void RG_Rectangle::moveVertex3(const RG_Vector &offset)
 {
+    RL_DEBUG << "RG_Rectangle::moveVertex3";
     data.corner2 = data.corner2 + offset;
     calculateBorders();
 }
 
 void RG_Rectangle::moveVertex4(const RG_Vector &offset)
 {
+    RL_DEBUG << "RG_Rectangle::moveVertex4";
     data.corner1.x = data.corner1.x + offset.x;
     data.corner2.y = data.corner2.y + offset.y;
     calculateBorders();
