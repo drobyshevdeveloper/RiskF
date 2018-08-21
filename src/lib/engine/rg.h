@@ -43,6 +43,7 @@ public:
         EntityContainer,        // Контейнер
         EntityGraphic,          // Графический документ
         EntityLine,
+        EntityRectangle,
         EntityOverlayRect,      // Накладываемый объект прямоугольная область выбора
         EntityPreview           // Контейнер предпросмотра
 
@@ -56,6 +57,7 @@ public:
         ActionNone,
         ActionDefault,
         ActionDrawLine,
+        ActionDrawRectangle,
         ActionUndo,
         ActionRedo
     };

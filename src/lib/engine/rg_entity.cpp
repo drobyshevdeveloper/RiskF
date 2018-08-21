@@ -196,3 +196,24 @@ RG_VectorSolutions RG_Entity::getRefPoints() const
     return RG_VectorSolutions();
 }
 
+RG_Vector RG_Entity::getNearestPointOnLine(const RG_Vector &coord,
+                                           const RG_Vector &p1,
+                                           const RG_Vector &p2,
+                                           double *dist) const
+{
+    // Используем формулу: proj_b_to_a = a * dot(a, b)/dot(a,a) (dot - скалярное произведение векторов)
+    // Преобразуем линию в вектор (a)
+    RG_Vector direction = p2 - p1;
+    // Квадрат длины вектора (dot(a,a))
+    double len2 = direction.squared();
+    // Преобразуем указанную точку в вектор (b)
+    RG_Vector vct = coord - p1;
+    // Найдем dot(a,b)/dot(a,a)
+    double t = vct.dot(direction) / len2;
+    // Умножим вектор линии на полученный t и перенесем на линию получив точку
+    RG_Vector result = p1 + direction * t;
+    if (dist) {
+        *dist = coord.distanceTo(result);
+    }
+    return result;
+}

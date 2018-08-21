@@ -54,6 +54,15 @@ void RG_Vector::set(double vx, double vy, double vz/*=0.0*/)
     valid = true;
 }
 
+bool RG_Vector::isEqu(const RG_Vector &v) const
+{
+    if ((x - v.x)<RG_TOLERANCE)
+        if ((y - v.y)<RG_TOLERANCE)
+            if ((z-v.z)<RG_TOLERANCE)
+                return true;
+    return false;
+}
+
 double RG_Vector::length() const
 {
     return valid ? hypot(x, y) : 0.0;

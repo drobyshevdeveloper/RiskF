@@ -63,7 +63,7 @@ public:
                                               double* dist) const = 0;
 
     /**
-     * @brief isClickSelectedRef
+     * @brief getNearestSelectedRef
      * Определяет находится ли заданная точка внутри маркера (точки-указателя)
      * @param coord - заданная точка
      * @param marker - после выполнения метода заполняет описание найденного маркера
@@ -94,7 +94,7 @@ public:
     virtual bool isInWindow(RG_Vector v1, RG_Vector v2);
     /**
      * @brief isInCrossWindow
-     * Определяет находится ли сущьность частично внутри заданной прямоугольной области
+     * Определяет находится ли сущность частично внутри заданной прямоугольной области
      * @param v1 - первый угол прямоугольной области
      * @param v2 - второй угол прямоугольной области
      * @return true - если сущность частично находится внутри прямоугольной области
@@ -128,7 +128,23 @@ public:
     virtual void calculateBorders() = 0;
     void resetBorders();
 
-protected: void initID();
+protected:
+    void initID();
+    /**
+     * @brief getNearestPointOnLine
+     * Определяет расстояние от заданной точки до линии
+     * @param coord - Заданная точка
+     * @param p1 - первая точка линии
+     * @param p2 - вторая точка линии
+     * @param dist - указатель на переменную в которую будет записано вычисленное расстояние
+     * @return
+     */
+    RG_Vector getNearestPointOnLine(const RG_Vector& coord,
+                                    const RG_Vector& p1,
+                                    const RG_Vector& p2,
+                                    double* dist) const;
+
+
 
 protected:
     RG_EntityContainer* parent = nullptr;

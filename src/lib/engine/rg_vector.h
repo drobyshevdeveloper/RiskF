@@ -36,6 +36,9 @@ public:
 
     void set(double vx, double vy, double vz=0.0);
 
+    // Сравнить векторы на эквивалентность с точностью RG_TOLERANCE
+    bool isEqu(const RG_Vector& v) const;
+
     // Длина вектора
     double length() const;
     // Квадрат длины вектора (или скалярное произведение вектора самого на себя
