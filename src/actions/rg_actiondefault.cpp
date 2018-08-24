@@ -72,14 +72,31 @@ void RG_ActionDefault::mouseMoveEvent(QMouseEvent *e)
         break;
     case FirstClick:
         // Реализовать проверку перемещения выбранных сущностей
+
+        // Проверить изменение размеров сущностей перемещением маркеров
         marker = container->getNearestSelectedRef(pPoints->v1);
         if (marker.valid) {
-            RG_Vector d(RG_MARKER_SIZE_2, RG_MARKER_SIZE_2);
-            if (pPoints->v1.isInWindow(marker.coord-d, marker.coord+d)) {
-                marker.offset = marker.coord - pPoints->v1;
-                pPoints->marker = marker;
-                setStatus(MoveRef);
-                break;
+            if (marker.type == RG_Marker::Vertex) {
+                // Найден маркер изменения вершин сущности
+                RG_Vector d(RG_MARKER_SIZE_2, RG_MARKER_SIZE_2);
+                if (pPoints->v1.isInWindow(marker.coord-d, marker.coord+d)) {
+                    marker.offset = marker.coord - pPoints->v1;
+                    pPoints->marker = marker;
+                    setStatus(MoveRef);
+                    break;
+                }
+            }
+            if (marker.type == RG_Marker::Face) {
+                // Найден маркер изменения граней сущности
+                if (marker.dist < 3.0) {
+                    marker.offset = marker.coord - pPoints->v1;
+                    pPoints->marker = marker;
+                    setStatus(MoveFace);
+                    break;
+                }
+            }
+            if (marker.type == RG_Marker::Rotate) {
+                // Найден маркер изменения угла поворота сущности
             }
         }
 
@@ -107,6 +124,22 @@ void RG_ActionDefault::mouseMoveEvent(QMouseEvent *e)
         pPoints->marker.entity->moveRef(pPoints->marker, pPoints->v2 - pPoints->v1);
         graphicView->redraw();
         */
+        break;
+    case MoveFace: {
+        deletePreview();
+        RG_Entity* en = pPoints->marker.entity->clone();
+        en->setSelected(false);
+        en->reparent(nullptr);
+        preview->addEntity(en);
+        preview->moveFace(pPoints->marker.coord, pPoints->v2 - pPoints->v1);
+        drawPreview();
+        break;
+    }
+    case Moving:
+        deletePreview();
+        preview->addSelectionFrom(container);
+        preview->move(pPoints->v2 - pPoints->v1);
+        drawPreview();
         break;
 //    case Panning:
 
@@ -176,6 +209,25 @@ void RG_ActionDefault::mouseReleaseEvent(QMouseEvent *e)
             data.ref = pPoints->marker.coord;
             data.offset = pPoints->v2 - pPoints->v1;
             m.moveRef(data);
+            deletePreview();
+            setStatus(Neutral);
+            break;
+        }
+        case MoveFace: {
+            RG_Modification m(container, graphicView);
+            RG_MoveFaceData data;
+            data.marker = pPoints->marker;
+            data.offset = pPoints->v2 - pPoints->v1;
+            m.moveFace(data);
+            deletePreview();
+            setStatus(Neutral);
+            break;
+        }
+        case Moving: {
+            RG_Modification m(container, graphicView);
+            RG_MovingData data;
+            data.offset = pPoints->v2 - pPoints->v1;
+            m.move(data);
             deletePreview();
             setStatus(Neutral);
             break;

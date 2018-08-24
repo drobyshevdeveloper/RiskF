@@ -18,6 +18,7 @@
 #include "rg_vector.h"
 
 #include <math.h>
+#include <cmath>
 #include <iostream>
 
 #include "rg.h"
@@ -148,6 +149,11 @@ void RG_VectorSolutions::push_Back(const RG_Vector &v)
 void RG_VectorSolutions::clear()
 {
     vector.clear();
+}
+
+int RG_VectorSolutions::count() const
+{
+    return vector.count();
 }
 
 bool RG_VectorSolutions::empty()

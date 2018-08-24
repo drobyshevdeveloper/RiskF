@@ -54,6 +54,9 @@ public:
     virtual void draw(RG_Painter* painter, RG_GraphicView* view) override;
     virtual void moveRef(RG_Marker& marker, const RG_Vector& offset) override;
     virtual void moveRef(const RG_Vector& ref, const RG_Vector& offset) override;
+    virtual void moveFace(const RG_Marker& marker, const RG_Vector& offset) override;
+    virtual void moveFace(const RG_Vector& ref, const RG_Vector &offset) override;
+    virtual void move(const RG_Vector &offset) override;
     void moveStartPoint(const RG_Vector& offset);
     void moveEndPoint(const RG_Vector& offset);
 

@@ -64,11 +64,59 @@ void RG_Modification::moveRef(const RG_MoveRefData &data)
     applyModification(addList);
 }
 
+void RG_Modification::moveFace(const RG_MoveFaceData &data)
+{
+/*
+    std::vector<RG_Entity*> addList;
+
+    for (RG_Entity* en: container->getEntityList()) {
+        if (en->isSelected()) {
+            RG_Entity* en_copy = en->clone();
+            en_copy->moveFace(data.marker, data.offset);
+            //en_copy->setSelected(false);
+            addList.push_back(en_copy);
+        }
+    }
+*/
+    if (data.marker.entity->isSelected()) {
+        RG_Entity* en_copy = data.marker.entity->clone();
+        en_copy->moveFace(data.marker, data.offset);
+        applyModification(data.marker.entity, en_copy);
+    }
+}
+
+void RG_Modification::move(const RG_MovingData &data)
+{
+    std::vector<RG_Entity*> addList;
+
+    for (RG_Entity* en: container->getEntityList()) {
+        if (en->isSelected()) {
+            RG_Entity* en_copy = en->clone();
+            en_copy->move(data.offset);
+            //en_copy->setSelected(false);
+            addList.push_back(en_copy);
+        }
+    }
+    applyModification(addList);
+}
+
 void RG_Modification::applyModification(std::vector<RG_Entity *> &list)
 {
     document->beginUndoGroup();
     deselectOriginals();
     addNewEntities(list);
+    document->endUndoGroup();
+    graphicView->redraw(RG::RedrawDrawing);
+}
+
+void RG_Modification::applyModification(RG_Entity* oldEntity, RG_Entity* newEntity)
+{
+    document->beginUndoGroup();
+    oldEntity->setSelected(false);
+    oldEntity->changeUndoState();
+    document->addUndoable(oldEntity);
+    container->addEntity(newEntity);
+    document->addUndoable(newEntity);
     document->endUndoGroup();
     graphicView->redraw(RG::RedrawDrawing);
 }

@@ -138,6 +138,57 @@ void RG_Rectangle::moveRef(const RG_Vector &ref, const RG_Vector &offset)
         moveVertex4(offset);
 }
 
+void RG_Rectangle::moveFace(const RG_Vector &ref, const RG_Vector &offset)
+{
+    RG_Marker marker = getNearestMarkerFace(ref);
+    if (marker.valid && marker.type == RG_Marker::Face && marker.dist<3.0) {
+        RG_VectorSolutions vs = getRefPoints();
+        const RG_Vector offsetX = {offset.x, 0.0};
+        const RG_Vector offsetY = {0.0, offset.y};
+        switch (marker.index) {
+        case 0:
+            moveVertex1(offsetY);
+            break;
+        case 1:
+            moveVertex2(offsetX);
+            break;
+        case 2:
+            moveVertex3(offsetY);
+            break;
+        case 3:
+            moveVertex4(offsetX);
+            break;
+        }
+    }
+}
+
+void RG_Rectangle::moveFace(const RG_Marker &marker, const RG_Vector &offset)
+{
+    RG_VectorSolutions vs = getRefPoints();
+    const RG_Vector offsetX = {offset.x, 0.0};
+    const RG_Vector offsetY = {0.0, offset.y};
+    switch (marker.index) {
+    case 0:
+        moveVertex1(offsetY);
+        break;
+    case 1:
+        moveVertex2(offsetX);
+        break;
+    case 2:
+        moveVertex3(offsetY);
+        break;
+    case 3:
+        moveVertex4(offsetX);
+        break;
+    }
+}
+
+void RG_Rectangle::move(const RG_Vector &offset)
+{
+    moveVertex1(offset);
+    moveVertex3(offset);
+}
+
 void RG_Rectangle::moveVertex1(const RG_Vector &offset)
 {
     RL_DEBUG << "RG_Rectangle::moveVertex1";

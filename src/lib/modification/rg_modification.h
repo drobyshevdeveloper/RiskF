@@ -21,6 +21,7 @@
 #include <vector>
 
 #include "rg_vector.h"
+#include "rg_marker.h"
 
 class RG_Entity;
 class RG_EntityContainer;
@@ -34,15 +35,42 @@ public:
     RG_Vector offset;
 };
 
+class RG_MoveFaceData
+{
+public:
+    RG_Marker marker;
+    RG_Vector offset;
+};
+
+class RG_MovingData
+{
+public:
+    RG_Vector offset;
+};
+
 class RG_Modification
 {
 public:
     RG_Modification(RG_EntityContainer* container, RG_GraphicView* graphicView);
 
     void moveRef(const RG_Vector& ref, const RG_Vector& offset);
-    void moveRef(const RG_MoveRefData& data);
+    void moveRef(const RG_MoveRefData &data);
+    void moveFace(const RG_MoveFaceData& data);
+    void move(const RG_MovingData& data);
 protected:
+    /**
+     * @brief applyModification
+     * Применить изменения для группы выделенных сущностей
+     * @param list
+     */
     void applyModification(std::vector<RG_Entity*>& list);
+    /**
+     * @brief applyModification
+     * Применить изменения для одного выделенной сущности
+     * @param oldEntity
+     * @param newEntity
+     */
+    void applyModification(RG_Entity *oldEntity, RG_Entity *newEntity);
     void deselectOriginals();
     void addNewEntities(std::vector<RG_Entity*>& list);
 

@@ -127,6 +127,30 @@ RG_Marker RG_Entity::getNearestSelectedRef(const RG_Vector &coord) const
     }
 
     RG_Marker marker;
+
+    // Сравним с маркерами изменения вершин сущности
+    marker = getNearestMarkerVertex(coord);
+
+    if (marker.valid && marker.dist<3.0) {
+        // Найден маркер изменения вершин сущности
+        return marker;
+    }
+
+    // Сравним с маркерами изменения граней сущности
+    marker = getNearestMarkerFace(coord);
+    if (marker.valid && marker.dist<3.0) {
+        // Найден маркер изменения граней сущности
+        return marker;
+    }
+
+    // Добавить сравнения с другими типами маркера (поворот, что-нибудь еще)
+
+    return marker;
+}
+
+RG_Marker RG_Entity::getNearestMarkerVertex(const RG_Vector &coord) const
+{
+    RG_Marker marker;
     marker.entity = (RG_Entity*)this;
     marker.dist = RG_MAXDOUBLE;
     double distRef;
@@ -141,10 +165,33 @@ RG_Marker RG_Entity::getNearestSelectedRef(const RG_Vector &coord) const
             marker.dist = distRef;
             marker.index = i;
             marker.valid = true;
+            marker.type = RG_Marker::Vertex;
         }
         i++;
     }
+    return marker;
+}
 
+RG_Marker RG_Entity::getNearestMarkerFace(const RG_Vector &coord) const
+{
+    RG_Vector vec;
+    RG_Marker marker;
+    marker.entity = (RG_Entity*)this;
+    marker.dist = RG_MAXDOUBLE;
+    double distRef;
+
+    RG_VectorSolutions vs = getRefPoints();
+
+    for (int i=0; i<vs.count(); i++) {
+        vec = getNearestPointOnLine(coord, vs[i], vs[(i+1)%vs.count()], &distRef);
+        if (marker.dist > distRef) {
+            marker.coord = vec;
+            marker.dist = distRef;
+            marker.index = i;
+            marker.valid = true;
+            marker.type = RG_Marker::Face;
+        }
+    }
     return marker;
 }
 
@@ -212,6 +259,19 @@ RG_Vector RG_Entity::getNearestPointOnLine(const RG_Vector &coord,
     double t = vct.dot(direction) / len2;
     // Умножим вектор линии на полученный t и перенесем на линию получив точку
     RG_Vector result = p1 + direction * t;
+
+    // Проверим, лежит ли точка в пределах указанного отрезка?
+    if (!result.isInWindow(p1,p2)) {
+        // Точка не лежит в пределах указанного отрезка
+        // Вернем отрицательный результат
+        if (dist) {
+            *dist = RG_MAXDOUBLE;
+        }
+        return RG_Vector(false);
+    }
+
+    // Точка лежит в пределах указанного отрезка
+    // Вернем полученный результат
     if (dist) {
         *dist = coord.distanceTo(result);
     }

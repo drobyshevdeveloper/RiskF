@@ -24,7 +24,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 
-LC_VERSION="1.0.37"
+LC_VERSION="1.0.38"
 VERSION=$${LC_VERSION}
 
 # Для работы отладочных функций закомментируйте следующую строку

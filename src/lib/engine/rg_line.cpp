@@ -130,6 +130,25 @@ void RG_Line::moveRef(const RG_Vector &ref, const RG_Vector &offset)
     }
 }
 
+void RG_Line::moveFace(const RG_Marker &marker, const RG_Vector &offset)
+{
+    move(offset);
+}
+
+void RG_Line::moveFace(const RG_Vector &ref, const RG_Vector &offset)
+{
+    RG_Marker m = getNearestMarkerFace(ref);
+    if (m.valid && m.type == RG_Marker::Face) {
+        move(offset);
+    }
+}
+
+void RG_Line::move(const RG_Vector &offset)
+{
+    moveStartPoint(offset);
+    moveEndPoint(offset);
+}
+
 void RG_Line::moveStartPoint(const RG_Vector &offset)
 {
     data.startPoint = data.startPoint + offset;
