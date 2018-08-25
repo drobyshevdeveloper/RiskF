@@ -74,6 +74,7 @@ public:
     virtual RG_Marker getNearestSelectedRef(const RG_Vector& coord) const;
     virtual RG_Marker getNearestMarkerVertex(const RG_Vector& coord) const;
     virtual RG_Marker getNearestMarkerFace(const RG_Vector& coord) const;
+    virtual RG_Marker getNearestMarkerMove(const RG_Vector& coord) const;
 
     /**
      * @brief getDistanceToPoint - определяет расстояние от заданной точки до сущности
@@ -135,7 +136,8 @@ public:
 
 protected:
     void initID();
-    /**
+/* Метод перенесен в RG_Information
+ *     /**
      * @brief getNearestPointOnLine
      * Определяет расстояние от заданной точки до линии
      * @param coord - Заданная точка
@@ -144,12 +146,12 @@ protected:
      * @param dist - указатель на переменную в которую будет записано вычисленное расстояние
      * @return
      */
-    RG_Vector getNearestPointOnLine(const RG_Vector& coord,
+/*    RG_Vector getNearestPointOnLine(const RG_Vector& coord,
                                     const RG_Vector& p1,
                                     const RG_Vector& p2,
                                     double* dist) const;
 
-
+*/
 
 protected:
     RG_EntityContainer* parent = nullptr;

@@ -95,6 +95,13 @@ void RG_ActionDefault::mouseMoveEvent(QMouseEvent *e)
                     break;
                 }
             }
+            if (marker.type == RG_Marker::Move) {
+                // Найден маркер перемещения сущности целиком
+                marker.offset = marker.coord - pPoints->v1;
+                pPoints->marker = marker;
+                setStatus(Moving);
+                break;
+            }
             if (marker.type == RG_Marker::Rotate) {
                 // Найден маркер изменения угла поворота сущности
             }

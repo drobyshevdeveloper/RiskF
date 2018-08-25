@@ -38,6 +38,10 @@ public:
 
     // Сравнить векторы на эквивалентность с точностью RG_TOLERANCE
     bool isEqu(const RG_Vector& v) const;
+    // Сравнить Х-координты векторов на эквивалентность с точностью RG_TOLERANCE
+    bool isEquX(const RG_Vector& v) const;
+    // Сравнить Y-координты векторов на эквивалентность с точностью RG_TOLERANCE
+    bool isEquY(const RG_Vector& v) const;
 
     // Длина вектора
     double length() const;

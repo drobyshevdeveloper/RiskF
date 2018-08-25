@@ -64,6 +64,16 @@ bool RG_Vector::isEqu(const RG_Vector &v) const
     return false;
 }
 
+bool RG_Vector::isEquX(const RG_Vector &v) const
+{
+    return std::abs(x - v.x)<RG_TOLERANCE;
+}
+
+bool RG_Vector::isEquY(const RG_Vector &v) const
+{
+    return std::abs(y - v.y)<RG_TOLERANCE;
+}
+
 double RG_Vector::length() const
 {
     return valid ? hypot(x, y) : 0.0;

@@ -18,6 +18,7 @@
 #include "rg_entity.h"
 
 #include "rg_graphic.h"
+#include "rg_information.h"
 
 RG_Entity::RG_Entity(RG_EntityContainer *parent)
     : RG_Undoable()
@@ -144,6 +145,8 @@ RG_Marker RG_Entity::getNearestSelectedRef(const RG_Vector &coord) const
     }
 
     // Добавить сравнения с другими типами маркера (поворот, что-нибудь еще)
+    // Сравним с маркерами перемещения сущности
+    marker = getNearestMarkerMove(coord);
 
     return marker;
 }
@@ -181,9 +184,11 @@ RG_Marker RG_Entity::getNearestMarkerFace(const RG_Vector &coord) const
     double distRef;
 
     RG_VectorSolutions vs = getRefPoints();
+    // Если количество вершин меньше двух, то считаем что граней нет
+    if (vs.count()<=2) return marker;
 
     for (int i=0; i<vs.count(); i++) {
-        vec = getNearestPointOnLine(coord, vs[i], vs[(i+1)%vs.count()], &distRef);
+        vec = RG_Information::getNearestPointOnLineSegment(coord, vs[i], vs[(i+1)%vs.count()], &distRef);
         if (marker.dist > distRef) {
             marker.coord = vec;
             marker.dist = distRef;
@@ -192,6 +197,40 @@ RG_Marker RG_Entity::getNearestMarkerFace(const RG_Vector &coord) const
             marker.type = RG_Marker::Face;
         }
     }
+    return marker;
+}
+
+RG_Marker RG_Entity::getNearestMarkerMove(const RG_Vector &coord) const
+{
+    RG_Vector vec;
+    RG_Marker marker;
+    marker.entity = (RG_Entity*)this;
+    marker.dist = RG_MAXDOUBLE;
+    double distRef;
+
+    RG_VectorSolutions vs = getRefPoints();
+    // Если количество вершин меньше двух, то вычисляем амркер перемещения сущности
+    // по единственной грани
+    if (vs.count()<2) {
+        vec = RG_Information::getNearestPointOnLineSegment(coord, vs[0], vs[1], &distRef);
+        if (vec) {
+            marker.coord = vec;
+            marker.dist = distRef;
+            marker.index = 0;
+            marker.valid = true;
+            marker.type = RG_Marker::Move;
+        }
+        return marker;
+    }
+
+    if (RG_Information::isPointInPolygon(coord, vs)) {
+        marker.coord = coord;
+        marker.dist = 0.0;
+        marker.index = 0;
+        marker.valid = true;
+        marker.type = RG_Marker::Move;
+    }
+
     return marker;
 }
 
@@ -243,6 +282,8 @@ RG_VectorSolutions RG_Entity::getRefPoints() const
     return RG_VectorSolutions();
 }
 
+/* Метод перенесен в класс RG_Information
+ *
 RG_Vector RG_Entity::getNearestPointOnLine(const RG_Vector &coord,
                                            const RG_Vector &p1,
                                            const RG_Vector &p2,
@@ -277,3 +318,4 @@ RG_Vector RG_Entity::getNearestPointOnLine(const RG_Vector &coord,
     }
     return result;
 }
+*/

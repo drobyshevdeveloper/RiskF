@@ -20,6 +20,7 @@
 #include "rl_debug.h"
 #include "rg_painter.h"
 #include "rg_graphicview.h"
+#include "rg_information.h"
 
 RG_Rectangle::RG_Rectangle(RG_EntityContainer *parent)
     : RG_AtomicEntity(parent)
@@ -51,28 +52,33 @@ RG_Vector RG_Rectangle::getNearestPointOnEntity(const RG_Vector &coord, double *
 
     RG_VectorSolutions vs = getRefPoints();
 
-    pt = getNearestPointOnLine(coord, vs[0], vs[1], &d);
+    pt = RG_Information::getNearestPointOnLineSegment(coord, vs[0], vs[1], &d);
     if (d<distRes) {
         distRes = d;
         ptRes = pt;
     }
 
-    pt = getNearestPointOnLine(coord, vs[1], vs[2], &d);
+    pt = RG_Information::getNearestPointOnLineSegment(coord, vs[1], vs[2], &d);
     if (d<distRes) {
         distRes = d;
         ptRes = pt;
     }
 
-    pt = getNearestPointOnLine(coord, vs[2], vs[3], &d);
+    pt = RG_Information::getNearestPointOnLineSegment(coord, vs[2], vs[3], &d);
     if (d<distRes) {
         distRes = d;
         ptRes = pt;
     }
 
-    pt = getNearestPointOnLine(coord, vs[3], vs[0], &d);
+    pt = RG_Information::getNearestPointOnLineSegment(coord, vs[3], vs[0], &d);
     if (d<distRes) {
         distRes = d;
         ptRes = pt;
+    }
+
+    if (RG_Information::isPointInPolygon(coord, vs)) {
+        distRes = 0.0;
+        ptRes = coord;
     }
 
     if (dist) {

@@ -96,3 +96,97 @@ RG_Vector RG_Information::getIntersectionLineLine(const RG_Line* l1, const RG_Li
                  (x4 <= x && x3 >= x));
     return ret;*/
 }
+
+RG_Vector RG_Information::getNearestPointOnLine(const RG_Vector &coord,
+                                                const RG_Vector &p1,
+                                                const RG_Vector &p2,
+                                                double *dist)
+{
+    // Используем формулу: proj_b_to_a = a * dot(a, b)/dot(a,a) (dot - скалярное произведение векторов)
+    // Преобразуем линию в вектор (a)
+    RG_Vector direction = p2 - p1;
+    // Квадрат длины вектора (dot(a,a))
+    double len2 = direction.squared();
+    // Преобразуем указанную точку в вектор (b)
+    RG_Vector vct = coord - p1;
+    // Найдем dot(a,b)/dot(a,a)
+    double t = vct.dot(direction) / len2;
+    // Умножим вектор линии на полученный t и перенесем на линию получив точку
+    RG_Vector result = p1 + direction * t;
+    if (dist) {
+        *dist = coord.distanceTo(result);
+    }
+    return result;
+}
+
+RG_Vector RG_Information::getNearestPointOnLineSegment(const RG_Vector &coord,
+                                                       const RG_Vector &p1,
+                                                       const RG_Vector &p2,
+                                                       double *dist)
+{
+    // Определим ближайшую точку на прямой
+    RG_Vector result = getNearestPointOnLine(coord, p1, p2, dist);
+
+    // Проверим, лежит ли точка в пределах указанного отрезка?
+    if (!result.isInWindow(p1,p2)) {
+        // Точка не лежит в пределах указанного отрезка
+        // Вернем отрицательный результат
+        if (dist) {
+            *dist = RG_MAXDOUBLE;
+        }
+        return RG_Vector(false);
+    }
+
+    // Точка лежит в пределах указанного отрезка
+    // Вернем полученный результат
+    if (dist) {
+        *dist = coord.distanceTo(result);
+    }
+    return result;
+}
+
+bool RG_Information::isPointInPolygon(const RG_Vector &pt,
+                                      RG_VectorSolutions &vs)
+{
+   int res = 0;
+   for (int i=0; i<vs.count();i++) {
+       if (isPointUnderLine(pt, vs[i], vs[(i+1) % vs.count()])) res++;
+   }
+   return res & 1;
+}
+
+// Функция определения совместного положения точки (pt)
+// и линии (l1)-(l2)
+// true  - Точка находиться на/под линией
+// false - Точка не находиться под линией
+bool RG_Information::isPointUnderLine(const RG_Vector& pt,
+                                      const RG_Vector& l1,
+                                      const RG_Vector& l2)
+{
+   // Последняя точка линии не в счет
+   if (l2.isEquX(pt)) return false;
+
+   // Введем рабочие переменные точки линии
+   RG_Vector l1_ = l1;
+   RG_Vector l2_ = l2;
+   if (l1_.x>l2_.x) {
+      // Поменять местами точки
+       l1_ = l2;
+       l2_ = l1;
+   }
+
+   if (pt.x<l1_.x || pt.x>l2_.x) return false; // Точка находится вне тени линии
+   if (l1_.isEqu(l2_)) {
+      // Тень от линии - точка
+      if (std::min(l1_.y, l2_.y) > pt.y) return false;
+      return true;
+   }
+
+   double k, b;
+   k = (l2.y - l1_.y) / (l2_.x - l1_.x);
+   b = l1_.y - k * l1_.x;
+
+   double y = pt.x * k + b;
+   if (y>pt.y) return false;
+   return true;
+}
