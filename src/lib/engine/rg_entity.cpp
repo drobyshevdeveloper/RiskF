@@ -209,11 +209,11 @@ RG_Marker RG_Entity::getNearestMarkerMove(const RG_Vector &coord) const
     double distRef;
 
     RG_VectorSolutions vs = getRefPoints();
-    // Если количество вершин меньше двух, то вычисляем амркер перемещения сущности
+    // Если количество вершин две, то вычисляем амркер перемещения сущности
     // по единственной грани
-    if (vs.count()<2) {
+    if (vs.count()==2) {
         vec = RG_Information::getNearestPointOnLineSegment(coord, vs[0], vs[1], &distRef);
-        if (vec) {
+        if (vec && distRef<3.0) {
             marker.coord = vec;
             marker.dist = distRef;
             marker.index = 0;
@@ -258,6 +258,10 @@ double RG_Entity::getDistanceToPoint(const RG_Vector &coord, RG_Entity **entity)
 
 bool RG_Entity::isInWindow(RG_Vector v1, RG_Vector v2)
 {
+    if (!isVisible()) {
+        return false;
+    }
+
     double left = std::min(v1.x, v2.x);
     double right = std::max(v1.x, v2.x);
     double top = std::min(v1.y, v2.y);

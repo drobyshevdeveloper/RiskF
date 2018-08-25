@@ -17,6 +17,7 @@
 
 #include "rg_selection.h"
 
+#include "rl_debug.h"
 #include "rg_entity.h"
 #include "rg_entitycontainer.h"
 #include "rg_graphicview.h"
@@ -46,6 +47,14 @@ void RG_Selection::singleSelect(RG_Entity *entity)
 void RG_Selection::selectWindow(RG_Vector v1, RG_Vector v2, bool select, bool cross)
 {
     container->selectWindow(v1, v2, select, cross);
+
+    // DEBUG {{
+    int selectCount = 0;
+    foreach (auto e, container->getEntityList()) {
+        if (e->isSelected()) selectCount++;
+    }
+    RL_DEBUG << "RG_Selection::selectWindow selectCount =" << selectCount;
+    // }} DEBUG
 
     if (graphicView) {
         graphicView->redraw();

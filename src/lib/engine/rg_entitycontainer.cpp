@@ -111,6 +111,11 @@ void RG_EntityContainer::selectWindow(RG_Vector v1, RG_Vector v2, bool select, b
     foreach (RG_Entity* e, entities) {
         bool included = false;
 
+        // Проверим видимость сущности
+        if (!e->isVisible()) {
+            continue;
+        }
+
         if (e->isInWindow(v1, v2)){
             included = true;
         } else if (cross) {
