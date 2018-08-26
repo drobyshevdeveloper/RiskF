@@ -43,6 +43,10 @@ RG_VectorSolutions RG_Information::getIntersection(RG_Entity const *e1, RG_Entit
             ret.push_Back(ret2);
         }
     }
+    if ((e1->rtti()==RG::EntityLine && e2->rtti()==RG::EntityRectangle) ||
+    {
+
+    }
     return ret;
 }
 

@@ -24,6 +24,7 @@
 
 class RG_Entity;
 class RG_Line;
+class RG_Rectangle;
 
 
 /**
@@ -57,6 +58,9 @@ public:
      */
     static RG_Vector getIntersectionLineLine(const RG_Line* l1,
                                              const RG_Line* l2);
+
+    static RG_VectorSolutions getIntersectionLineRectangle(const RG_Line* l,
+                                                           const RG_Rectangle* r);
 
     /**
      * @brief getNearestPointOnLine

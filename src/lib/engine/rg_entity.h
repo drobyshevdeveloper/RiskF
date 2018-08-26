@@ -115,6 +115,8 @@ public:
     RG_Graphic* getGraphic() const;
     RG_Document* getDocument() const;
 
+    // Следующие два метода может быть лишние, они не используются в данном классе
+    // Может быть стоит их вынести в класс линии
     virtual RG_Vector getStartPoint() const;
     virtual RG_Vector getEndPoint() const;
     RG_Vector getMin() const {return vMin;}

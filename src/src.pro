@@ -102,8 +102,8 @@ HEADERS += \
         lib/modification/rg_modification.h \
         lib/engine/rg_undo.h \
         lib/engine/rg_undogroup.h \
-    lib/engine/rg_rectangle.h \
-    actions/rg_actiondrawrectangle.h
+        lib/engine/rg_rectangle.h \
+    lib/engine/rg_polygon.h
 SOURCES += \
         lib/rl_settings.cpp \
         lib/gui/rl_dialogfactory.cpp \
@@ -134,8 +134,8 @@ SOURCES += \
         lib/modification/rg_modification.cpp \
         lib/engine/rg_undo.cpp \
         lib/engine/rg_undogroup.cpp \
-    lib/engine/rg_rectangle.cpp \
-    actions/rg_actiondrawrectangle.cpp
+        lib/engine/rg_rectangle.cpp \
+    lib/engine/rg_polygon.cpp
 
 
 ##################################################################
@@ -185,11 +185,13 @@ HEADERS += \
         actions/rg_actiondefault.h \
         actions/rg_actionzoom.h \
         actions/rg_actionzoompan.h \
-        actions/rg_actionundo.h
+        actions/rg_actionundo.h \
+        actions/rg_actiondrawrectangle.h
 
 SOURCES += \
         actions/rg_actiondrawline.cpp \
         actions/rg_actiondefault.cpp \
         actions/rg_actionzoom.cpp \
         actions/rg_actionzoompan.cpp \
-        actions/rg_actionundo.cpp
+        actions/rg_actionundo.cpp \
+        actions/rg_actiondrawrectangle.cpp

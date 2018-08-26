@@ -44,6 +44,7 @@ public:
         EntityGraphic,          // Графический документ
         EntityLine,
         EntityRectangle,
+        EntityPolygon,
         EntityOverlayRect,      // Накладываемый объект прямоугольная область выбора
         EntityPreview           // Контейнер предпросмотра
 
