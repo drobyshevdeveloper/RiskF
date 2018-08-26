@@ -83,13 +83,14 @@ class RG_VectorSolutions
 public:
     RG_VectorSolutions() = default;
 
-    QList<RG_Vector> getVector() {return vector;}
+    QList<RG_Vector> getVector() const {return vector;}
     void push_Back(const RG_Vector& v);
     void clear();
     int count() const;
     bool empty();
     RG_Vector getClosest(const RG_Vector& v);
     RG_Vector& operator [] (const size_t i);
+    const RG_Vector &operator [](const size_t i) const;
 
 private:
     QList<RG_Vector> vector;

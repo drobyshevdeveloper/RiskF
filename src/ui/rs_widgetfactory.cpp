@@ -37,7 +37,9 @@ RS_WidgetFactory::RS_WidgetFactory(RF_MainWindow* main_win,
             << a_map["FileNew"];
     insert_actions
             << a_map["InsertLine"]
-            << a_map["InsertRoom"];
+            << a_map["InsertRoom"]
+            << a_map["InsertRectangle"]
+            << a_map["InsertPolygon"];
     edit_actions
             << a_map["Select"]
             << a_map["Undo"]

@@ -59,6 +59,7 @@ public:
         ActionDefault,
         ActionDrawLine,
         ActionDrawRectangle,
+        ActionDrawPolygon,
         ActionUndo,
         ActionRedo
     };

@@ -33,7 +33,7 @@ RG_Rectangle::RG_Rectangle(RG_EntityContainer *parent, const RG_RectangleData& d
     : RG_AtomicEntity(parent)
     , data(d)
 {
-
+    calculateBorders();
 }
 
 RG_Entity* RG_Rectangle::clone()

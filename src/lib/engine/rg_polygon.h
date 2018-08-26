@@ -21,16 +21,29 @@
 #include "rg_atomicentity.h"
 #include "rg_vector.h"
 
-class RG_PolygonData {
-    RG_VectorSolutions vertexes;
-}
 
+struct RG_PolygonData {
+    RG_VectorSolutions vertexes;
+};
+
+/**
+ * @brief The RG_Polygon class
+ * Класс многоугольника - базовый класс для различных элементов документа
+ * Данный примитив может быть как правильным прямогольником, повернутым на любой угол,
+ * так и любым многоугольником, тип примитива определяется методом isRect(),
+ * который возвращает true, если примитив является прямоугольником
+ *                    false, если примитив является многоугольником
+ * Прямоугольник может быть преобразован в многоугольник, если виртуальны метод
+ * isCanByPolygon() возвращает true, который может быть перегружен
+ * Многоугольник не может быть преобразован в прямоугольник
+ */
 class RG_Polygon : public RG_AtomicEntity
 {
 public:
     RG_Polygon(RG_EntityContainer* parent);
     RG_Polygon(RG_EntityContainer *parent,
-                 const RG_PolygonData &d);
+               const RG_PolygonData &d,
+               bool isRect);
 
     virtual RG_Entity* clone() override;
 
@@ -38,25 +51,39 @@ public:
         return RG::EntityPolygon;
     }
 
+    // Возвращает true, если примитив является прямоугольником
+    bool isRect() const {return fRect;}
+    // Возвращает ширину примитива, если он является прямоугольником
+    double getWidth();
+    // Возвращает высоту примитива, если он является прямоугольником
+    double getHeight();
+    // Возможно-ли преобразовать примитив в многоугольник
+    virtual bool isCanByPolygon() {return true;}
+
     virtual RG_Vector getNearestPointOnEntity(const RG_Vector &coord,
                                               double *dist) const override;
 
-    virtual void calculateBorders() override;
+//    virtual void calculateBorders() override;
 
     virtual void draw(RG_Painter* painter, RG_GraphicView* view) override;
     virtual void moveRef(const RG_Vector& ref, const RG_Vector& offset) override;
     virtual void moveFace(const RG_Vector& ref, const RG_Vector& offset) override;
     virtual void move(const RG_Vector &offset) override;
-/*    void moveVertex1(const RG_Vector& offset);
-    void moveVertex2(const RG_Vector& offset);
-    void moveVertex3(const RG_Vector& offset);
-    void moveVertex4(const RG_Vector& offset);
-*/
+    void moveVertex(int index, const RG_Vector &offset);
 
     virtual RG_VectorSolutions getRefPoints() const override;
 
 protected:
+    /**
+     * @brief transformToPolygon
+     * Преобразует прямоугольник в многоугольник, если это возможно
+     */
+    void transformToPolygon();
+
+protected:
     RG_PolygonData data;
+private:
+    bool fRect;
 };
 
 #endif // RG_POLYGON_H

@@ -198,6 +198,11 @@ RG_Vector& RG_VectorSolutions::operator [](size_t i)
     return vector[i];
 }
 
+const RG_Vector& RG_VectorSolutions::operator [](size_t i) const
+{
+    return vector[i];
+}
+
 std::ostream& operator << (std::ostream& os, const RG_Vector& v)
 {
     if(v.valid) {

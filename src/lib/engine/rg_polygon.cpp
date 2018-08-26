@@ -17,56 +17,65 @@
 
 #include "rg_polygon.h"
 
+#include "rl_debug.h"
+#include "rg_marker.h"
+#include "rg_painter.h"
+#include "rg_information.h"
+#include "rg_pen.h"
+#include "rg_painter.h"
+#include "rg_graphicview.h"
+
 RG_Polygon::RG_Polygon(RG_EntityContainer *parent)
     : RG_AtomicEntity(parent)
 {
 }
 
-RG_Polygon::RG_Polygon(RG_EntityContainer *parent, const RG_PolygonData& d)
+RG_Polygon::RG_Polygon(RG_EntityContainer *parent, const RG_PolygonData& d, bool isRect)
     : RG_AtomicEntity(parent)
     , data(d)
 {
-
+    fRect = isRect;
+    calculateBorders();
 }
 
 RG_Entity* RG_Polygon::clone()
 {
-    RG_Polygon* rect = new RG_Polygon(*this);
-    rect->initID();
-    return rect;
+    RG_Polygon* poly = new RG_Polygon(*this);
+    poly->initID();
+    return poly;
+}
+
+double RG_Polygon::getWidth()
+{
+    if (!isRect()) return 0;
+
+    // Вычислить ширину прямоугольника
+    return 0;
+}
+
+double RG_Polygon::getHeight()
+{
+    if (!isRect()) return 0;
+
+    // Вычислить высоту прямоугольника
+    return 0;
 }
 
 RG_Vector RG_Polygon::getNearestPointOnEntity(const RG_Vector &coord, double *dist) const
 {
-/*    double distRes = RG_MAXDOUBLE;
+    double distRes = RG_MAXDOUBLE;
     double d;
     RG_Vector ptRes;
     RG_Vector pt;
 
     RG_VectorSolutions vs = getRefPoints();
 
-    pt = RG_Information::getNearestPointOnLineSegment(coord, vs[0], vs[1], &d);
-    if (d<distRes) {
-        distRes = d;
-        ptRes = pt;
-    }
-
-    pt = RG_Information::getNearestPointOnLineSegment(coord, vs[1], vs[2], &d);
-    if (d<distRes) {
-        distRes = d;
-        ptRes = pt;
-    }
-
-    pt = RG_Information::getNearestPointOnLineSegment(coord, vs[2], vs[3], &d);
-    if (d<distRes) {
-        distRes = d;
-        ptRes = pt;
-    }
-
-    pt = RG_Information::getNearestPointOnLineSegment(coord, vs[3], vs[0], &d);
-    if (d<distRes) {
-        distRes = d;
-        ptRes = pt;
+    for (int i=0; i<vs.count(); i++) {
+        pt = RG_Information::getNearestPointOnLineSegment(coord, vs[i], vs[(i+1)%vs.count()], &d);
+        if (d<distRes) {
+            distRes = d;
+            ptRes = pt;
+        }
     }
 
     if (RG_Information::isPointInPolygon(coord, vs)) {
@@ -78,59 +87,55 @@ RG_Vector RG_Polygon::getNearestPointOnEntity(const RG_Vector &coord, double *di
         *dist =distRes;
     }
     return ptRes;
-    */
 }
 
+/*
 void RG_Polygon::calculateBorders()
 {
-/*
- *     vMin.x = data.corner1.x;
-    vMax.x = data.corner2.x;
-    if (vMin.x > vMax.x) {
-        std::swap(vMin.x, vMax.x);
+    vMin = data.vertexes[0];
+    vMax = data.vertexes[0];
+    for (int i=1; i<data.vertexes.count(); i++) {
+        RG_Vector v = data.vertexes[i];
+        if (vMin.x > v.x) vMin.x = v.x;
+        if (vMax.x < v.x) vMax.x = v.x;
+        if (vMin.y > v.y) vMin.y = v.y;
+        if (vMax.y < v.y) vMax.y = v.y;
     }
-    vMin.y = data.corner1.y;
-    vMax.y = data.corner2.y;
-    if (vMin.y > vMax.y) {
-        std::swap(vMin.y, vMax.y);
-    }
-    */
 }
-
+*/
 void RG_Polygon::draw(RG_Painter *painter, RG_GraphicView *view)
 {
-/*    RG_VectorSolutions vs = getRefPoints();
-    painter->drawLine(view->toGui(vs[0]), view->toGui(vs[1]));
-    painter->drawLine(view->toGui(vs[1]), view->toGui(vs[2]));
-    painter->drawLine(view->toGui(vs[2]), view->toGui(vs[3]));
-    painter->drawLine(view->toGui(vs[3]), view->toGui(vs[0]));
-*/
+    if ( !(painter && view) ) {
+        return;
+    }
+
+    RG_Pen pen;
+    pen.setColor(QColor(Qt::black));
+
+    if (isSelected()) {
+        pen.setColor(QColor(Qt::red));
+    }
+    painter->setPen(pen);
+
+    RG_VectorSolutions vs = getRefPoints();
+    for (int i=0; i<vs.count(); i++) {
+        painter->drawLine(view->toGraph(vs[i]), view->toGraph(vs[(i+1)%vs.count()]));
+    }
 }
 
 void RG_Polygon::moveRef(const RG_Vector &ref, const RG_Vector &offset)
 {
-/*    RG_VectorSolutions vs = getRefPoints();
-    if (vs[0].isEqu(ref)) {
-        moveVertex1(offset);
-        return;
+    RG_VectorSolutions vs = getRefPoints();
+    for (int i=0; i<vs.count(); i++) {
+        if (vs[i].isEqu(ref)) {
+            moveVertex(i, offset);
+        }
     }
-    if (vs[1].isEqu(ref)) {
-        moveVertex2(offset);
-        return;
-    }
-    if (vs[2].isEqu(ref)) {
-        moveVertex3(offset);
-        return;
-    }
-    if (vs[3].isEqu(ref))
-        moveVertex4(offset);
-        */
 }
 
 void RG_Polygon::moveFace(const RG_Vector &ref, const RG_Vector &offset)
 {
-/*
- *     RG_Marker marker = getNearestMarkerFace(ref);
+/*    RG_Marker marker = getNearestMarkerFace(ref);
     if (marker.valid && marker.type == RG_Marker::Face && marker.dist<3.0) {
         RG_VectorSolutions vs = getRefPoints();
         const RG_Vector offsetX = {offset.x, 0.0};
@@ -149,48 +154,55 @@ void RG_Polygon::moveFace(const RG_Vector &ref, const RG_Vector &offset)
             moveVertex4(offsetX);
             break;
         }
-    }
-    */
+    }*/
 }
 
 void RG_Polygon::move(const RG_Vector &offset)
 {
-/*    moveVertex1(offset);
-    moveVertex3(offset);
-    */
-}
-
-void RG_Polygon::moveVertex1(const RG_Vector &offset)
-{
-    RL_DEBUG << "RG_Rectangle::moveVertex1";
-    data.corner1 = data.corner1 + offset;
-    calculateBorders();
-}
-/*
-void RG_Rectangle::moveVertex2(const RG_Vector &offset)
-{
-    RL_DEBUG << "RG_Rectangle::moveVertex2";
-    data.corner2.x = data.corner2.x + offset.x;
-    data.corner1.y = data.corner1.y + offset.y;
+    for (int i=0; i<data.vertexes.count(); i++) {
+        data.vertexes[i] = data.vertexes[i] + offset;
+    }
     calculateBorders();
 }
 
-void RG_Rectangle::moveVertex3(const RG_Vector &offset)
+void RG_Polygon::moveVertex(int index, const RG_Vector &offset)
 {
-    RL_DEBUG << "RG_Rectangle::moveVertex3";
-    data.corner2 = data.corner2 + offset;
+    RL_DEBUG << "RG_Polygon::moveVertex index = " << index << ", offset(" << offset.x << "," << offset.y << ")";
+    if (isRect()) {
+        switch(index) {
+        case 0:
+            data.vertexes[0] = data.vertexes[0] + offset;
+            break;
+        case 1:
+            data.vertexes[1].x = data.vertexes[1].x + offset.x;
+            data.vertexes[0].y = data.vertexes[0].y + offset.y;
+            break;
+        case 2:
+            data.vertexes[1] = data.vertexes[1] + offset;
+            break;
+        case 3:
+            data.vertexes[0].x = data.vertexes[0].x + offset.x;
+            data.vertexes[1].y = data.vertexes[1].y + offset.y;
+            break;
+        }
+    } else {
+        data.vertexes[index] = data.vertexes[index] + offset;
+    }
     calculateBorders();
 }
 
-void RG_Rectangle::moveVertex4(const RG_Vector &offset)
-{
-    RL_DEBUG << "RG_Rectangle::moveVertex4";
-    data.corner1.x = data.corner1.x + offset.x;
-    data.corner2.y = data.corner2.y + offset.y;
-    calculateBorders();
-}
-*/
 RG_VectorSolutions RG_Polygon::getRefPoints() const
 {
-    return data.vertexes;
+    if (!isRect()) return data.vertexes;
+
+    // Примитив является прямоугольником, вычислим вершины по двум диаганальным точкам и углу поворота
+    RG_VectorSolutions vs;
+
+    vs.push_Back(data.vertexes.getVector().at(0));
+    vs.push_Back({data.vertexes[1].x, data.vertexes[0].y});
+    vs.push_Back(data.vertexes[1]);
+    vs.push_Back({data.vertexes[0].x, data.vertexes[1].y});
+
+    return vs;
+
 }

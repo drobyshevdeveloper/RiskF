@@ -62,6 +62,8 @@ public:
     void moveVertex3(const RG_Vector& offset);
     void moveVertex4(const RG_Vector& offset);
 
+    const RG_RectangleData getData() const {return data;}
+
 
     virtual RG_VectorSolutions getRefPoints() const override;
 

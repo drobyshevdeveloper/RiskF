@@ -24,7 +24,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 
-LC_VERSION="1.0.40"
+LC_VERSION="1.0.41"
 VERSION=$${LC_VERSION}
 
 # Для работы отладочных функций закомментируйте следующую строку
@@ -103,7 +103,7 @@ HEADERS += \
         lib/engine/rg_undo.h \
         lib/engine/rg_undogroup.h \
         lib/engine/rg_rectangle.h \
-    lib/engine/rg_polygon.h
+        lib/engine/rg_polygon.h
 SOURCES += \
         lib/rl_settings.cpp \
         lib/gui/rl_dialogfactory.cpp \
@@ -135,7 +135,7 @@ SOURCES += \
         lib/engine/rg_undo.cpp \
         lib/engine/rg_undogroup.cpp \
         lib/engine/rg_rectangle.cpp \
-    lib/engine/rg_polygon.cpp
+        lib/engine/rg_polygon.cpp
 
 
 ##################################################################
@@ -186,7 +186,8 @@ HEADERS += \
         actions/rg_actionzoom.h \
         actions/rg_actionzoompan.h \
         actions/rg_actionundo.h \
-        actions/rg_actiondrawrectangle.h
+        actions/rg_actiondrawrectangle.h \
+        actions/rg_actiondrawpolygon.h
 
 SOURCES += \
         actions/rg_actiondrawline.cpp \
@@ -194,4 +195,5 @@ SOURCES += \
         actions/rg_actionzoom.cpp \
         actions/rg_actionzoompan.cpp \
         actions/rg_actionundo.cpp \
-        actions/rg_actiondrawrectangle.cpp
+        actions/rg_actiondrawrectangle.cpp \
+        actions/rg_actiondrawpolygon.cpp
