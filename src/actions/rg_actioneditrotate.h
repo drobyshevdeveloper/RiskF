@@ -20,7 +20,7 @@
 
 #include "rg_previewactioninterface.h"
 
-class RG_ActionEditRotate : public RG_PreviewActionInterface
+class RG_ActionEditRotate : public RG_PreviewActionInterface, RG_IRecipientFromChildAction
 {
 public:
     enum Status {
@@ -42,6 +42,8 @@ public:
     virtual void keyPressEvent(QKeyEvent* e) override;
     virtual void keyReleaseEvent(QKeyEvent* e) override;
     virtual void updateMouseCursor() override;
+
+    virtual void setChildActionExitCode(int cod) override;
 private:
     struct Points {
         RG_Vector basePoint;

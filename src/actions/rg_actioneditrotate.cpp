@@ -57,7 +57,7 @@ void RG_ActionEditRotate::init(int status)
 
     // Если нет выбранных объектов включим инструмент выбора
     if (container->countSelection()==0) {
-        graphicView->setCurrentAction(new RG_ActionSelect(*container, *graphicView));
+        graphicView->setCurrentAction(new RG_ActionSelect(*container, *graphicView, this));
     }
     RG_PreviewActionInterface::init(SetBasePoint);
 }
@@ -296,4 +296,11 @@ void RG_ActionEditRotate::updateMouseCursor()
 //    if (oldSt != getSnapperType()) {
 //        drawSnapper();
 //    }
+}
+
+void RG_ActionEditRotate::setChildActionExitCode(int cod)
+{
+    if (cod == RG_ActionSelect::ActionCancel) {
+        finish();
+    }
 }

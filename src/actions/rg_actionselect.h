@@ -28,9 +28,19 @@ public:
         FirstClick,     // Режим включается при первом нажатии левой кнопки
         SetCorner2,     // Режим выбора второго угла прямоугольной области выбора
     };
+    /**
+     * @brief The ChildActionExitCode enum
+     * Перечисление кодов завершения текущего (дочернего) действия
+     * передаваемое в предыдущее (родительское) действие
+     */
+    enum ChildActionExitCode {
+        ActionOk,         // Действие завершилось нормально
+        ActionCancel      // Действие было отменено
+    };
 
     RG_ActionSelect(RG_EntityContainer& container,
-                    RG_GraphicView& graphicView);
+                    RG_GraphicView& graphicView,
+                    RG_IRecipientFromChildAction* previousAction);
 
     ~RG_ActionSelect();
 
@@ -43,7 +53,9 @@ public:
     virtual void keyPressEvent(QKeyEvent* e) override;
     virtual void keyReleaseEvent(QKeyEvent* e) override;
     virtual void updateMouseCursor() override;
+
 private:
+    RG_IRecipientFromChildAction* previousAction; // Предыдущее действие, из которго было вызвано данное
     struct Points {
         RG_Vector v1;
         RG_Vector v2;

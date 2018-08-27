@@ -28,10 +28,12 @@
 #include "rg_preview.h"
 
 RG_ActionSelect::RG_ActionSelect(RG_EntityContainer &container,
-                                 RG_GraphicView &graphicView)
+                                 RG_GraphicView &graphicView,
+                                 RG_IRecipientFromChildAction *previousAction)
     : RG_PreviewActionInterface("Select", container, graphicView)
 {
     actionType = RG::ActionSelect;
+    this->previousAction = previousAction;
 }
 
 RG_ActionSelect::~RG_ActionSelect()
@@ -146,11 +148,14 @@ void RG_ActionSelect::keyPressEvent(QKeyEvent *e)
         }
 
         graphicView->redraw(RG::RedrawOverlay);
-        e->accept();
         finish();
+        previousAction->setChildActionExitCode(ActionCancel);
+        e->accept();
         break;
+    case Qt::Key_Return:
     case Qt::Key_Enter:
         finish();
+        previousAction->setChildActionExitCode(ActionOk);
         e->accept();
         break;
     default:
