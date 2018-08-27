@@ -50,6 +50,7 @@ public slots:
 
     // === Edit ===
     void slotSelect();    // инструмент по умолчанию
+    void slotEditRotate();
     void slotUndo();
     void slotRedo();
 

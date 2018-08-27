@@ -57,9 +57,11 @@ public:
     enum ActionType {
         ActionNone,
         ActionDefault,
+        ActionSelect,
         ActionDrawLine,
         ActionDrawRectangle,
         ActionDrawPolygon,
+        ActionEditRotate,
         ActionUndo,
         ActionRedo
     };

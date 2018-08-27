@@ -87,6 +87,17 @@ void RG_EntityContainer::setSelected(bool select)
     }
 }
 
+int RG_EntityContainer::countSelection() const
+{
+    int result = 0;
+    for (RG_Entity* e: entities) {
+        if (e->isContainer()) result += static_cast<RG_EntityContainer*>(e)->countSelection();
+        else if (e->isSelected()) result++;
+    }
+
+    return result;
+}
+
 /**
  * @brief RG_EntityContainer::selectWindow - выбирает или отменяет выбор сущности,
  * попавших в прямоугольную область выделения

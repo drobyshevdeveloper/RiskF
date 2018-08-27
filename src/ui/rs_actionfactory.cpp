@@ -76,6 +76,12 @@ void RS_ActionFactory::fillActionContainer(QMap<QString, QAction *> &a_map, RS_A
     action->setObjectName("Select");
     a_map["Select"] = action;
 
+    action = new QAction(tr("&Rotate"), agm->edit);
+    action->setIcon(QIcon(":/icons/Rotate.png"));
+    connect(action, SIGNAL(triggered(bool)), action_handler, SLOT(slotEditRotate()));
+    action->setObjectName("Rotate");
+    a_map["Rotate"] = action;
+
     action = new QAction(tr("&Undo"), agm->edit);
     action->setIcon(QIcon(":/icons/file.svg"));
     connect(action, SIGNAL(triggered(bool)), action_handler, SLOT(slotUndo()));

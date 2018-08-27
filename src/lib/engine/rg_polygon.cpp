@@ -119,7 +119,7 @@ void RG_Polygon::draw(RG_Painter *painter, RG_GraphicView *view)
 
     RG_VectorSolutions vs = getRefPoints();
     for (int i=0; i<vs.count(); i++) {
-        painter->drawLine(view->toGraph(vs[i]), view->toGraph(vs[(i+1)%vs.count()]));
+        painter->drawLine(view->toGui(vs[i]), view->toGui(vs[(i+1)%vs.count()]));
     }
 }
 

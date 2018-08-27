@@ -39,6 +39,7 @@ public:
     virtual void setSelected(bool select) override;
     virtual void selectWindow(RG_Vector v1, RG_Vector v2,
                               bool select, bool cross);
+    int countSelection() const;
 
 
 

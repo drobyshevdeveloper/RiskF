@@ -24,7 +24,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 
-LC_VERSION="1.0.41"
+LC_VERSION="1.0.42"
 VERSION=$${LC_VERSION}
 
 # Для работы отладочных функций закомментируйте следующую строку
@@ -187,7 +187,9 @@ HEADERS += \
         actions/rg_actionzoompan.h \
         actions/rg_actionundo.h \
         actions/rg_actiondrawrectangle.h \
-        actions/rg_actiondrawpolygon.h
+        actions/rg_actiondrawpolygon.h \
+        actions/rg_actioneditrotate.h \
+        actions/rg_actionselect.h
 
 SOURCES += \
         actions/rg_actiondrawline.cpp \
@@ -196,4 +198,6 @@ SOURCES += \
         actions/rg_actionzoompan.cpp \
         actions/rg_actionundo.cpp \
         actions/rg_actiondrawrectangle.cpp \
-        actions/rg_actiondrawpolygon.cpp
+        actions/rg_actiondrawpolygon.cpp \
+        actions/rg_actioneditrotate.cpp \
+        actions/rg_actionselect.cpp

@@ -8,5 +8,6 @@
         <file>mouse cursor.ico</file>
         <file>Polygon.png</file>
         <file>Rectangle.png</file>
+        <file>Rotate.png</file>
     </qresource>
 </RCC>

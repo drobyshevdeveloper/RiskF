@@ -24,6 +24,7 @@
 #include "rg_actionundo.h"
 #include "rg_actiondrawrectangle.h"
 #include "rg_actiondrawpolygon.h"
+#include "rg_actioneditrotate.h"
 
 RS_ActionHandler::RS_ActionHandler(QObject *parent)
     : QObject(parent)
@@ -40,6 +41,9 @@ RG_ActionInterface* RS_ActionHandler::setCurrentAction(RG::ActionType a_type)
         if (graphicView) {
             graphicView->killAllActions();
         }
+        break;
+    case RG::ActionEditRotate:
+        a = new RG_ActionEditRotate(*document, *graphicView);
         break;
     case RG::ActionDrawLine:
         a = new RG_ActionDrawLine(*document, *graphicView);
@@ -113,6 +117,11 @@ void RS_ActionHandler::slotInsertPolygon()
 void RS_ActionHandler::slotSelect()
 {
     setCurrentAction(RG::ActionDefault);
+}
+
+void RS_ActionHandler::slotEditRotate()
+{
+    setCurrentAction(RG::ActionEditRotate);
 }
 
 void RS_ActionHandler::slotUndo()
