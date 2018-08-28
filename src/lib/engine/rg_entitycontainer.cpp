@@ -239,15 +239,13 @@ void RG_EntityContainer::moveRef(const RG_Vector& ref, const RG_Vector& offset)
     calculateBorders();
 }
 
+/*
 void RG_EntityContainer::moveFace(const RG_Marker &marker, const RG_Vector &offset)
 {
-/*    foreach (RG_Entity* e, entities) {
-        e->moveFace(marker, offset);
-    }
-*/
     marker.entity->moveFace(marker, offset);
     calculateBorders();
 }
+*/
 
 void RG_EntityContainer::moveFace(const RG_Vector &ref, const RG_Vector &offset)
 {
@@ -261,6 +259,14 @@ void RG_EntityContainer::move(const RG_Vector &offset)
 {
     foreach (auto e, entities) {
         e->move(offset);
+    }
+    calculateBorders();
+}
+
+void RG_EntityContainer::rotate(const RG_Vector &ptBase, const RG_Vector &ptAngle)
+{
+    foreach (auto e, entities) {
+        e->rotate(ptBase, ptAngle);
     }
     calculateBorders();
 }

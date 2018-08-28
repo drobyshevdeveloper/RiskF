@@ -29,6 +29,7 @@
 #include "rg_modification.h"
 #include "rg_actionselect.h"
 #include "rg_document.h"
+#include "rg_line.h"
 
 RG_ActionEditRotate::RG_ActionEditRotate(RG_EntityContainer &container,
                                          RG_GraphicView &graphicView)
@@ -69,101 +70,44 @@ void RG_ActionEditRotate::coordinateEvent(RG_CoordinateEvent *ce)
 
 void RG_ActionEditRotate::mouseMoveEvent(QMouseEvent *e)
 {
-/*    RG_Marker marker;
+//    RG_Marker marker;
     RG_Vector mouse = graphicView->toGraph(e->x(), e->y());
-    pPoints->v2 = mouse;
+//    points.v2 = mouse;
 
     switch (getStatus()) {
-    case Neutral:
+    case SetBasePoint:
+        points.basePoint = mouse;
         break;
-    case FirstClick:
-        // Реализовать проверку перемещения выбранных сущностей
-
-        // Проверить изменение размеров сущностей перемещением маркеров
-        marker = container->getNearestSelectedRef(pPoints->v1);
-        if (marker.valid) {
-            if (marker.type == RG_Marker::Vertex) {
-                // Найден маркер изменения вершин сущности
-                RG_Vector d(RG_MARKER_SIZE_2, RG_MARKER_SIZE_2);
-                if (pPoints->v1.isInWindow(marker.coord-d, marker.coord+d)) {
-                    marker.offset = marker.coord - pPoints->v1;
-                    pPoints->marker = marker;
-                    setStatus(MoveRef);
-                    break;
-                }
-            }
-            if (marker.type == RG_Marker::Face) {
-                // Найден маркер изменения граней сущности
-                if (marker.dist < 3.0) {
-                    marker.offset = marker.coord - pPoints->v1;
-                    pPoints->marker = marker;
-                    setStatus(MoveFace);
-                    break;
-                }
-            }
-            if (marker.type == RG_Marker::Move) {
-                // Найден маркер перемещения сущности целиком
-                marker.offset = marker.coord - pPoints->v1;
-                pPoints->marker = marker;
-                setStatus(Moving);
-                break;
-            }
-            if (marker.type == RG_Marker::Rotate) {
-                // Найден маркер изменения угла поворота сущности
-            }
-        }
-
-        // Если перемещения сущностей нет включаем режим выбора прямогольной областью
-        setStatus(SetCorner2);
-        break;
-    case SetCorner2:
+    case SetAngle:
     {
+        points.anglePoint = mouse;
         deletePreview();
 
-        RG_OverlayRect* rect = new RG_OverlayRect(nullptr, {pPoints->v1,pPoints->v2});
+        preview->addSelectionFrom(container);
+        preview->rotate(points.basePoint, points.anglePoint);
 
-        preview->addEntity(rect);
+        RG_Line* line = new RG_Line(nullptr, {points.basePoint, points.anglePoint});
+        preview->addEntity(line);
+        line = new RG_Line(nullptr, {points.basePoint+RG_Vector(5.0, 5.0),
+                                     points.basePoint+RG_Vector(-5.0, -5.0)});
+        preview->addEntity(line);
+        line = new RG_Line(nullptr, {points.basePoint+RG_Vector(5.0, -5.0),
+                                     points.basePoint+RG_Vector(-5.0, 5.0)});
+        preview->addEntity(line);
+
         drawPreview();
 
         break;
     }
-    case MoveRef:
-        deletePreview();
-        preview->addSelectionFrom(container);
-        preview->moveRef(pPoints->marker.coord,
-                         pPoints->v2 - pPoints->v1);
-        drawPreview();
-        /*
-        pPoints->marker.entity->moveRef(pPoints->marker, pPoints->v2 - pPoints->v1);
-        graphicView->redraw();
-        */
-    /*
-        break;
-    case MoveFace: {
-        deletePreview();
-        RG_Entity* en = pPoints->marker.entity->clone();
-        en->setSelected(false);
-        en->reparent(nullptr);
-        preview->addEntity(en);
-        preview->moveFace(pPoints->marker.coord, pPoints->v2 - pPoints->v1);
-        drawPreview();
-        break;
-    }
-    case Moving:
-        deletePreview();
-        preview->addSelectionFrom(container);
-        preview->move(pPoints->v2 - pPoints->v1);
-        drawPreview();
-        break;
-//    case Panning:
 
-//        break;
+    default:
+
+        break;
     }
 
     RG_Vector snapper = snapPoint(e);
 
     RL_DIALOGFACTORY->updateCoordinateWidget(snapper, snapper);
-    */
 }
 
 void RG_ActionEditRotate::mousePressEvent(QMouseEvent *e)
@@ -191,89 +135,52 @@ void RG_ActionEditRotate::mousePressEvent(QMouseEvent *e)
 
 void RG_ActionEditRotate::mouseReleaseEvent(QMouseEvent *e)
 {
-/*    RG_Vector mouse = graphicView->toGraph(e->x(), e->y());
-    pPoints->v2 = mouse;
-    RG_Entity* en = nullptr;
+    RG_Vector mouse = graphicView->toGraph(e->x(), e->y());
+//    points->v2 = mouse;
+//    RG_Entity* en = nullptr;
 
     if (e->button() == Qt::LeftButton) {
         switch (getStatus()) {
-        case FirstClick:
-            en = catchEntity(mouse);
-            if (en) {
-                RG_Selection s(container, graphicView);
-                s.singleSelect(en);
-            }
-            e->accept();
-            setStatus(Neutral);
+        case SetBasePoint:
+            points.basePoint = mouse;
+            setStatus(SetAngle);
             graphicView->redraw(RG::RedrawDrawing);
-
+            e->accept();
             break;
-        case SetCorner2: {
-            RG_Selection s(container, graphicView);
+        case SetAngle: {
+            RG_Modification m(container, graphicView);
+
+            m.rotate({points.basePoint, points.anglePoint});
+
+/*            RG_Selection s(container, graphicView);
             s.selectWindow(pPoints->v1, pPoints->v2,
                            true,
                            (pPoints->v1.x > pPoints->v2.x)?true:false);
-
+*/
             deletePreview();
-            setStatus(Neutral);
-
-            break;
-        }
-        case MoveRef: {
-            RG_Modification m(container, graphicView);
-            RG_MoveRefData data;
-            data.ref = pPoints->marker.coord;
-            data.offset = pPoints->v2 - pPoints->v1;
-            m.moveRef(data);
-            deletePreview();
-            setStatus(Neutral);
-            break;
-        }
-        case MoveFace: {
-            RG_Modification m(container, graphicView);
-            RG_MoveFaceData data;
-            data.marker = pPoints->marker;
-            data.offset = pPoints->v2 - pPoints->v1;
-            m.moveFace(data);
-            deletePreview();
-            setStatus(Neutral);
-            break;
-        }
-        case Moving: {
-            RG_Modification m(container, graphicView);
-            RG_MovingData data;
-            data.offset = pPoints->v2 - pPoints->v1;
-            m.move(data);
-            deletePreview();
-            setStatus(Neutral);
+            setStatus(SetBasePoint);
+            graphicView->redraw(RG::RedrawDrawing);
+            e->accept();
             break;
         }
         default:
             break;
         }
     }
-    */
 }
 
 void RG_ActionEditRotate::keyPressEvent(QKeyEvent *e)
 {
-/*    switch(e->key()) {
+    switch(e->key()) {
     case Qt::Key_Escape:
-        setStatus(Neutral);
-        deletePreview();
-
-        {
-            RG_Selection s(container, graphicView);
-            s.deselectAll();
-        }
-
-        graphicView->redraw(RG::RedrawOverlay);
+        cancelAction();
+//        finish();
+        init();
         e->accept();
         break;
     default:
         e->ignore();
     }
-    */
 }
 
 void RG_ActionEditRotate::keyReleaseEvent(QKeyEvent *e)
@@ -301,6 +208,6 @@ void RG_ActionEditRotate::updateMouseCursor()
 void RG_ActionEditRotate::setChildActionExitCode(int cod)
 {
     if (cod == RG_ActionSelect::ActionCancel) {
-        finish();
+        graphicView->killAllActions();
     }
 }

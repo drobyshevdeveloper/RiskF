@@ -42,6 +42,7 @@ public:
 
     virtual void init(int status=0) override;
     virtual void resume();
+    virtual void cancelAction();
     void setStatus(int status=0);
     int getStatus();
 

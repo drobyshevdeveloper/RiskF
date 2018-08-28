@@ -33,7 +33,7 @@ public:
 
     virtual ~RG_ActionEditRotate();
 
-    virtual void init(int status) override;
+    virtual void init(int status=0) override;
     virtual void coordinateEvent(RG_CoordinateEvent* ce) override;
 
     virtual void mousePressEvent(QMouseEvent* e) override;
@@ -49,7 +49,7 @@ private:
         RG_Vector basePoint;
         RG_Vector anglePoint;
     };
-    Points pPoints;
+    Points points;
 };
 
 #endif // RG_ACTIONEDITROTATE_H

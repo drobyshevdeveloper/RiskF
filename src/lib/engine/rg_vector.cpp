@@ -104,6 +104,22 @@ bool RG_Vector::isInWindow(const RG_Vector &v1, const RG_Vector &v2) const
             y<=std::max(v1.y, v2.y));
 }
 
+RG_Vector RG_Vector::rotate(const RG_Vector &angleVector)
+{
+    double len = angleVector.length();
+    double x0 = (x * angleVector.x - y * angleVector.y) / len;
+    y = (x * angleVector.y + y * angleVector.x) / len;
+    x = x0;
+
+    return *this;
+}
+
+RG_Vector RG_Vector::rotate(const RG_Vector &center, const RG_Vector &angleVector)
+{
+    *this = center + (*this-center).rotate(angleVector);
+    return *this;
+}
+
 RG_Vector RG_Vector::operator +(const RG_Vector& v) const
 {
     return {x + v.x, y + v.y, z + v.z};

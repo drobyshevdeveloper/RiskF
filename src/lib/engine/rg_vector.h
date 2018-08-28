@@ -55,6 +55,11 @@ public:
     // Определить находится ли точка внутри заданного окна
     bool isInWindow(const RG_Vector& v1, const RG_Vector& v2) const;
 
+    RG_Vector rotate(const RG_Vector& angleVector);
+    // Повернуть точку вокруг центра (center) на угол,
+    // образованный положительным вектором по оси Х (от center) и заданныв мектором (angleVector)
+    RG_Vector rotate(const RG_Vector& center, const RG_Vector& angleVector);
+
     operator bool() const;
     RG_Vector operator + (const RG_Vector& v) const;
     RG_Vector operator - (const RG_Vector& v) const;

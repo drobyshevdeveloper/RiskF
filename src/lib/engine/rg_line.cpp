@@ -109,6 +109,7 @@ void RG_Line::draw(RG_Painter *painter, RG_GraphicView *view)
 
 }
 
+/*
 void RG_Line::moveRef(RG_Marker &marker, const RG_Vector &offset)
 {
     if (marker.index==0) {
@@ -117,6 +118,7 @@ void RG_Line::moveRef(RG_Marker &marker, const RG_Vector &offset)
         data.endPoint = marker.coord + offset;
     }
 }
+*/
 
 void RG_Line::moveRef(const RG_Vector &ref, const RG_Vector &offset)
 {
@@ -131,10 +133,12 @@ void RG_Line::moveRef(const RG_Vector &ref, const RG_Vector &offset)
     }
 }
 
+/*
 void RG_Line::moveFace(const RG_Marker &marker, const RG_Vector &offset)
 {
     move(offset);
 }
+*/
 
 void RG_Line::moveFace(const RG_Vector &ref, const RG_Vector &offset)
 {
@@ -148,6 +152,17 @@ void RG_Line::move(const RG_Vector &offset)
 {
     moveStartPoint(offset);
     moveEndPoint(offset);
+}
+
+void RG_Line::rotate(const RG_Vector &ptBase, const RG_Vector &ptAngle)
+{
+    if (!getStartPoint().isEqu(ptBase)) {
+        data.startPoint.rotate(ptBase, ptAngle-ptBase);
+    }
+
+    if (!getEndPoint().isEqu(ptBase)) {
+        data.endPoint.rotate(ptBase, ptAngle-ptBase);
+    }
 }
 
 void RG_Line::moveStartPoint(const RG_Vector &offset)

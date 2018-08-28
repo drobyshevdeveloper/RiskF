@@ -64,9 +64,10 @@ public:
     virtual void clear();
     virtual void draw(RG_Painter* painter, RG_GraphicView* view) override;
     virtual void moveRef(const RG_Vector& ref, const RG_Vector& offset) override;
-    virtual void moveFace(const RG_Marker& marker, const RG_Vector& offset) override;
+//    virtual void moveFace(const RG_Marker& marker, const RG_Vector& offset) override;
     virtual void moveFace(const RG_Vector& ref, const RG_Vector& offset) override;
     virtual void move(const RG_Vector &offset) override;
+    virtual void rotate(const RG_Vector& ptBase, const RG_Vector& ptAngle) override;
 
     virtual void calculateBorders() override;
     void adjustBorders(const RG_Entity* e);

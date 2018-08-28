@@ -120,10 +120,12 @@ void RG_Rectangle::draw(RG_Painter *painter, RG_GraphicView *view)
     painter->drawLine(view->toGui(vs[3]), view->toGui(vs[0]));
 }
 
+/*
 void RG_Rectangle::moveRef(RG_Marker &marker, const RG_Vector &offset)
 {
     // Пока не уверен что данны вариант метода необходим
 }
+*/
 
 void RG_Rectangle::moveRef(const RG_Vector &ref, const RG_Vector &offset)
 {
@@ -168,6 +170,7 @@ void RG_Rectangle::moveFace(const RG_Vector &ref, const RG_Vector &offset)
     }
 }
 
+/*
 void RG_Rectangle::moveFace(const RG_Marker &marker, const RG_Vector &offset)
 {
     RG_VectorSolutions vs = getRefPoints();
@@ -188,6 +191,7 @@ void RG_Rectangle::moveFace(const RG_Marker &marker, const RG_Vector &offset)
         break;
     }
 }
+*/
 
 void RG_Rectangle::move(const RG_Vector &offset)
 {

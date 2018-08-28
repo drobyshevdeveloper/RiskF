@@ -48,6 +48,11 @@ public:
     RG_Vector offset;
 };
 
+struct RG_RotateData {
+    RG_Vector ptBase;
+    RG_Vector ptAngle;
+};
+
 class RG_Modification
 {
 public:
@@ -57,6 +62,7 @@ public:
     void moveRef(const RG_MoveRefData &data);
     void moveFace(const RG_MoveFaceData& data);
     void move(const RG_MovingData& data);
+    void rotate(const RG_RotateData& data);
 protected:
     /**
      * @brief applyModification

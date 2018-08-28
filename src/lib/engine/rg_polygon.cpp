@@ -165,6 +165,13 @@ void RG_Polygon::move(const RG_Vector &offset)
     calculateBorders();
 }
 
+void RG_Polygon::rotate(const RG_Vector &ptBase, const RG_Vector &ptAngle)
+{
+    for (int i=0; i<data.vertexes.count(); i++) {
+        data.vertexes[i].rotate(ptBase, ptAngle - ptBase);
+    }
+}
+
 void RG_Polygon::moveVertex(int index, const RG_Vector &offset)
 {
     RL_DEBUG << "RG_Polygon::moveVertex index = " << index << ", offset(" << offset.x << "," << offset.y << ")";

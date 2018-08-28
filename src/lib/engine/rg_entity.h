@@ -106,11 +106,12 @@ public:
 
     virtual void draw(RG_Painter* painter, RG_GraphicView* view) = 0;
 
-    virtual void moveRef(RG_Marker& marker, const RG_Vector& offset) {};
+//    virtual void moveRef(RG_Marker& marker, const RG_Vector& offset) {};
     virtual void moveRef(const RG_Vector& ref, const RG_Vector& offset) {};
-    virtual void moveFace(const RG_Marker& marker, const RG_Vector& offset) {};
+//    virtual void moveFace(const RG_Marker& marker, const RG_Vector& offset) {};
     virtual void moveFace(const RG_Vector& ref, const RG_Vector& offset) {};
     virtual void move(const RG_Vector& offset) {};
+    virtual void rotate(const RG_Vector& ptBase, const RG_Vector& ptAngle) {};
 
     RG_Graphic* getGraphic() const;
     RG_Document* getDocument() const;

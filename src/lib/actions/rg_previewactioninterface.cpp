@@ -21,6 +21,7 @@
 #include "rg_preview.h"
 #include "rg_graphicview.h"
 #include "rg_entitycontainer.h"
+#include "rg_selection.h"
 
 RG_PreviewActionInterface::RG_PreviewActionInterface(const char* name,
                                                      RG_EntityContainer &container,
@@ -41,6 +42,17 @@ void RG_PreviewActionInterface::init(int status)
 {
     deletePreview();
     RG_ActionInterface::init(status);
+}
+
+void RG_PreviewActionInterface::cancelAction()
+{
+    deletePreview();
+
+    RG_Selection s(container, graphicView);
+    s.deselectAll();
+    graphicView->redraw(RG::RedrawOverlay);
+
+    RG_ActionInterface::cancelAction();
 }
 
 
