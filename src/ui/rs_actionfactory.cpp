@@ -55,12 +55,32 @@ void RS_ActionFactory::fillActionContainer(QMap<QString, QAction *> &a_map, RS_A
     action->setObjectName("InsertRoom");
     a_map["InsertRoom"] = action;
 
+    action = new QAction(tr("&Rectangle"), agm->insert);
+    action->setIcon(QIcon(":/icons/Rectangle.png"));
+    connect(action, SIGNAL(triggered(bool)), action_handler, SLOT(slotInsertRectangle()));
+    action->setObjectName("InsertRectangle");
+    a_map["InsertRectangle"] = action;
+
+    action = new QAction(tr("&Polygon"), agm->insert);
+    action->setIcon(QIcon(":/icons/Polygon.png"));
+    connect(action, SIGNAL(triggered(bool)), action_handler, SLOT(slotInsertPolygon()));
+    action->setObjectName("InsertPolygon");
+    a_map["InsertPolygon"] = action;
+
+
+
     // == Edit ==
     action = new QAction(tr("&Select"), agm->edit);
     action->setIcon(QIcon(":/icons/mouse cursor.ico"));
     connect(action, SIGNAL(triggered(bool)), action_handler, SLOT(slotSelect()));
     action->setObjectName("Select");
     a_map["Select"] = action;
+
+    action = new QAction(tr("&Rotate"), agm->edit);
+    action->setIcon(QIcon(":/icons/Rotate.png"));
+    connect(action, SIGNAL(triggered(bool)), action_handler, SLOT(slotEditRotate()));
+    action->setObjectName("Rotate");
+    a_map["Rotate"] = action;
 
     action = new QAction(tr("&Undo"), agm->edit);
     action->setIcon(QIcon(":/icons/file.svg"));

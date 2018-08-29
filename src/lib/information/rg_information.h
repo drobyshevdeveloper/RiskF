@@ -24,6 +24,8 @@
 
 class RG_Entity;
 class RG_Line;
+class RG_Rectangle;
+class RG_Polygon;
 
 
 /**
@@ -58,6 +60,12 @@ public:
     static RG_Vector getIntersectionLineLine(const RG_Line* l1,
                                              const RG_Line* l2);
 
+    static RG_VectorSolutions getIntersectionLineRectangle(const RG_Line* l,
+                                                           const RG_Rectangle* r);
+
+    static RG_VectorSolutions getIntersectionLinePolygon(const RG_Line* l,
+                                                         const RG_Polygon* p);
+
     /**
      * @brief getNearestPointOnLine
      * Определяет ближайшую точку от заданной (coord), лежащей на прямой, определенной двумя точками (p1,p2)
@@ -87,6 +95,20 @@ public:
                                                   const RG_Vector &p1,
                                                   const RG_Vector &p2,
                                                   double *dist);
+
+    /**
+     * @brief calculateRectVertex
+     * Вычислить оставшиеся две вершины прямоугоьника, заданного двумя диаганальными
+     * вершинами (v1, v2) наклоненного на угол (angle) в радианах от оси абцисс
+     * @param v1
+     * @param v2
+     * @param angle
+     * @param v3
+     * @param v4
+     */
+    static void calculateRectVertex(const RG_Vector& v1, const RG_Vector& v2,
+                                    double angle,
+                                    RG_Vector* v3, RG_Vector* v4);
 
     /**
      * @brief isPointInPolygon

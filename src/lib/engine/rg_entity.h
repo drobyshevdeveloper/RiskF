@@ -106,15 +106,18 @@ public:
 
     virtual void draw(RG_Painter* painter, RG_GraphicView* view) = 0;
 
-    virtual void moveRef(RG_Marker& marker, const RG_Vector& offset) {};
+//    virtual void moveRef(RG_Marker& marker, const RG_Vector& offset) {};
     virtual void moveRef(const RG_Vector& ref, const RG_Vector& offset) {};
-    virtual void moveFace(const RG_Marker& marker, const RG_Vector& offset) {};
+//    virtual void moveFace(const RG_Marker& marker, const RG_Vector& offset) {};
     virtual void moveFace(const RG_Vector& ref, const RG_Vector& offset) {};
     virtual void move(const RG_Vector& offset) {};
+    virtual void rotate(const RG_Vector& ptBase, const RG_Vector& ptAngle) {};
 
     RG_Graphic* getGraphic() const;
     RG_Document* getDocument() const;
 
+    // Следующие два метода может быть лишние, они не используются в данном классе
+    // Может быть стоит их вынести в класс линии
     virtual RG_Vector getStartPoint() const;
     virtual RG_Vector getEndPoint() const;
     RG_Vector getMin() const {return vMin;}

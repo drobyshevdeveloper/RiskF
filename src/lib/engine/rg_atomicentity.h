@@ -27,9 +27,11 @@ public:
 
     virtual ~RG_AtomicEntity();
 
-    virtual bool isContainer() const {
+    virtual bool isContainer() const override {
         return false;
     }
+
+    virtual void calculateBorders() override;
 
 };
 

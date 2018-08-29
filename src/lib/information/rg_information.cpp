@@ -22,6 +22,8 @@
 #include "rl_debug.h"
 #include "rg_entity.h"
 #include "rg_line.h"
+#include "rg_rectangle.h"
+#include "rg_polygon.h"
 #include "geom.h"
 
 RG_Information::RG_Information()
@@ -37,11 +39,27 @@ RG_VectorSolutions RG_Information::getIntersection(RG_Entity const *e1, RG_Entit
         RL_DEBUG << "RG_Information::getIntersection() for nullptr entities";
         return ret;
     }
+    // Line vs Line
     if (e1->rtti()==RG::EntityLine && e2->rtti()==RG::EntityLine) {
         RG_Vector ret2 = getIntersectionLineLine((RG_Line*)e1, (RG_Line*)e2);
         if (ret2.valid) {
             ret.push_Back(ret2);
         }
+        return ret;
+    }
+    // Line vs Rectangle
+    if (e1->rtti()==RG::EntityLine && e2->rtti()==RG::EntityRectangle) {
+        return getIntersectionLineRectangle((RG_Line*)e1, (RG_Rectangle*)e2);
+    }
+    if (e2->rtti()==RG::EntityLine && e1->rtti()==RG::EntityRectangle) {
+        return getIntersectionLineRectangle((RG_Line*)e2, (RG_Rectangle*)e1);
+    }
+    // Line vs Polygon
+    if (e1->rtti()==RG::EntityLine && e2->rtti()==RG::EntityPolygon) {
+        return getIntersectionLinePolygon((RG_Line*)e1, (RG_Polygon*)e2);
+    }
+    if (e2->rtti()==RG::EntityLine && e1->rtti()==RG::EntityPolygon) {
+        return getIntersectionLinePolygon((RG_Line*)e2, (RG_Polygon*)e1);
     }
     return ret;
 }
@@ -97,6 +115,58 @@ RG_Vector RG_Information::getIntersectionLineLine(const RG_Line* l1, const RG_Li
     return ret;*/
 }
 
+/**
+ * @brief RG_Information::getIntersectionLineRectangle
+ * Вычислить точки пересечения линии и прямоугольника
+ * @param l
+ * @param r
+ * @return
+ */
+RG_VectorSolutions RG_Information::getIntersectionLineRectangle(const RG_Line* l,
+                                                                const RG_Rectangle* r)
+{
+    RG_VectorSolutions vs;
+    Geom2D::Coord pt;
+    Geom2D::Line line = {{l->getStartPoint().x, l->getStartPoint().y},
+                         {l->getEndPoint().x, l->getEndPoint().y}};
+    RG_VectorSolutions rectPts = r->getRefPoints();
+
+    for (int i=0; i<4; i++) {
+        if (Geom2D::getIntersection(line,
+                                    {{rectPts[i].x, rectPts[i].y},
+                                     {rectPts[(i+1)%4].x, rectPts[(i+1)%4].y}},
+                                    &pt))
+        {
+            vs.push_Back(RG_Vector(pt.x,pt.y));
+        }
+    }
+
+    return vs;
+}
+
+RG_VectorSolutions RG_Information::getIntersectionLinePolygon(const RG_Line* l,
+                                                              const RG_Polygon* p)
+{
+    RG_VectorSolutions vs;
+    Geom2D::Coord pt;
+    Geom2D::Line line = {{l->getStartPoint().x, l->getStartPoint().y},
+                         {l->getEndPoint().x, l->getEndPoint().y}};
+    RG_VectorSolutions polyPts = p->getRefPoints();
+
+    for (int i=0; i<polyPts.count(); i++) {
+        if (Geom2D::getIntersection(line,
+                                    {{polyPts[i].x, polyPts[i].y},
+                                     {polyPts[(i+1)%polyPts.count()].x, polyPts[(i+1)%polyPts.count()].y}},
+                                    &pt))
+        {
+            vs.push_Back(RG_Vector(pt.x,pt.y));
+        }
+    }
+
+    return vs;
+}
+
+
 RG_Vector RG_Information::getNearestPointOnLine(const RG_Vector &coord,
                                                 const RG_Vector &p1,
                                                 const RG_Vector &p2,
@@ -143,6 +213,20 @@ RG_Vector RG_Information::getNearestPointOnLineSegment(const RG_Vector &coord,
         *dist = coord.distanceTo(result);
     }
     return result;
+}
+
+void RG_Information::calculateRectVertex(const RG_Vector& v1, const RG_Vector& v2,
+                                         double angle,
+                                         RG_Vector* v3, RG_Vector* v4)
+{
+    // вычислим вторые точки прямых, проходящих через v1 и лежащих на гранях
+    // прямоугольника с общей вершиной v1
+    RG_Vector v1_1 = v1 + RG_Vector(1000.0, 0.0).setAngle(angle);
+    RG_Vector v1_2 = v1 + RG_Vector(1000.0, 0.0).setAngle(angle + M_PI_2);
+    // Найдем точки пересечения нормалей из v2, опущенных на найденные прямые
+    // (v1,v1_1) и (v1, v1_2)
+    *v3 = getNearestPointOnLine(v2, v1, v1_1, nullptr);
+    *v4 = getNearestPointOnLine(v2, v1, v1_2, nullptr);
 }
 
 bool RG_Information::isPointInPolygon(const RG_Vector &pt,

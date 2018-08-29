@@ -1,6 +1,50 @@
 #include "geom.h"
+#include <cmath>
 
 namespace Geom2D {
+
+Coord::Coord(double x, double y)
+{
+    this->x = x;
+    this->y = y;
+}
+
+// Функция возвращает длину вектора
+double Coord::length()
+{
+    return hypot(x, y);
+}
+
+// Возвращает координату повернутую на угол (angle) относительно оси абцисс
+//
+Coord Coord::setAngle(double angle)
+{
+    double l = length();
+    x = l * cos(angle);
+    y = l * sin(angle);
+    return *this;
+}
+
+// Функция возвращает точку pt1 повернутую
+// на угол dAngle относительно точки pt0
+Coord Coord::rotate(const Coord &center, double angle) // (POINT *pt0, ANGLEPOINT *pt1, double dAngle)
+{
+/*
+   long dX, dY;
+   long dR;
+
+   dX = pt1->x - pt0->x;
+   dY = pt0->y - pt1->y;
+   dR = (long)sqrt(dX*dX + dY*dY);
+
+   pt1->Angle += dAngle;
+   if (pt1->Angle < 0)   pt1->Angle += M_2_PI;
+   if (pt1->Angle > M_2_PI) pt1->Angle -= M_2_PI;
+
+   pt1->x = long(pt0->x + cos(pt1->Angle)*dR);
+   pt1->y = long(pt0->y - sin(pt1->Angle)*dR);
+*/
+} // Rotate
 
 Coord Coord::operator-(const Coord& c) const
 {
@@ -21,6 +65,7 @@ Coord Coord::operator*() const
 {
     return {x,y};
 }*/
+
 /**
  * @brief getIntersection
  * Нахождение точки пересечения двух отрезков
@@ -52,8 +97,8 @@ bool getIntersection(const Line &line1, const Line &line2,
     double seg2_line1_end = a1*line2.p2.x + b1*line2.p2.y + d1;
 
     //если концы одного отрезка имеют один знак, значит он в одной полуплоскости и пересечения нет.
-    if (seg1_line2_start * seg1_line2_end > 0 || seg2_line1_start * seg2_line1_end > 0)
-        return false;
+ //   if (seg1_line2_start * seg1_line2_end > 0 || seg2_line1_start * seg2_line1_end > 0)
+ //       return false;
 
     // Если есть куда, вычислим точку пересечения и запишем в память
     if (result) {
@@ -62,5 +107,33 @@ bool getIntersection(const Line &line1, const Line &line2,
     }
     return true;
 }
+
+// По двум диаганальным вершинам вычислить третюю и четвертую вершину
+// прямоугольника, наклоненного на угол (angle) в радианах
+void getRectVertex(Coord pt1, Coord pt2, double angle,
+                   Coord* ptIntersect1, Coord* ptIntersect2)
+{
+    Line lineFace1;
+    Line lineFace2;
+
+    Coord offset1 = Coord(1000.0, 0.0).setAngle(angle);
+    Coord offset2 = Coord(1000.0, 0.0).setAngle(angle + M_PI_2);
+    // Формируем первую грань (от первой точки)
+    lineFace1.p1 = pt1;
+    lineFace1.p2 = pt1 + offset1;
+
+    // Формируем вторую грань
+    lineFace2.p1 = pt2;
+    lineFace2.p2 = pt2 + offset2;
+
+    // Первая точка пересечения
+    getIntersection(lineFace1, lineFace2, ptIntersect1);
+    // Перевернем линии
+    lineFace1.p2 = pt1 + offset2;
+    lineFace2.p2 = pt2 + offset1;
+    // Вторая точка пересечения
+    getIntersection(lineFace1, lineFace2, ptIntersect2);
+}
+
 
 } // namespace Geom2D

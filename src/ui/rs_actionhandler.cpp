@@ -23,6 +23,8 @@
 #include "rg_actiondrawline.h"
 #include "rg_actionundo.h"
 #include "rg_actiondrawrectangle.h"
+#include "rg_actiondrawpolygon.h"
+#include "rg_actioneditrotate.h"
 
 RS_ActionHandler::RS_ActionHandler(QObject *parent)
     : QObject(parent)
@@ -40,6 +42,9 @@ RG_ActionInterface* RS_ActionHandler::setCurrentAction(RG::ActionType a_type)
             graphicView->killAllActions();
         }
         break;
+    case RG::ActionEditRotate:
+        a = new RG_ActionEditRotate(*document, *graphicView);
+        break;
     case RG::ActionDrawLine:
         a = new RG_ActionDrawLine(*document, *graphicView);
         break;
@@ -53,7 +58,12 @@ RG_ActionInterface* RS_ActionHandler::setCurrentAction(RG::ActionType a_type)
         break;
 
     case RG::ActionDrawRectangle:
-        a = new RG_ActionDrawRectangle(*document, *graphicView);
+//        a = new RG_ActionDrawRectangle(*document, *graphicView);
+        a = new RG_ActionDrawPolygon(*document, *graphicView, true);
+        break;
+    case RG::ActionDrawPolygon:
+        a = new RG_ActionDrawPolygon(*document, *graphicView, false);
+        break;
     }
 
     if (a) {
@@ -89,10 +99,29 @@ void RS_ActionHandler::slotInsertRoom()
     RL_DEBUG << "RS_ActionHandler::slotInsertRoom() Ok";
 }
 
+void RS_ActionHandler::slotInsertRectangle()
+{
+    RL_DEBUG << "RS_ActionHandler::slotInsertRectangle() Begin";
+    setCurrentAction(RG::ActionDrawRectangle);
+    RL_DEBUG << "RS_ActionHandler::slotInsertRectangle() Ok";
+}
+
+void RS_ActionHandler::slotInsertPolygon()
+{
+    RL_DEBUG << "RS_ActionHandler::slotInsertPolygon() Begin";
+    setCurrentAction(RG::ActionDrawPolygon);
+    RL_DEBUG << "RS_ActionHandler::slotInsertPolygon() Ok";
+}
+
 // === Edit ===
 void RS_ActionHandler::slotSelect()
 {
     setCurrentAction(RG::ActionDefault);
+}
+
+void RS_ActionHandler::slotEditRotate()
+{
+    setCurrentAction(RG::ActionEditRotate);
 }
 
 void RS_ActionHandler::slotUndo()

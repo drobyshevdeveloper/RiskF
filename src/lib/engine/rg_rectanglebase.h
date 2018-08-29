@@ -29,27 +29,27 @@ struct RG_RectangleData {
     RG_Vector corner2;
 };
 
-class RG_Rectangle : public RG_AtomicEntity
+class RG_RectangleBase : public RG_AtomicEntity
 {
 public:
-    RG_Rectangle(RG_EntityContainer* parent);
-    RG_Rectangle(RG_EntityContainer *parent,
-                 const RG_RectangleData &d);
+    RG_RectangleBase(RG_EntityContainer* parent);
+//    RG_RectangleBase(RG_EntityContainer *parent,
+//                 const RG_RectangleData &d);
 
-    virtual RG_Entity* clone() override;
+//    virtual RG_Entity* clone() override;
 
-    virtual RG::EntityType rtti() const override {
-        return RG::EntityRectangle;
+/*    virtual RG::EntityType rtti() const override {
+        return RG::EntityRectangleBase;
     }
-
+*/
     virtual RG_Vector getNearestPointOnEntity(const RG_Vector &coord,
                                               double *dist) const override;
 
-    virtual RG_Vector getStartPoint() const override;
-    virtual RG_Vector getEndPoint() const override;
-    virtual void calculateBorders() override;
+//    virtual RG_Vector getStartPoint() const override;
+//    virtual RG_Vector getEndPoint() const override;
+//    virtual void calculateBorders() override;
 
-    virtual void draw(RG_Painter* painter, RG_GraphicView* view) override;
+//    virtual void draw(RG_Painter* painter, RG_GraphicView* view) override;
 //    virtual void moveRef(RG_Marker& marker, const RG_Vector& offset) override;
     virtual void moveRef(const RG_Vector& ref, const RG_Vector& offset) override;
 //    virtual void moveFace(const RG_Marker &marker, const RG_Vector &offset) override;
@@ -62,14 +62,12 @@ public:
     void moveVertex3(const RG_Vector& offset);
     void moveVertex4(const RG_Vector& offset);
 
-    const RG_RectangleData getData() const {return data;}
+
+//    virtual RG_VectorSolutions getRefPoints() const override;
 
 
-    virtual RG_VectorSolutions getRefPoints() const override;
-
-
-protected:
-    RG_RectangleData data;
+//protected:
+//    RG_RectangleData data;
 };
 
 #endif // RG_RECTANGLE_H

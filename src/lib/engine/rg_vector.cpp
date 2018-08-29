@@ -47,12 +47,21 @@ RG_Vector::RG_Vector(bool valid)
 {
 }
 
-void RG_Vector::set(double vx, double vy, double vz/*=0.0*/)
+RG_Vector RG_Vector::set(double vx, double vy, double vz/*=0.0*/)
 {
     x = double(vx);
     y = double(vy);
     z = double(vz);
     valid = true;
+    return *this;
+}
+
+RG_Vector RG_Vector::setAngle(double a)
+{
+    double l = length();
+    x = l * cos(a);
+    y = l * sin(a);
+    return *this;
 }
 
 bool RG_Vector::isEqu(const RG_Vector &v) const
@@ -79,6 +88,11 @@ double RG_Vector::length() const
     return valid ? hypot(x, y) : 0.0;
 }
 
+double RG_Vector::angle() const
+{
+    return atan2(y, x);
+}
+
 double RG_Vector::squared() const
 {
     return valid ? x*x + y*y + z*z : 0.0;
@@ -102,6 +116,22 @@ bool RG_Vector::isInWindow(const RG_Vector &v1, const RG_Vector &v2) const
             x<=std::max(v1.x, v2.x) &&
             y>=std::min(v1.y, v2.y) &&
             y<=std::max(v1.y, v2.y));
+}
+
+RG_Vector RG_Vector::rotate(const RG_Vector &angleVector)
+{
+    double len = angleVector.length();
+    double x0 = (x * angleVector.x - y * angleVector.y) / len;
+    y = (x * angleVector.y + y * angleVector.x) / len;
+    x = x0;
+
+    return *this;
+}
+
+RG_Vector RG_Vector::rotate(const RG_Vector &center, const RG_Vector &angleVector)
+{
+    *this = center + (*this-center).rotate(angleVector);
+    return *this;
 }
 
 RG_Vector RG_Vector::operator +(const RG_Vector& v) const
@@ -194,6 +224,11 @@ RG_Vector RG_VectorSolutions::getClosest(const RG_Vector &v)
 }
 
 RG_Vector& RG_VectorSolutions::operator [](size_t i)
+{
+    return vector[i];
+}
+
+const RG_Vector& RG_VectorSolutions::operator [](size_t i) const
 {
     return vector[i];
 }

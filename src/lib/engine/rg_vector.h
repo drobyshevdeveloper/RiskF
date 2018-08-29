@@ -34,7 +34,8 @@ public:
 //    RG_Vector(int vx, int vy, int vz=0);
     RG_Vector(bool valid);
 
-    void set(double vx, double vy, double vz=0.0);
+    RG_Vector set(double vx, double vy, double vz=0.0);
+    RG_Vector setAngle(double a);
 
     // Сравнить векторы на эквивалентность с точностью RG_TOLERANCE
     bool isEqu(const RG_Vector& v) const;
@@ -45,6 +46,8 @@ public:
 
     // Длина вектора
     double length() const;
+    // угол наклона относительно оси абцисс
+    double angle() const;
     // Квадрат длины вектора (или скалярное произведение вектора самого на себя
     double squared() const;
     // Определить расстояние до заданной точки
@@ -54,6 +57,11 @@ public:
 
     // Определить находится ли точка внутри заданного окна
     bool isInWindow(const RG_Vector& v1, const RG_Vector& v2) const;
+
+    RG_Vector rotate(const RG_Vector& angleVector);
+    // Повернуть точку вокруг центра (center) на угол,
+    // образованный положительным вектором по оси Х (от center) и заданныв мектором (angleVector)
+    RG_Vector rotate(const RG_Vector& center, const RG_Vector& angleVector);
 
     operator bool() const;
     RG_Vector operator + (const RG_Vector& v) const;
@@ -83,13 +91,14 @@ class RG_VectorSolutions
 public:
     RG_VectorSolutions() = default;
 
-    QList<RG_Vector> getVector() {return vector;}
+    QList<RG_Vector> getVector() const {return vector;}
     void push_Back(const RG_Vector& v);
     void clear();
     int count() const;
     bool empty();
     RG_Vector getClosest(const RG_Vector& v);
     RG_Vector& operator [] (const size_t i);
+    const RG_Vector &operator [](const size_t i) const;
 
 private:
     QList<RG_Vector> vector;

@@ -80,7 +80,7 @@ void RG_Modification::moveFace(const RG_MoveFaceData &data)
 */
     if (data.marker.entity->isSelected()) {
         RG_Entity* en_copy = data.marker.entity->clone();
-        en_copy->moveFace(data.marker, data.offset);
+        en_copy->moveFace(data.marker.coord, data.offset);
         applyModification(data.marker.entity, en_copy);
     }
 }
@@ -94,6 +94,20 @@ void RG_Modification::move(const RG_MovingData &data)
             RG_Entity* en_copy = en->clone();
             en_copy->move(data.offset);
             //en_copy->setSelected(false);
+            addList.push_back(en_copy);
+        }
+    }
+    applyModification(addList);
+}
+
+void RG_Modification::rotate(const RG_RotateData &data)
+{
+    std::vector<RG_Entity*> addList;
+
+    for (RG_Entity* en: container->getEntityList()) {
+        if (en->isSelected()) {
+            RG_Entity* en_copy = en->clone();
+            en_copy->rotate(data.ptBase, data.ptAngle);
             addList.push_back(en_copy);
         }
     }

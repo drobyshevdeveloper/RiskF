@@ -58,6 +58,11 @@ void RG_ActionInterface::resume()
     updateMouseCursor();
 }
 
+void RG_ActionInterface::cancelAction()
+{
+
+}
+
 void RG_ActionInterface::setStatus(int status)
 {
     this->status = status;

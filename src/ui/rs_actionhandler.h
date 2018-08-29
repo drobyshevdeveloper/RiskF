@@ -45,8 +45,12 @@ public slots:
     // === Insert ===
     void slotInsertLine(); // временный инструмент
     void slotInsertRoom();
+    void slotInsertRectangle();
+    void slotInsertPolygon();
+
     // === Edit ===
     void slotSelect();    // инструмент по умолчанию
+    void slotEditRotate();
     void slotUndo();
     void slotRedo();
 

@@ -15,35 +15,37 @@
 **
 ****************************************************************************/
 
-#include "rg_rectangle.h"
+#include "rg_rectanglebase.h"
 
 #include "rl_debug.h"
 #include "rg_painter.h"
 #include "rg_graphicview.h"
 #include "rg_information.h"
 
-RG_Rectangle::RG_Rectangle(RG_EntityContainer *parent)
+RG_RectangleBase::RG_RectangleBase(RG_EntityContainer *parent)
     : RG_AtomicEntity(parent)
 {
     data.corner1 = RG_Vector(false);
     data.corner2 = RG_Vector(false);
 }
 
-RG_Rectangle::RG_Rectangle(RG_EntityContainer *parent, const RG_RectangleData& d)
+/*
+RG_Rectangle::RG_RectangleBase(RG_EntityContainer *parent, const RG_RectangleData& d)
     : RG_AtomicEntity(parent)
     , data(d)
 {
-    calculateBorders();
-}
 
-RG_Entity* RG_Rectangle::clone()
+}
+*/
+/*
+RG_Entity* RG_RectangleBase::clone()
 {
     RG_Rectangle* rect = new RG_Rectangle(*this);
     rect->initID();
     return rect;
 }
-
-RG_Vector RG_Rectangle::getNearestPointOnEntity(const RG_Vector &coord, double *dist) const
+*/
+RG_Vector RG_RectangleBase::getNearestPointOnEntity(const RG_Vector &coord, double *dist) const
 {
     double distRes = RG_MAXDOUBLE;
     double d;
@@ -86,18 +88,19 @@ RG_Vector RG_Rectangle::getNearestPointOnEntity(const RG_Vector &coord, double *
     }
     return ptRes;
 }
-
-RG_Vector RG_Rectangle::getStartPoint() const
+/*
+RG_Vector RG_RectangleBase::getStartPoint() const
 {
     return data.corner1;
 }
 
-RG_Vector RG_Rectangle::getEndPoint() const
+RG_Vector RG_RectangleBase::getEndPoint() const
 {
     return data.corner2;
 }
-
-void RG_Rectangle::calculateBorders()
+*/
+/*
+void RG_RectangleBase::calculateBorders()
 {
     vMin.x = data.corner1.x;
     vMax.x = data.corner2.x;
@@ -110,8 +113,9 @@ void RG_Rectangle::calculateBorders()
         std::swap(vMin.y, vMax.y);
     }
 }
-
-void RG_Rectangle::draw(RG_Painter *painter, RG_GraphicView *view)
+*/
+/*
+void RG_RectangleBase::draw(RG_Painter *painter, RG_GraphicView *view)
 {
     RG_VectorSolutions vs = getRefPoints();
     painter->drawLine(view->toGui(vs[0]), view->toGui(vs[1]));
@@ -119,15 +123,13 @@ void RG_Rectangle::draw(RG_Painter *painter, RG_GraphicView *view)
     painter->drawLine(view->toGui(vs[2]), view->toGui(vs[3]));
     painter->drawLine(view->toGui(vs[3]), view->toGui(vs[0]));
 }
-
-/*
-void RG_Rectangle::moveRef(RG_Marker &marker, const RG_Vector &offset)
+*/
+void RG_RectangleBase::moveRef(RG_Marker &marker, const RG_Vector &offset)
 {
     // Пока не уверен что данны вариант метода необходим
 }
-*/
 
-void RG_Rectangle::moveRef(const RG_Vector &ref, const RG_Vector &offset)
+void RG_RectangleBase::moveRef(const RG_Vector &ref, const RG_Vector &offset)
 {
     RG_VectorSolutions vs = getRefPoints();
     if (vs[0].isEqu(ref)) {
@@ -146,7 +148,7 @@ void RG_Rectangle::moveRef(const RG_Vector &ref, const RG_Vector &offset)
         moveVertex4(offset);
 }
 
-void RG_Rectangle::moveFace(const RG_Vector &ref, const RG_Vector &offset)
+void RG_RectangleBase::moveFace(const RG_Vector &ref, const RG_Vector &offset)
 {
     RG_Marker marker = getNearestMarkerFace(ref);
     if (marker.valid && marker.type == RG_Marker::Face && marker.dist<3.0) {
@@ -169,9 +171,8 @@ void RG_Rectangle::moveFace(const RG_Vector &ref, const RG_Vector &offset)
         }
     }
 }
-
 /*
-void RG_Rectangle::moveFace(const RG_Marker &marker, const RG_Vector &offset)
+void RG_RectangleBase::moveFace(const RG_Marker &marker, const RG_Vector &offset)
 {
     RG_VectorSolutions vs = getRefPoints();
     const RG_Vector offsetX = {offset.x, 0.0};
@@ -192,21 +193,20 @@ void RG_Rectangle::moveFace(const RG_Marker &marker, const RG_Vector &offset)
     }
 }
 */
-
-void RG_Rectangle::move(const RG_Vector &offset)
+void RG_RectangleBase::move(const RG_Vector &offset)
 {
     moveVertex1(offset);
     moveVertex3(offset);
 }
 
-void RG_Rectangle::moveVertex1(const RG_Vector &offset)
+void RG_RectangleBase::moveVertex1(const RG_Vector &offset)
 {
     RL_DEBUG << "RG_Rectangle::moveVertex1";
     data.corner1 = data.corner1 + offset;
     calculateBorders();
 }
 
-void RG_Rectangle::moveVertex2(const RG_Vector &offset)
+void RG_RectangleBase::moveVertex2(const RG_Vector &offset)
 {
     RL_DEBUG << "RG_Rectangle::moveVertex2";
     data.corner2.x = data.corner2.x + offset.x;
@@ -214,14 +214,14 @@ void RG_Rectangle::moveVertex2(const RG_Vector &offset)
     calculateBorders();
 }
 
-void RG_Rectangle::moveVertex3(const RG_Vector &offset)
+void RG_RectangleBase::moveVertex3(const RG_Vector &offset)
 {
     RL_DEBUG << "RG_Rectangle::moveVertex3";
     data.corner2 = data.corner2 + offset;
     calculateBorders();
 }
 
-void RG_Rectangle::moveVertex4(const RG_Vector &offset)
+void RG_RectangleBase::moveVertex4(const RG_Vector &offset)
 {
     RL_DEBUG << "RG_Rectangle::moveVertex4";
     data.corner1.x = data.corner1.x + offset.x;
@@ -229,7 +229,7 @@ void RG_Rectangle::moveVertex4(const RG_Vector &offset)
     calculateBorders();
 }
 
-RG_VectorSolutions RG_Rectangle::getRefPoints() const
+RG_VectorSolutions RG_RectangleBase::getRefPoints() const
 {
     RG_VectorSolutions vs;
 

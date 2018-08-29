@@ -42,6 +42,7 @@ public:
 
     virtual void init(int status=0) override;
     virtual void resume();
+    virtual void cancelAction();
     void setStatus(int status=0);
     int getStatus();
 
@@ -66,6 +67,20 @@ protected:
     RG::ActionType actionType;
 private:
     int status;
+};
+
+/**
+ * @brief The RG_ISenderAction class
+ * Интерфейс класса действия, который принимает данные от дочернего действия
+ * Например, RG_ActionEditRotate для выбора сущностей, которых нужно повернуть
+ * вызывает действие RG_ActionSelect, которое, если нажата клавиша ESC, должно
+ * отменить свое и родительское действие, для этого необходимо передать в
+ * родительское действие код завершения
+ */
+class RG_IRecipientFromChildAction
+{
+public:
+    virtual void setChildActionExitCode(int cod) = 0;
 };
 
 #endif // RG_ACTIONINTERFACE_H

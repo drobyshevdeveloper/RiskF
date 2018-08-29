@@ -44,6 +44,7 @@ public:
         EntityGraphic,          // Графический документ
         EntityLine,
         EntityRectangle,
+        EntityPolygon,
         EntityOverlayRect,      // Накладываемый объект прямоугольная область выбора
         EntityPreview           // Контейнер предпросмотра
 
@@ -56,8 +57,11 @@ public:
     enum ActionType {
         ActionNone,
         ActionDefault,
+        ActionSelect,
         ActionDrawLine,
         ActionDrawRectangle,
+        ActionDrawPolygon,
+        ActionEditRotate,
         ActionUndo,
         ActionRedo
     };

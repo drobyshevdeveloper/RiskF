@@ -52,11 +52,12 @@ public:
     virtual void calculateBorders() override;
 
     virtual void draw(RG_Painter* painter, RG_GraphicView* view) override;
-    virtual void moveRef(RG_Marker& marker, const RG_Vector& offset) override;
+//    virtual void moveRef(RG_Marker& marker, const RG_Vector& offset) override;
     virtual void moveRef(const RG_Vector& ref, const RG_Vector& offset) override;
-    virtual void moveFace(const RG_Marker& marker, const RG_Vector& offset) override;
+//    virtual void moveFace(const RG_Marker& marker, const RG_Vector& offset) override;
     virtual void moveFace(const RG_Vector& ref, const RG_Vector &offset) override;
     virtual void move(const RG_Vector &offset) override;
+    virtual void rotate(const RG_Vector &ptBase, const RG_Vector &ptAngle) override;
     void moveStartPoint(const RG_Vector& offset);
     void moveEndPoint(const RG_Vector& offset);
 
