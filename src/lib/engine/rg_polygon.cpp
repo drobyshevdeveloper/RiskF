@@ -140,6 +140,16 @@ void RG_Polygon::moveRef(const RG_Vector &ref, const RG_Vector &offset)
 
 void RG_Polygon::moveFace(const RG_Vector &ref, const RG_Vector &offset)
 {
+    RG_VectorSolutions vs = getRefPoints();
+    for (int i=0; i<vs.count(); i=++) {
+        double dist;
+        RG_Vector pt = RG_Information::getNearestPointOnLineSegment(ref, vs[i], vs[(i+1)%vs.count()], &dist);
+        if (d<3.0) {
+            // Найдена грань, которую необходимо переместить
+
+        }
+
+    }
 /*    RG_Marker marker = getNearestMarkerFace(ref);
     if (marker.valid && marker.type == RG_Marker::Face && marker.dist<3.0) {
         RG_VectorSolutions vs = getRefPoints();
@@ -180,11 +190,10 @@ void RG_Polygon::rotate(const RG_Vector &ptBase, const RG_Vector &ptAngle)
     data.angle += (ptAngle - ptBase).angle();
 }
 
-void RG_Polygon::moveVertex(int index, const RG_Vector &offset, RG_VectorSolutions &vs1)
+void RG_Polygon::moveVertex(int index, const RG_Vector &offset, RG_VectorSolutions &vs)
 {
     RL_DEBUG << "RG_Polygon::moveVertex index = " << index << ", offset(" << offset.x << "," << offset.y << ")";
     if (isRect()) {
-        RG_VectorSolutions vs = getRefPoints();
         switch(index) {
         case 0:
             data.vertexes[0] = data.vertexes[0] + offset;
