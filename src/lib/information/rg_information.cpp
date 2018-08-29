@@ -267,7 +267,7 @@ bool RG_Information::isPointUnderLine(const RG_Vector& pt,
    }
 
    double k, b;
-   k = (l2.y - l1_.y) / (l2_.x - l1_.x);
+   k = (l2_.y - l1_.y) / (l2_.x - l1_.x);
    b = l1_.y - k * l1_.x;
 
    double y = pt.x * k + b;
