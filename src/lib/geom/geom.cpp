@@ -97,8 +97,8 @@ bool getIntersection(const Line &line1, const Line &line2,
     double seg2_line1_end = a1*line2.p2.x + b1*line2.p2.y + d1;
 
     //если концы одного отрезка имеют один знак, значит он в одной полуплоскости и пересечения нет.
- //   if (seg1_line2_start * seg1_line2_end > 0 || seg2_line1_start * seg2_line1_end > 0)
- //       return false;
+    if (seg1_line2_start * seg1_line2_end > 0 || seg2_line1_start * seg2_line1_end > 0)
+        return false;
 
     // Если есть куда, вычислим точку пересечения и запишем в память
     if (result) {

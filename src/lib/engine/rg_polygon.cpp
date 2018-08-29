@@ -215,7 +215,7 @@ RG_VectorSolutions RG_Polygon::getRefPoints() const
 
     // Примитив является прямоугольником, вычислим вершины по двум диаганальным точкам и углу поворота
     RG_VectorSolutions vs;
-/*
+
     RG_Vector v3, v4;
     RG_Information::calculateRectVertex(data.vertexes[0], data.vertexes[1],
                                         data.angle, &v3, &v4);
@@ -224,7 +224,7 @@ RG_VectorSolutions RG_Polygon::getRefPoints() const
     vs.push_Back(v3);
     vs.push_Back(data.vertexes[1]);
     vs.push_Back(v4);
-*/
+/*
     Geom2D::Coord v1, v2, v3, v4;
     v1 = {data.vertexes[0].x, data.vertexes[0].y};
     v2 = {data.vertexes[1].x, data.vertexes[1].y};
@@ -241,7 +241,7 @@ RG_VectorSolutions RG_Polygon::getRefPoints() const
     RL_DEBUG << "RG_Polygon::getRefPoints(rect)  vs[0] = ("
              << vs[0].x << "," << vs[0].y << ") vs[3] = ("
              << vs[3].x << "," << vs[3].y << ")";
-
+*/
     return vs;
 
 }

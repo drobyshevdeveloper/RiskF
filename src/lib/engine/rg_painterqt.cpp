@@ -38,7 +38,7 @@ void RG_PainterQt::setPen(RG_Pen &pen)
 
 void RG_PainterQt::drawLine(const RG_Vector &p1, const RG_Vector &p2)
 {
-    QPainter::drawLine(p1.x, p1.y, p2.x, p2.y);
+    QPainter::drawLine(round(p1.x), round(p1.y), round(p2.x), round(p2.y));
 }
 
 void RG_PainterQt::drawRect(const QRectF &rect)
