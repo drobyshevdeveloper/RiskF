@@ -18,6 +18,7 @@
 #include "rg_painterqt.h"
 
 #include <QPen>
+#include <cmath>
 
 #include "rg.h"
 #include "rg_vector.h"

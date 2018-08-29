@@ -1,8 +1,12 @@
 #include "geom.h"
 #include <cmath>
+#include <qdebug.h>
 
 namespace Geom2D {
 
+//////////////////////////////////////////////////////////////
+/// Coord
+///
 Coord::Coord(double x, double y)
 {
     this->x = x;
@@ -13,6 +17,12 @@ Coord::Coord(double x, double y)
 double Coord::length()
 {
     return hypot(x, y);
+}
+
+// Функция возвращает расстояние до заданной точки
+double Coord::distanceTo(const Coord &c)
+{
+    return (*this - c).length();
 }
 
 // Возвращает координату повернутую на угол (angle) относительно оси абцисс
@@ -60,11 +70,155 @@ Coord Coord::operator*(const double d) const
 {
     return {x*d, y*d};
 }
-/*
-Coord Coord::operator*() const
+
+//////////////////////////////////////////////////////////
+/// LineABC
+///
+LineABC::LineABC()
 {
-    return {x,y};
-}*/
+    A_ = 0;
+    B_ = 0;
+    C_ = 0;
+}
+
+
+
+LineABC::LineABC (const Coord &point, double angle)
+{
+    bool isVert = (are_near( angle, M_ANGLE090 ) || are_near( angle, M_ANGLE270));
+    if (isVert) {
+        // Вычисляем уравнение для вертикальной линии линии, x = с;
+        A_ = 1;
+        B_ = 0;
+        C_ = 0 - point.x;
+    }
+    else {
+        // Вычисляем уравнение для невертикальной линии (общий случай)
+        A_ = tan(-angle);
+        B_ = -1;
+        C_ = point.y - A_ * point.x;
+    }
+}
+
+
+
+// Конструктор линии по двум точкам
+LineABC::LineABC (const Coord &pt1, const Coord &pt2 )
+{
+    // Определим координаты точек
+    double x1 = pt1.x;
+    double x2 = pt2.x;
+    double y1 = pt1.y;
+    double y2 = pt2.y;
+    // Вычислим уравнение прямой
+    A_ = y1 - y2;
+    B_ = x2 - x1;
+    C_ = x1 * y2 - x2 * y1;
+}
+
+// установить линию перпендикулярно заданной, проходящую через заданную точку
+void LineABC::setPerpendicular(const LineABC &line, const Coord &point)
+{
+    A_ = - line.B();
+    B_ = line.A();
+    C_ = line.B() * point.x - line.A() * point.y;
+}
+
+
+
+// Установить линию параллельно заданной, проходящей через заданную точку
+void LineABC::setParallel(const LineABC &line, const Coord &point)
+{
+    A_ = line.A();
+    B_ = line.B();
+    C_ = - A_ * point.x - B_ * point.y;
+}
+
+
+
+// Установить коэффициенты А B C
+void LineABC::setABC (double A, double B, double C)
+{
+    A_ = A;
+    B_ = B;
+    C_ = C;
+}
+
+
+
+// Возвращает точку пересечения прямой с указанной прямой
+bool LineABC::computeIntersect(const LineABC &line, Coord* point)
+{
+    // формула такова:
+    //         С1*B2 - C2*B1
+    // x = - ----------------
+    //         A1*B2 - A2*B1
+    //
+    //         A1*C2 - A2*C1
+    // y = - ----------------
+    //         A1*B2 - A2*B1
+
+    //  Вычислим знаменатель, т.к. он одинаковый
+    double zn = A() * line.B() - line.A() * B();
+    // проверка на параллельность прямых
+    if (are_near( zn, 0.0 )) return false; // прямые параллельны, не пересекаются
+    point->x = ( - ( C() * line.B() - line.C() * B()) / zn );
+    point->y = ( - ( A() * line.C() - line.A() * C()) / zn );
+
+    return true;
+}
+
+
+
+// Возвращает точку проекции указаной точки на прямую
+Coord LineABC::computeProjection(const Coord &point)
+{
+    LineABC l;
+    l.setPerpendicular(*this, point);
+
+    Coord ptRes;
+    if (!computeIntersect(l, &ptRes)) {
+        // !!! ОШИБКА перпендикулярные прямые обязаны пересекаться
+        Q_ASSERT_X(false, "LineABC::computeProjection",
+                   "перпендикулярные прямые не пересеклись(((");
+    }
+
+    return ptRes;
+}
+
+
+
+// Возвращает точку, лежащую на прямой на расстоянии (l) от
+// проекции на данную прямую заданной точки (point) в заданном направлении (dir)
+Coord LineABC::computeSection(double l, const Coord &point, int dir)
+{
+    // Определить перпендликулярную прямую, проходящую через (point)
+    LineABC line;
+    line.setPerpendicular(*this, point);
+
+    // Определить параллельную прямую от предыдущей, проходящей
+    // на расстоянии (l) в заданном направлении
+    double C;
+    if ( dir < 0 ) {
+        C = l * sqrt(( sqr(line.A()) + sqr(line.B()) )) -
+                  line.A() * point.x - line.B() * point.y;
+    } else {
+        C = - l * sqrt(( sqr(line.A()) + sqr(line.B()) )) -
+                  line.A() * point.x - line.B() * point.y;
+    }
+    LineABC lineResult;
+    lineResult.setABC( line.A(), line.B(), C);
+
+    // Опрделить точку пересечения последней прямой и текущей
+    Coord pointResult;
+    if (!computeIntersect(lineResult, &pointResult)) {
+        Q_ASSERT_X(false, "LineABC::computeSection",
+                   "перпендикулярные прямые не пересеклись(((");
+    }
+    return (pointResult);
+}
+
+////////////////////////////////////////////////////////////////////////
 
 /**
  * @brief getIntersection

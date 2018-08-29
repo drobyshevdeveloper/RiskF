@@ -111,6 +111,23 @@ public:
                                     RG_Vector* v3, RG_Vector* v4);
 
     /**
+     * @brief RG_Information::calculatePointsOfMoveFace
+     * Вычислить новые координаты грани многоугольника (v2, v3) по заданной точке (coord)
+     *
+     * @param coord - заданная точка
+     * @param vPreviouis - Предыдущая вершина от заданной грани
+     * @param v1 - первая вершина заданной грани
+     * @param v1 - вторая вершинв заданной грани
+     * @param vNext - следующая вершина от заданной грани
+     * @return - возвращает массив из двух точек - новых координат грани
+     */
+    static RG_VectorSolutions calculatePointsOfMoveFace(const RG_Vector& coord,
+                                                        const RG_Vector& vPreviouis,
+                                                        const RG_Vector& v1,
+                                                        const RG_Vector& v2,
+                                                        const RG_Vector& vNext);
+
+    /**
      * @brief isPointInPolygon
      * Определяет находится ли заданная точка (pt) внутри замкнутого многоугольника
      * заданного списком векторов (vs)

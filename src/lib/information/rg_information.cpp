@@ -229,6 +229,34 @@ void RG_Information::calculateRectVertex(const RG_Vector& v1, const RG_Vector& v
     *v4 = getNearestPointOnLine(v2, v1, v1_2, nullptr);
 }
 
+RG_VectorSolutions RG_Information::calculatePointsOfMoveFace(const RG_Vector& coord,
+                                                             const RG_Vector& vPreviouis,
+                                                             const RG_Vector& v1,
+                                                             const RG_Vector& v2,
+                                                             const RG_Vector& vNext)
+{
+    RG_VectorSolutions vs;
+    Geom2D::Coord ptRes1;
+    Geom2D::Coord ptRes2;
+
+    // Переведем ребра в параметрические уравления прямой
+    Geom2D::LineABC facePreviouis({vPreviouis.x,vPreviouis.y},{v1.x,v1.y});
+    Geom2D::LineABC face({v1.x,v1.y},{v2.x,v2.y});
+    Geom2D::LineABC faceNext({v2.x,v2.y},{vNext.x,vNext.y});
+
+    // Параллельно перенесем линию заданного ребра до заданной точки
+    face.setParallel(face, {coord.x, coord.y});
+    // Вычислим точки пересечения перенесенного ребра с предыдущим и следующим ребрами
+    face.computeIntersect(facePreviouis, &ptRes1);
+    face.computeIntersect(faceNext, &ptRes2);
+
+    // Сформируем результат в массив
+    vs.push_Back({ptRes1.x, ptRes1.y});
+    vs.push_Back({ptRes2.x, ptRes2.y});
+
+    return vs;
+}
+
 bool RG_Information::isPointInPolygon(const RG_Vector &pt,
                                       RG_VectorSolutions &vs)
 {

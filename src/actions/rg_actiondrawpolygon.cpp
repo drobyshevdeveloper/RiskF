@@ -77,6 +77,7 @@ void RG_ActionDrawPolygon::coordinateEvent(RG_CoordinateEvent *ce)
         // Режим установки следующей точки многоугольника
 
         // Необходимо реализовать !!!
+        points.vs.push_Back(mouse);
 
         break;
     case SetEndPoint:
@@ -148,6 +149,37 @@ void RG_ActionDrawPolygon::mouseReleaseEvent(QMouseEvent *e)
         coordinateEvent(&ce);
     }
     RL_DEBUG << "RG_ActionDrawPolygon::mouseReleaseEvent Ok";
+}
+
+void RG_ActionDrawPolygon::keyPressEvent(QKeyEvent *e)
+{
+    switch(e->key()) {
+/*
+    case Qt::Key_Escape:
+        setStatus(Neutral);
+        deletePreview();
+
+        {
+            RG_Selection s(container, graphicView);
+            s.deselectAll();
+        }
+
+        graphicView->redraw(RG::RedrawOverlay);
+        e->accept();
+        break;
+*/
+    case Qt::Key_Return:
+        if (getStatus()==SetNextPoint) {
+            trigger();
+            deletePreview();
+            graphicView->redraw(RG::RedrawDrawing);
+            points.vs.clear();
+            setStatus(SetStartPoint);
+            e->accept();
+        }
+    default:
+        e->ignore();
+    }
 }
 
 void RG_ActionDrawPolygon::updateMouseCursor()

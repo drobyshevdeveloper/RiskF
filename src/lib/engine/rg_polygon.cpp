@@ -141,35 +141,35 @@ void RG_Polygon::moveRef(const RG_Vector &ref, const RG_Vector &offset)
 void RG_Polygon::moveFace(const RG_Vector &ref, const RG_Vector &offset)
 {
     RG_VectorSolutions vs = getRefPoints();
-    for (int i=0; i<vs.count(); i=++) {
+    int vsCount = vs.count();
+    for (int i=0; i<vsCount; i++) {
         double dist;
-        RG_Vector pt = RG_Information::getNearestPointOnLineSegment(ref, vs[i], vs[(i+1)%vs.count()], &dist);
-        if (d<3.0) {
+        RG_Vector pt = RG_Information::getNearestPointOnLineSegment(ref, vs[i], vs[(i+1)%vsCount], &dist);
+        if (dist<3.0) {
             // Найдена грань, которую необходимо переместить
+            RL_DEBUG << "RG_Polygon::moveFace найдена грань i=" << i << ", i+1=" << (i+1)%vsCount;
+            RL_DEBUG << "vPrev = " << vs[(i-1+vsCount)%vsCount].x << "," << vs[(i-1+vsCount)%vsCount].y;
+            RL_DEBUG << "v1 = " << vs[i].x << "," << vs[i].y;
+            RL_DEBUG << "v2 = " << vs[(i+1)%vsCount].x << "," << vs[(i+1)%vsCount].y;
+            RL_DEBUG << "vNext = " << vs[(i+2)%vsCount].x << "," << vs[(i+2)%vsCount].y;
+            // Найдем новые вершины перемещенной грани
+            RG_VectorSolutions vsResult = RG_Information::calculatePointsOfMoveFace(ref + offset,
+                                                      vs[(i-1+vsCount)%vsCount],
+                                                      vs[i],
+                                                      vs[(i+1)%vsCount],
+                                                      vs[(i+2)%vsCount]);
+            RL_DEBUG << "vsResult[0] = " << vsResult[0].x << "," << vsResult[0].y;
+            RL_DEBUG << "vsResult[1] = " << vsResult[1].x << "," << vsResult[1].y;
 
+            moveVertex(i, vsResult[0] - vs[i], vs);
+            if (!isRect()) {
+                // Если многоугольник => отдельно переместим вторую вершину
+                moveVertex((i+1)%vsCount, vsResult[1] - vs[(i+1)%vsCount], vs);
+            }
+            break; // т.к. грань (ребро) найдена, нет смысла перебирать оставшиеся
         }
 
     }
-/*    RG_Marker marker = getNearestMarkerFace(ref);
-    if (marker.valid && marker.type == RG_Marker::Face && marker.dist<3.0) {
-        RG_VectorSolutions vs = getRefPoints();
-        const RG_Vector offsetX = {offset.x, 0.0};
-        const RG_Vector offsetY = {0.0, offset.y};
-        switch (marker.index) {
-        case 0:
-            moveVertex1(offsetY);
-            break;
-        case 1:
-            moveVertex2(offsetX);
-            break;
-        case 2:
-            moveVertex3(offsetY);
-            break;
-        case 3:
-            moveVertex4(offsetX);
-            break;
-        }
-    }*/
 }
 
 void RG_Polygon::move(const RG_Vector &offset)
