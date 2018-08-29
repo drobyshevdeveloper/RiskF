@@ -18,6 +18,7 @@
 #include "rg_polygon.h"
 
 #include "rl_debug.h"
+#include "geom.h"
 #include "rg_marker.h"
 #include "rg_painter.h"
 #include "rg_information.h"
@@ -118,8 +119,12 @@ void RG_Polygon::draw(RG_Painter *painter, RG_GraphicView *view)
     painter->setPen(pen);
 
     RG_VectorSolutions vs = getRefPoints();
+    RL_DEBUG << "RG_Polygon::draw :";
     for (int i=0; i<vs.count(); i++) {
         painter->drawLine(view->toGui(vs[i]), view->toGui(vs[(i+1)%vs.count()]));
+        RL_DEBUG << "line (" << view->toGui(vs[i]).x << "," << view->toGui(vs[i]).y << ")-("
+                             << view->toGui(vs[(i+1)%vs.count()]).x << ","
+                             << view->toGui(vs[(i+1)%vs.count()]).y << ")";
     }
 }
 
@@ -128,7 +133,7 @@ void RG_Polygon::moveRef(const RG_Vector &ref, const RG_Vector &offset)
     RG_VectorSolutions vs = getRefPoints();
     for (int i=0; i<vs.count(); i++) {
         if (vs[i].isEqu(ref)) {
-            moveVertex(i, offset);
+            moveVertex(i, offset, vs);
         }
     }
 }
@@ -170,26 +175,32 @@ void RG_Polygon::rotate(const RG_Vector &ptBase, const RG_Vector &ptAngle)
     for (int i=0; i<data.vertexes.count(); i++) {
         data.vertexes[i].rotate(ptBase, ptAngle - ptBase);
     }
+    if (!isRect()) return;
+    // Если сущность является прямоугольником, скорректируем угол наклона
+    data.angle += (ptAngle - ptBase).angle();
 }
 
-void RG_Polygon::moveVertex(int index, const RG_Vector &offset)
+void RG_Polygon::moveVertex(int index, const RG_Vector &offset, RG_VectorSolutions &vs1)
 {
     RL_DEBUG << "RG_Polygon::moveVertex index = " << index << ", offset(" << offset.x << "," << offset.y << ")";
     if (isRect()) {
+        RG_VectorSolutions vs = getRefPoints();
         switch(index) {
         case 0:
             data.vertexes[0] = data.vertexes[0] + offset;
             break;
         case 1:
-            data.vertexes[1].x = data.vertexes[1].x + offset.x;
-            data.vertexes[0].y = data.vertexes[0].y + offset.y;
+            RG_Information::calculateRectVertex(vs[1] + offset, vs[3], data.angle, &vs[0], &vs[2]);
+            data.vertexes[0] = vs[0];
+            data.vertexes[1] = vs[2];
             break;
         case 2:
             data.vertexes[1] = data.vertexes[1] + offset;
             break;
         case 3:
-            data.vertexes[0].x = data.vertexes[0].x + offset.x;
-            data.vertexes[1].y = data.vertexes[1].y + offset.y;
+            RG_Information::calculateRectVertex(vs[1], vs[3] + offset, data.angle, &vs[0], &vs[2]);
+            data.vertexes[0] = vs[0];
+            data.vertexes[1] = vs[2];
             break;
         }
     } else {
@@ -204,11 +215,32 @@ RG_VectorSolutions RG_Polygon::getRefPoints() const
 
     // Примитив является прямоугольником, вычислим вершины по двум диаганальным точкам и углу поворота
     RG_VectorSolutions vs;
+/*
+    RG_Vector v3, v4;
+    RG_Information::calculateRectVertex(data.vertexes[0], data.vertexes[1],
+                                        data.angle, &v3, &v4);
 
-    vs.push_Back(data.vertexes.getVector().at(0));
-    vs.push_Back({data.vertexes[1].x, data.vertexes[0].y});
+    vs.push_Back(data.vertexes[0]);
+    vs.push_Back(v3);
     vs.push_Back(data.vertexes[1]);
-    vs.push_Back({data.vertexes[0].x, data.vertexes[1].y});
+    vs.push_Back(v4);
+*/
+    Geom2D::Coord v1, v2, v3, v4;
+    v1 = {data.vertexes[0].x, data.vertexes[0].y};
+    v2 = {data.vertexes[1].x, data.vertexes[1].y};
+    Geom2D::getRectVertex(v1, v2, data.angle, &v3, &v4);
+
+    vs.push_Back(data.vertexes[0]);
+    vs.push_Back({v3.x, v3.y});
+    vs.push_Back(data.vertexes[1]);
+    vs.push_Back({v4.x, v4.y});
+
+    RL_DEBUG << "RG_Polygon::getRefPoints(rect)  v1 = ("
+             << v1.x << "," << v1.y << ") v4 = ("
+             << v4.x << "," << v4.y << ")";
+    RL_DEBUG << "RG_Polygon::getRefPoints(rect)  vs[0] = ("
+             << vs[0].x << "," << vs[0].y << ") vs[3] = ("
+             << vs[3].x << "," << vs[3].y << ")";
 
     return vs;
 

@@ -24,6 +24,7 @@
 
 struct RG_PolygonData {
     RG_VectorSolutions vertexes;
+    double angle=0;
 };
 
 /**
@@ -70,7 +71,7 @@ public:
     virtual void moveFace(const RG_Vector& ref, const RG_Vector& offset) override;
     virtual void move(const RG_Vector &offset) override;
     virtual void rotate(const RG_Vector& ptBase, const RG_Vector& ptAngle);
-    void moveVertex(int index, const RG_Vector &offset);
+    void moveVertex(int index, const RG_Vector &offset, RG_VectorSolutions& vs1);
 
     virtual RG_VectorSolutions getRefPoints() const override;
 

@@ -34,7 +34,8 @@ public:
 //    RG_Vector(int vx, int vy, int vz=0);
     RG_Vector(bool valid);
 
-    void set(double vx, double vy, double vz=0.0);
+    RG_Vector set(double vx, double vy, double vz=0.0);
+    RG_Vector setAngle(double a);
 
     // Сравнить векторы на эквивалентность с точностью RG_TOLERANCE
     bool isEqu(const RG_Vector& v) const;
@@ -45,6 +46,8 @@ public:
 
     // Длина вектора
     double length() const;
+    // угол наклона относительно оси абцисс
+    double angle() const;
     // Квадрат длины вектора (или скалярное произведение вектора самого на себя
     double squared() const;
     // Определить расстояние до заданной точки

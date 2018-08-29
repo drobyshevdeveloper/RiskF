@@ -215,6 +215,20 @@ RG_Vector RG_Information::getNearestPointOnLineSegment(const RG_Vector &coord,
     return result;
 }
 
+void RG_Information::calculateRectVertex(const RG_Vector& v1, const RG_Vector& v2,
+                                         double angle,
+                                         RG_Vector* v3, RG_Vector* v4)
+{
+    // вычислим вторые точки прямых, проходящих через v1 и лежащих на гранях
+    // прямоугольника с общей вершиной v1
+    RG_Vector v1_1 = v1 + RG_Vector(1000.0, 0.0).setAngle(angle);
+    RG_Vector v1_2 = v1 + RG_Vector(1000.0, 0.0).setAngle(angle + M_PI_2);
+    // Найдем точки пересечения нормалей из v2, опущенных на найденные прямые
+    // (v1,v1_1) и (v1, v1_2)
+    *v3 = getNearestPointOnLine(v2, v1, v1_1, nullptr);
+    *v4 = getNearestPointOnLine(v2, v1, v1_2, nullptr);
+}
+
 bool RG_Information::isPointInPolygon(const RG_Vector &pt,
                                       RG_VectorSolutions &vs)
 {

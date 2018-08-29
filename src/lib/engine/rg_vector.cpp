@@ -47,12 +47,21 @@ RG_Vector::RG_Vector(bool valid)
 {
 }
 
-void RG_Vector::set(double vx, double vy, double vz/*=0.0*/)
+RG_Vector RG_Vector::set(double vx, double vy, double vz/*=0.0*/)
 {
     x = double(vx);
     y = double(vy);
     z = double(vz);
     valid = true;
+    return *this;
+}
+
+RG_Vector RG_Vector::setAngle(double a)
+{
+    double l = length();
+    x = l * cos(a);
+    y = l * sin(a);
+    return *this;
 }
 
 bool RG_Vector::isEqu(const RG_Vector &v) const
@@ -77,6 +86,11 @@ bool RG_Vector::isEquY(const RG_Vector &v) const
 double RG_Vector::length() const
 {
     return valid ? hypot(x, y) : 0.0;
+}
+
+double RG_Vector::angle() const
+{
+    return atan2(y, x);
 }
 
 double RG_Vector::squared() const
