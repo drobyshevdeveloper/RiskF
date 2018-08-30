@@ -218,6 +218,16 @@ void RG_Polygon::moveVertex(int index, const RG_Vector &offset, RG_VectorSolutio
     calculateBorders();
 }
 
+void RG_Polygon::addVertex(const RG_Vector &coord, int index)
+{
+    data.vertexes.insert(coord, index);
+}
+
+void RG_Polygon::delVertex(const RG_Vector &coord)
+{
+    data.vertexes.remove(coord);
+}
+
 RG_VectorSolutions RG_Polygon::getRefPoints() const
 {
     if (!isRect()) return data.vertexes;

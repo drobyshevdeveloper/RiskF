@@ -186,6 +186,21 @@ void RG_VectorSolutions::push_Back(const RG_Vector &v)
     vector.push_back(v);
 }
 
+void RG_VectorSolutions::insert(const RG_Vector &v, int afterIndex)
+{
+    vector.insert(afterIndex, v);
+}
+
+void RG_VectorSolutions::remove(const RG_Vector &v)
+{
+    foreach (RG_Vector vec, vector) {
+        if (vec.isEqu(v)) {
+            vector.removeOne(vec);
+            break;
+        }
+    }
+}
+
 void RG_VectorSolutions::clear()
 {
     vector.clear();

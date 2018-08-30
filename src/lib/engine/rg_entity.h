@@ -72,6 +72,7 @@ public:
      *           false - маркер не найден
      */
     virtual RG_Marker getNearestSelectedRef(const RG_Vector& coord) const;
+    // Вспомогательные методы для getNearestSelectedRef
     virtual RG_Marker getNearestMarkerVertex(const RG_Vector& coord) const;
     virtual RG_Marker getNearestMarkerFace(const RG_Vector& coord) const;
     virtual RG_Marker getNearestMarkerMove(const RG_Vector& coord) const;
@@ -112,6 +113,8 @@ public:
     virtual void moveFace(const RG_Vector& ref, const RG_Vector& offset) {};
     virtual void move(const RG_Vector& offset) {};
     virtual void rotate(const RG_Vector& ptBase, const RG_Vector& ptAngle) {};
+    virtual void addVertex(const RG_Vector& coord, int index) {};
+    virtual void delVertex(const RG_Vector& coord) {};
 
     RG_Graphic* getGraphic() const;
     RG_Document* getDocument() const;

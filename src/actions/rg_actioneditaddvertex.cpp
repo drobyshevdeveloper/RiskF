@@ -130,7 +130,6 @@ void RG_ActionEditAddVertex::mousePressEvent(QMouseEvent *e)
 
                     // заменить объект через RG_Modification
 
-                    break;
                 }
             }
         }
@@ -139,6 +138,7 @@ void RG_ActionEditAddVertex::mousePressEvent(QMouseEvent *e)
 
 void RG_ActionEditAddVertex::mouseReleaseEvent(QMouseEvent *e)
 {
+    /*
     RG_Vector mouse = graphicView->toGraph(e->x(), e->y());
     pPoints->v2 = mouse;
     RG_Entity* en = nullptr;
@@ -200,5 +200,6 @@ void RG_ActionEditAddVertex::mouseReleaseEvent(QMouseEvent *e)
             break;
         }
     }
+    */
 }
 

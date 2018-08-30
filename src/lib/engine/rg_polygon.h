@@ -72,6 +72,8 @@ public:
     virtual void move(const RG_Vector &offset) override;
     virtual void rotate(const RG_Vector& ptBase, const RG_Vector& ptAngle);
     void moveVertex(int index, const RG_Vector &offset, RG_VectorSolutions& vs);
+    virtual void addVertex(const RG_Vector& coord, int index) override;
+    virtual void delVertex(const RG_Vector& coord) override;
 
     virtual RG_VectorSolutions getRefPoints() const override;
 

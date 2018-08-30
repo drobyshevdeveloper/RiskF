@@ -93,6 +93,8 @@ public:
 
     QList<RG_Vector> getVector() const {return vector;}
     void push_Back(const RG_Vector& v);
+    void insert(const RG_Vector& v, int afterIndex);
+    void remove(const RG_Vector& v);
     void clear();
     int count() const;
     bool empty();

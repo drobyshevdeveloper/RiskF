@@ -39,9 +39,9 @@ public:
     virtual void mousePressEvent(QMouseEvent* e) override;
     virtual void mouseMoveEvent(QMouseEvent* e) override;
     virtual void mouseReleaseEvent(QMouseEvent* e) override;
-    virtual void keyPressEvent(QKeyEvent* e) override;
-    virtual void keyReleaseEvent(QKeyEvent* e) override;
-    virtual void updateMouseCursor() override;
+//    virtual void keyPressEvent(QKeyEvent* e) override;
+//    virtual void keyReleaseEvent(QKeyEvent* e) override;
+//    virtual void updateMouseCursor() override;
 
 };
 
