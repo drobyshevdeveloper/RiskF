@@ -51,6 +51,8 @@ public slots:
     // === Edit ===
     void slotSelect();    // инструмент по умолчанию
     void slotEditRotate();
+    void slotEditAddVertex();
+    void slotEditDelVertex();
     void slotUndo();
     void slotRedo();
 

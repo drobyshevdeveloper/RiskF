@@ -64,6 +64,10 @@ RG_ActionInterface* RS_ActionHandler::setCurrentAction(RG::ActionType a_type)
     case RG::ActionDrawPolygon:
         a = new RG_ActionDrawPolygon(*document, *graphicView, false);
         break;
+    case RG::ActionEditAddVertex:
+        break;
+    case RG::ActionEditDelVertex:
+        break;
     }
 
     if (a) {
@@ -122,6 +126,16 @@ void RS_ActionHandler::slotSelect()
 void RS_ActionHandler::slotEditRotate()
 {
     setCurrentAction(RG::ActionEditRotate);
+}
+
+void RS_ActionHandler::slotEditAddVertex()
+{
+    setCurrentAction(RG::ActionEditAddVertex);
+}
+
+void RS_ActionHandler::slotEditDelVertex()
+{
+    setCurrentAction(RG::ActionEditDelVertex);
 }
 
 void RS_ActionHandler::slotUndo()

@@ -82,6 +82,18 @@ void RS_ActionFactory::fillActionContainer(QMap<QString, QAction *> &a_map, RS_A
     action->setObjectName("Rotate");
     a_map["Rotate"] = action;
 
+    action = new QAction(tr("&AddVertex"), agm->edit);
+    action->setIcon(QIcon(":/icons/AddVertex.png"));
+    connect(action, SIGNAL(triggered(bool)), action_handler, SLOT(slotEditAddVertex()));
+    action->setObjectName("AddVertex");
+    a_map["AddVertex"] = action;
+
+    action = new QAction(tr("&DelVertex"), agm->edit);
+    action->setIcon(QIcon(":/icons/DelVertex.png"));
+    connect(action, SIGNAL(triggered(bool)), action_handler, SLOT(slotEditDelVertex()));
+    action->setObjectName("DelVertex");
+    a_map["DelVertex"] = action;
+
     action = new QAction(tr("&Undo"), agm->edit);
     action->setIcon(QIcon(":/icons/file.svg"));
     connect(action, SIGNAL(triggered(bool)), action_handler, SLOT(slotUndo()));

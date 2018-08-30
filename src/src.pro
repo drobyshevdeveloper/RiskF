@@ -24,7 +24,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 
-LC_VERSION="1.0.44"
+LC_VERSION="1.0.45"
 VERSION=$${LC_VERSION}
 
 # Для работы отладочных функций закомментируйте следующую строку
@@ -103,7 +103,8 @@ HEADERS += \
         lib/engine/rg_undo.h \
         lib/engine/rg_undogroup.h \
         lib/engine/rg_rectangle.h \
-        lib/engine/rg_polygon.h
+        lib/engine/rg_polygon.h \
+    actions/rg_actioneditaddvertex.h
 SOURCES += \
         lib/rl_settings.cpp \
         lib/gui/rl_dialogfactory.cpp \
@@ -135,7 +136,8 @@ SOURCES += \
         lib/engine/rg_undo.cpp \
         lib/engine/rg_undogroup.cpp \
         lib/engine/rg_rectangle.cpp \
-        lib/engine/rg_polygon.cpp
+        lib/engine/rg_polygon.cpp \
+    actions/rg_actioneditaddvertex.cpp
 
 
 ##################################################################

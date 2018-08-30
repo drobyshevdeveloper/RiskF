@@ -62,6 +62,8 @@ public:
         ActionDrawRectangle,
         ActionDrawPolygon,
         ActionEditRotate,
+        ActionEditAddVertex,
+        ActionEditDelVertex,
         ActionUndo,
         ActionRedo
     };

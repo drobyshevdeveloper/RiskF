@@ -43,6 +43,8 @@ RS_WidgetFactory::RS_WidgetFactory(RF_MainWindow* main_win,
     edit_actions
             << a_map["Select"]
             << a_map["Rotate"]
+            << a_map["AddVertex"]
+            << a_map["DelVertex"]
             << a_map["Undo"]
             << a_map["Redo"];
 

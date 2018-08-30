@@ -9,5 +9,7 @@
         <file>Polygon.png</file>
         <file>Rectangle.png</file>
         <file>Rotate.png</file>
+        <file>AddVertex.png</file>
+        <file>DelVertex.png</file>
     </qresource>
 </RCC>
