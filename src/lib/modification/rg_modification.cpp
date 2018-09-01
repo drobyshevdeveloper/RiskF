@@ -114,6 +114,15 @@ void RG_Modification::rotate(const RG_RotateData &data)
     applyModification(addList);
 }
 
+void RG_Modification::addVertex(const RG_AddVertexData &data)
+{
+    if (data.marker.entity->isSelected()) {
+        RG_Entity* en_copy = data.marker.entity->clone();
+        en_copy->addVertex(data.ptAddVertex, data.marker.index);
+        applyModification(data.marker.entity, en_copy);
+    }
+}
+
 void RG_Modification::applyModification(std::vector<RG_Entity *> &list)
 {
     document->beginUndoGroup();

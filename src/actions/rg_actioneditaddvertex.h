@@ -36,13 +36,20 @@ public:
 //    virtual void init(int status=Neutral) override;
 //    virtual void coordinateEvent(RG_CoordinateEvent* ce) override;
 
+    void trigger();
+
     virtual void mousePressEvent(QMouseEvent* e) override;
     virtual void mouseMoveEvent(QMouseEvent* e) override;
     virtual void mouseReleaseEvent(QMouseEvent* e) override;
 //    virtual void keyPressEvent(QKeyEvent* e) override;
 //    virtual void keyReleaseEvent(QKeyEvent* e) override;
 //    virtual void updateMouseCursor() override;
+private:
+    struct Points {
+        RG_Vector ptAddVertex;
+    };
 
+    Points points;
 };
 
 #endif // RG_ACTIONEDITADDVERTEX_H

@@ -22,6 +22,9 @@
 #include "rg_marker.h"
 #include "rg_entitycontainer.h"
 #include "rg_graphicview.h"
+#include "rg_information.h"
+#include "rg_modification.h"
+#include "rg_polygon.h"
 
 
 RG_ActionEditAddVertex::RG_ActionEditAddVertex(RG_EntityContainer& container, RG_GraphicView& graphicView)
@@ -33,6 +36,15 @@ RG_ActionEditAddVertex::RG_ActionEditAddVertex(RG_EntityContainer& container, RG
 RG_ActionEditAddVertex::~RG_ActionEditAddVertex()
 {
 
+}
+
+void RG_ActionEditAddVertex::trigger()
+{
+//    RG_Polygon* poly = new RG_Polygon(container, points.data);
+//    container->addEntity(line);
+//    document->beginUndoGroup();
+//    document->addUndoable(line);
+//    document->endUndoGroup();
 }
 
 void RG_ActionEditAddVertex::mouseMoveEvent(QMouseEvent *e)
@@ -108,7 +120,7 @@ void RG_ActionEditAddVertex::mouseMoveEvent(QMouseEvent *e)
         */
 //    }
 
-//    RG_Vector snapper = snapPoint(e);
+    RG_Vector snapper = snapPoint(e);
 
 //    RL_DIALOGFACTORY->updateCoordinateWidget(snapper, snapper);
 }
@@ -123,8 +135,25 @@ void RG_ActionEditAddVertex::mousePressEvent(QMouseEvent *e)
             if (marker.type == RG_Marker::Face) {
                 if (marker.dist < 3.0) {
                     // Найден маркер изменения граней сущности
+                    // Определим тип объекта
+                    if (marker.entity->rtti()==RG::EntityPolygon) {
+                        // Найден соответствующий объект
+                        // Найдем ближайшую точку на грани/ребре
+                        RG_Polygon* poly = dynamic_cast<RG_Polygon*>(marker.entity);
+                        if (!poly->isRect()) {
+                            // Многоугольник
+                            RG_VectorSolutions vs = poly->getRefPoints();
+                            RG_Vector pt  = RG_Information::getNearestPointOnLineSegment(mouse,
+                                          vs[marker.index],
+                                          vs[(marker.index+1)%vs.count()],
+                                          nullptr);
+                            RG_Modification m(container, graphicView);
+                            m.addVertex({marker, pt});
+                            graphicView->redraw(RG::RedrawDrawing);
+                        }
+                    }
 
-                    // найти ближайшую точку на грани
+ //                   if (
 
                     // добавить ее в список вершин объекта
 

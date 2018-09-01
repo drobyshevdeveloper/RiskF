@@ -53,6 +53,11 @@ struct RG_RotateData {
     RG_Vector ptAngle;
 };
 
+struct RG_AddVertexData {
+    RG_Marker marker;
+    RG_Vector ptAddVertex;
+};
+
 class RG_Modification
 {
 public:
@@ -63,6 +68,7 @@ public:
     void moveFace(const RG_MoveFaceData& data);
     void move(const RG_MovingData& data);
     void rotate(const RG_RotateData& data);
+    void addVertex(const RG_AddVertexData& data);
 protected:
     /**
      * @brief applyModification

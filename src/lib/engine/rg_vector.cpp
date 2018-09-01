@@ -188,7 +188,7 @@ void RG_VectorSolutions::push_Back(const RG_Vector &v)
 
 void RG_VectorSolutions::insert(const RG_Vector &v, int afterIndex)
 {
-    vector.insert(afterIndex, v);
+    vector.insert((afterIndex+1)%count(), v);
 }
 
 void RG_VectorSolutions::remove(const RG_Vector &v)

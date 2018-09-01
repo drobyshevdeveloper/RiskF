@@ -25,6 +25,7 @@
 #include "rg_actiondrawrectangle.h"
 #include "rg_actiondrawpolygon.h"
 #include "rg_actioneditrotate.h"
+#include "rg_actioneditaddvertex.h"
 
 RS_ActionHandler::RS_ActionHandler(QObject *parent)
     : QObject(parent)
@@ -65,6 +66,7 @@ RG_ActionInterface* RS_ActionHandler::setCurrentAction(RG::ActionType a_type)
         a = new RG_ActionDrawPolygon(*document, *graphicView, false);
         break;
     case RG::ActionEditAddVertex:
+        a = new RG_ActionEditAddVertex(*document, *graphicView);
         break;
     case RG::ActionEditDelVertex:
         break;
