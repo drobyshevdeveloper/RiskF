@@ -41,7 +41,7 @@ void RG_Entity::reparent(RG_EntityContainer *parent)
 
 void RG_Entity::onChangeUndoState()
 {
-    setSelected(false);
+//    setSelected(false);
 }
 
 void RG_Entity::initID()
@@ -57,6 +57,7 @@ void RG_Entity::setSelected(bool select)
 
 bool RG_Entity::isSelected() const
 {
+    if (!isVisible()) return false;
     return bSelected;
 }
 

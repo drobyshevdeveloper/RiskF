@@ -181,6 +181,12 @@ bool RG_Vector::operator != (bool valid) const
 // ======================================================
 // RG_VectorSolutions
 
+RG_VectorSolutions::RG_VectorSolutions(const RG_VectorSolutions &vs)
+{
+    clear();
+    vector = vs.vector;
+}
+
 void RG_VectorSolutions::push_Back(const RG_Vector &v)
 {
     vector.push_back(v);

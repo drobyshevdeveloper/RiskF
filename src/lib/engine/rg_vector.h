@@ -90,6 +90,7 @@ class RG_VectorSolutions
 {
 public:
     RG_VectorSolutions() = default;
+    RG_VectorSolutions(const RG_VectorSolutions& vs);
 
     QList<RG_Vector> getVector() const {return vector;}
     void push_Back(const RG_Vector& v);

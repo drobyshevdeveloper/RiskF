@@ -20,7 +20,7 @@
 
 #include "rg_actioninterface.h"
 
-class RG_ActionEditAddVertex : public RG_ActionInterface
+class RG_ActionEditAddVertex : public RG_ActionInterface, RG_IRecipientFromChildAction
 {
 public:
     enum {
@@ -33,7 +33,7 @@ public:
 
     virtual ~RG_ActionEditAddVertex();
 
-//    virtual void init(int status=Neutral) override;
+    virtual void init(int status=0) override;
 //    virtual void coordinateEvent(RG_CoordinateEvent* ce) override;
 
     void trigger();
@@ -44,6 +44,8 @@ public:
 //    virtual void keyPressEvent(QKeyEvent* e) override;
 //    virtual void keyReleaseEvent(QKeyEvent* e) override;
 //    virtual void updateMouseCursor() override;
+
+    virtual void setChildActionExitCode(int cod) override;
 private:
     struct Points {
         RG_Vector ptAddVertex;

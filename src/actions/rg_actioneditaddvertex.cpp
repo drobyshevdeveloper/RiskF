@@ -25,6 +25,7 @@
 #include "rg_information.h"
 #include "rg_modification.h"
 #include "rg_polygon.h"
+#include "rg_actionselect.h"
 
 
 RG_ActionEditAddVertex::RG_ActionEditAddVertex(RG_EntityContainer& container, RG_GraphicView& graphicView)
@@ -36,6 +37,14 @@ RG_ActionEditAddVertex::RG_ActionEditAddVertex(RG_EntityContainer& container, RG
 RG_ActionEditAddVertex::~RG_ActionEditAddVertex()
 {
 
+}
+
+void RG_ActionEditAddVertex::init(int status)
+{
+    if (container->countSelection()==0) {
+        graphicView->setCurrentAction(new RG_ActionSelect(*container, *graphicView, this));
+    }
+    RG_ActionInterface::init(status);
 }
 
 void RG_ActionEditAddVertex::trigger()
@@ -140,7 +149,7 @@ void RG_ActionEditAddVertex::mousePressEvent(QMouseEvent *e)
                         // Найден соответствующий объект
                         // Найдем ближайшую точку на грани/ребре
                         RG_Polygon* poly = dynamic_cast<RG_Polygon*>(marker.entity);
-                        if (!poly->isRect()) {
+                        if (1) { //!poly->isRect()) {
                             // Многоугольник
                             RG_VectorSolutions vs = poly->getRefPoints();
                             RG_Vector pt  = RG_Information::getNearestPointOnLineSegment(mouse,
@@ -232,3 +241,7 @@ void RG_ActionEditAddVertex::mouseReleaseEvent(QMouseEvent *e)
     */
 }
 
+void RG_ActionEditAddVertex::setChildActionExitCode(int cod)
+{
+
+}

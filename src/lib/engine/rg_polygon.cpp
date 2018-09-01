@@ -220,6 +220,12 @@ void RG_Polygon::moveVertex(int index, const RG_Vector &offset, RG_VectorSolutio
 
 void RG_Polygon::addVertex(const RG_Vector &coord, int index)
 {
+    if (isRect()) {
+        // Наш объект имеет вид правильного прямоугольника, приведем его к полигону
+        RG_VectorSolutions vs = getRefPoints();
+        data.vertexes = vs;
+        fRect = false;
+    }
     data.vertexes.insert(coord, index);
 }
 
