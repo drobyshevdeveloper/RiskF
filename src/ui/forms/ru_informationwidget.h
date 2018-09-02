@@ -15,32 +15,27 @@
 **
 ****************************************************************************/
 
-#ifndef RS_DIALOGFACTORY_H
-#define RS_DIALOGFACTORY_H
+#ifndef RU_INFORMATIONWIDGET_H
+#define RU_INFORMATIONWIDGET_H
 
-#include "rl_dialogfactoryinterface.h"
+#include <QWidget>
 
-class QWidget;
-class QToolBar;
-class RU_CoordinateWidget;
+namespace Ui {
 class RU_InformationWidget;
+}
 
-/**
- * @brief The RS_DialogFactory class - реализация интерфейса создания и отображения диалогов
- */
-class RS_DialogFactory : public RL_DialogFactoryInterface
+class RU_InformationWidget : public QWidget
 {
+    Q_OBJECT
+
 public:
-    RS_DialogFactory(QWidget* parent, QToolBar* ow);
+    explicit RU_InformationWidget(QWidget *parent = 0);
+    ~RU_InformationWidget();
 
-    void updateCoordinateWidget(const RG_Vector& coord1, const RG_Vector& coord2) override;
+    void setInformation(const QString& strInfo);
 
-    void setCoordinateWidget(RU_CoordinateWidget* cw) override;
-
-    void setInformationWidget(RU_InformationWidget *iw) override;
-protected:
-    RU_CoordinateWidget* coordinateWidget;
-    RU_InformationWidget* informationWidget;
+private:
+    Ui::RU_InformationWidget *ui;
 };
 
-#endif // RS_DIALOGFACTORY_H
+#endif // RU_INFORMATIONWIDGET_H

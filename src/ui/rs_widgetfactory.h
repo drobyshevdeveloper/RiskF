@@ -38,6 +38,7 @@ public:
                               RS_ActionGroupManager* agm);
 
     void createCategoriesToolBar();
+    void createInformationPanel(QWidget* infoWidget);
     void createMenus(QMenuBar* menu_bar);
 
     QToolBar* option_toolbar;

@@ -30,6 +30,7 @@
 #include "ru_mdiwindow.h"
 #include "rs_graphicview.h"
 #include "ru_coordinatewidget.h"
+#include "ru_informationwidget.h"
 
 RF_MainWindow::RF_MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -46,9 +47,10 @@ RF_MainWindow::RF_MainWindow(QWidget *parent)
     QStatusBar* status_bar = statusBar();
     coordinateWidget = new RU_CoordinateWidget(status_bar);
     status_bar->addWidget(coordinateWidget);
-
-
     status_bar->setMinimumHeight( 28 );
+
+    // Инициализация информационной панели
+
 
     auto central = new RS_CentralWidget(this);
     setCentralWidget(central);
@@ -63,6 +65,10 @@ RF_MainWindow::RF_MainWindow(QWidget *parent)
     auto widget_factory = new RS_WidgetFactory(this, a_map, ag_manager);
     widget_factory->createMenus(menuBar());
     widget_factory->createCategoriesToolBar();
+    // Создаем информационную панель
+    informationWidget = new RU_InformationWidget();
+    widget_factory->createInformationPanel(informationWidget);
+
 
     // ===============================================
     // Dialog Factory
@@ -72,6 +78,7 @@ RF_MainWindow::RF_MainWindow(QWidget *parent)
         RL_DialogFactory::instance()->setFactoryObject(dialogFactory);
         dialogFactory->setCoordinateWidget(coordinateWidget); // Пока здесь потом надо перенести в
                                                                 // обработку сигнала NewFile
+        dialogFactory->setInformationWidget(informationWidget);
         RL_DEBUG << "create DialogFactory Ok";
     }
 
@@ -87,6 +94,8 @@ RF_MainWindow::RF_MainWindow(QWidget *parent)
 RF_MainWindow::~RF_MainWindow()
 {
     if (dialogFactory) delete dialogFactory;
+//    if (coordinateWidget) delete coordinateWidget; может они удаляются в классе контейнере
+//    if (informationWidget) delete informationWidget;
 }
 
 void RF_MainWindow::slotWindowActivated(QMdiSubWindow *w)

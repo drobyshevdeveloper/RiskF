@@ -66,6 +66,17 @@ void RS_WidgetFactory::createCategoriesToolBar()
     option_toolbar = nullptr; // временно !!!
 }
 
+void RS_WidgetFactory::createInformationPanel(QWidget* infoWidget)
+{
+    QSizePolicy toolBarPolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    QToolBar* insert_toolbar = new QToolBar(RF_MainWindow::tr("Info"), main_window);
+    insert_toolbar->setSizePolicy(toolBarPolicy);
+    insert_toolbar->setObjectName("info_toolbar");
+    insert_toolbar->addWidget(infoWidget);
+
+    main_window->addToolBar(Qt::BottomToolBarArea, insert_toolbar);
+}
+
 void RS_WidgetFactory::createMenus(QMenuBar *menu_bar)
 {
     QMenu* sub_menu;

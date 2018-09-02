@@ -24,7 +24,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 
-LC_VERSION="1.0.46"
+LC_VERSION="1.0.47"
 VERSION=$${LC_VERSION}
 
 # Для работы отладочных функций закомментируйте следующую строку
@@ -65,7 +65,8 @@ RESOURCES += ../res/icons/icons.qrc
 
 
 FORMS += \
-        ui/forms/ru_coordinatewidget.ui
+        ui/forms/ru_coordinatewidget.ui \
+    ui/forms/ru_informationwidget.ui
 
 
 ##################################################################
@@ -105,7 +106,8 @@ HEADERS += \
         lib/engine/rg_rectangle.h \
         lib/engine/rg_polygon.h \
     actions/rg_actioneditaddvertex.h \
-    actions/rg_actioneditdelvertex.h
+    actions/rg_actioneditdelvertex.h \
+    ui/forms/ru_informationwidget.h
 SOURCES += \
         lib/rl_settings.cpp \
         lib/gui/rl_dialogfactory.cpp \
@@ -139,7 +141,8 @@ SOURCES += \
         lib/engine/rg_rectangle.cpp \
         lib/engine/rg_polygon.cpp \
     actions/rg_actioneditaddvertex.cpp \
-    actions/rg_actioneditdelvertex.cpp
+    actions/rg_actioneditdelvertex.cpp \
+    ui/forms/ru_informationwidget.cpp
 
 
 ##################################################################

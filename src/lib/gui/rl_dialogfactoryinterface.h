@@ -19,6 +19,7 @@
 #define RL_DIALOGFACTORYINTERFACE_H
 
 class RU_CoordinateWidget;
+class RU_InformationWidget;
 class RG_Vector;
 
 /**
@@ -32,6 +33,8 @@ public:
     virtual void updateCoordinateWidget(const RG_Vector& coord1, const RG_Vector& coord2) = 0;
 
     virtual void setCoordinateWidget(RU_CoordinateWidget* cw) = 0;
+
+    virtual void setInformationWidget(RU_InformationWidget* iw) = 0;
 };
 
 #endif // RL_DIALOGFACTORYINTERFACE_H

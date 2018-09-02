@@ -28,6 +28,7 @@ class RS_ActionGroupManager;
 class RU_DialogFactory;
 class RG_Document;
 class RU_CoordinateWidget;
+class RU_InformationWidget;
 
 class RF_MainWindow : public QMainWindow
 {
@@ -52,6 +53,7 @@ private:
     RS_ActionGroupManager* ag_manager;
 
     RU_CoordinateWidget* coordinateWidget;
+    RU_InformationWidget* informationWidget;
 
 };
 

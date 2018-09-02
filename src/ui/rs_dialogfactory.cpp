@@ -18,11 +18,13 @@
 #include "rs_dialogfactory.h"
 
 #include "ru_coordinatewidget.h"
+#include "ru_informationwidget.h"
 
 RS_DialogFactory::RS_DialogFactory(QWidget *parent, QToolBar *ow)
     : RL_DialogFactoryInterface()
 {
     coordinateWidget = nullptr;
+    informationWidget = nullptr;
 }
 
 void RS_DialogFactory::updateCoordinateWidget(const RG_Vector &coord1, const RG_Vector &coord2)
@@ -35,4 +37,9 @@ void RS_DialogFactory::updateCoordinateWidget(const RG_Vector &coord1, const RG_
 void RS_DialogFactory::setCoordinateWidget(RU_CoordinateWidget *cw)
 {
     coordinateWidget = cw;
+}
+
+void RS_DialogFactory::setInformationWidget(RU_InformationWidget *iw)
+{
+    informationWidget = iw;
 }
