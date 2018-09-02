@@ -42,6 +42,7 @@ RS_WidgetFactory::RS_WidgetFactory(RF_MainWindow* main_win,
             << a_map["InsertPolygon"];
     edit_actions
             << a_map["Select"]
+            << a_map["Copy"]
             << a_map["Rotate"]
             << a_map["AddVertex"]
             << a_map["DelVertex"]

@@ -58,6 +58,11 @@ struct RG_AddVertexData {
     RG_Vector ptAddVertex;
 };
 
+struct RG_DelVertexData {
+    RG_Marker marker;
+    RG_Vector ptDelVertex;
+};
+
 class RG_Modification
 {
 public:
@@ -69,6 +74,7 @@ public:
     void move(const RG_MovingData& data);
     void rotate(const RG_RotateData& data);
     void addVertex(const RG_AddVertexData& data);
+    void delVertex(const RG_DelVertexData& data);
 protected:
     /**
      * @brief applyModification

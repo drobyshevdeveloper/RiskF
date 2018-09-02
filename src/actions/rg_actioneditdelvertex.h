@@ -15,23 +15,17 @@
 **
 ****************************************************************************/
 
-#ifndef RG_ACTIONEDITADDVERTEX_H
-#define RG_ACTIONEDITADDVERTEX_H
+#ifndef RG_ACTIONEDITDELVERTEX_H
+#define RG_ACTIONEDITDELVERTEX_H
 
 #include "rg_actioninterface.h"
 
-class RG_ActionEditAddVertex : public RG_ActionInterface, RG_IRecipientFromChildAction
+class RG_ActionEditDelVertex : public RG_ActionInterface, RG_IRecipientFromChildAction
 {
 public:
-    enum {
-        SetStartPoint,
-        SetNextPoint,
-        SetEndPoint
-    };
+    RG_ActionEditDelVertex(RG_EntityContainer& container, RG_GraphicView& graphicView);
 
-    RG_ActionEditAddVertex(RG_EntityContainer& container, RG_GraphicView& graphicView);
-
-    virtual ~RG_ActionEditAddVertex();
+    virtual ~RG_ActionEditDelVertex();
 
     virtual void init(int status=0) override;
 //    virtual void coordinateEvent(RG_CoordinateEvent* ce) override;
@@ -48,10 +42,10 @@ public:
     virtual void setChildActionExitCode(int cod) override;
 private:
     struct Points {
-        RG_Vector ptAddVertex;
+        RG_Vector ptDelVertex;
     };
 
     Points points;
 };
 
-#endif // RG_ACTIONEDITADDVERTEX_H
+#endif // RG_ACTIONEDITDELVERTEX_H

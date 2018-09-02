@@ -76,6 +76,12 @@ void RS_ActionFactory::fillActionContainer(QMap<QString, QAction *> &a_map, RS_A
     action->setObjectName("Select");
     a_map["Select"] = action;
 
+    action = new QAction(tr("&Copy"), agm->edit);
+    action->setIcon(QIcon(":/icons/Copy.png"));
+    connect(action, SIGNAL(triggered(bool)), action_handler, SLOT(slotCopy()));
+    action->setObjectName("Copy");
+    a_map["Copy"] = action;
+
     action = new QAction(tr("&Rotate"), agm->edit);
     action->setIcon(QIcon(":/icons/Rotate.png"));
     connect(action, SIGNAL(triggered(bool)), action_handler, SLOT(slotEditRotate()));
@@ -95,13 +101,13 @@ void RS_ActionFactory::fillActionContainer(QMap<QString, QAction *> &a_map, RS_A
     a_map["DelVertex"] = action;
 
     action = new QAction(tr("&Undo"), agm->edit);
-    action->setIcon(QIcon(":/icons/file.svg"));
+    action->setIcon(QIcon(":/icons/Undo.png"));
     connect(action, SIGNAL(triggered(bool)), action_handler, SLOT(slotUndo()));
     action->setObjectName("Undo");
     a_map["Undo"] = action;
 
     action = new QAction(tr("&Redo"), agm->edit);
-    action->setIcon(QIcon(":/icons/file-plus.svg"));
+    action->setIcon(QIcon(":/icons/Redo.png"));
     connect(action, SIGNAL(triggered(bool)), action_handler, SLOT(slotRedo()));
     action->setObjectName("Redo");
     a_map["Redo"] = action;

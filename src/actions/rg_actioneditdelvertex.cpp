@@ -15,7 +15,7 @@
 **
 ****************************************************************************/
 
-#include "rg_actioneditaddvertex.h"
+#include "rg_actioneditdelvertex.h"
 
 #include <QMouseEvent>
 
@@ -27,19 +27,18 @@
 #include "rg_polygon.h"
 #include "rg_actionselect.h"
 
-
-RG_ActionEditAddVertex::RG_ActionEditAddVertex(RG_EntityContainer& container, RG_GraphicView& graphicView)
-    : RG_ActionInterface("Add vertex", container, graphicView)
+RG_ActionEditDelVertex::RG_ActionEditDelVertex(RG_EntityContainer &container, RG_GraphicView& graphicView)
+    : RG_ActionInterface("Edit Delete Vertex", container, graphicView)
 {
 
 }
 
-RG_ActionEditAddVertex::~RG_ActionEditAddVertex()
+RG_ActionEditDelVertex::~RG_ActionEditDelVertex()
 {
 
 }
 
-void RG_ActionEditAddVertex::init(int status)
+void RG_ActionEditDelVertex::init(int status)
 {
     if (container->countSelection()==0) {
         graphicView->setCurrentAction(new RG_ActionSelect(*container, *graphicView, this));
@@ -47,7 +46,7 @@ void RG_ActionEditAddVertex::init(int status)
     RG_ActionInterface::init(status);
 }
 
-void RG_ActionEditAddVertex::trigger()
+void RG_ActionEditDelVertex::trigger()
 {
 //    RG_Polygon* poly = new RG_Polygon(container, points.data);
 //    container->addEntity(line);
@@ -56,7 +55,7 @@ void RG_ActionEditAddVertex::trigger()
 //    document->endUndoGroup();
 }
 
-void RG_ActionEditAddVertex::mouseMoveEvent(QMouseEvent *e)
+void RG_ActionEditDelVertex::mouseMoveEvent(QMouseEvent *e)
 {
 /*
     RG_Marker marker;
@@ -134,47 +133,35 @@ void RG_ActionEditAddVertex::mouseMoveEvent(QMouseEvent *e)
 //    RL_DIALOGFACTORY->updateCoordinateWidget(snapper, snapper);
 }
 
-void RG_ActionEditAddVertex::mousePressEvent(QMouseEvent *e)
+void RG_ActionEditDelVertex::mousePressEvent(QMouseEvent *e)
 {
     RG_Vector mouse = graphicView->toGraph(e->x(), e->y());
 
     if (e->button() == Qt::LeftButton) {
         RG_Marker marker = container->getNearestSelectedRef(mouse);
         if (marker.valid) {
-            if (marker.type == RG_Marker::Face) {
+            if (marker.type == RG_Marker::Vertex) {
                 if (marker.dist < 3.0) {
-                    // Найден маркер изменения вершин сущности
+                    // Найден маркер изменения граней сущности
                     // Определим тип объекта
                     if (marker.entity->rtti()==RG::EntityPolygon) {
                         // Найден соответствующий объект
-                        // Найдем ближайшую точку на грани/ребре
-                        RG_Polygon* poly = dynamic_cast<RG_Polygon*>(marker.entity);
-                        if (1) { //!poly->isRect()) {
+                        // Удалять вершины можно только если многоугольник состоит
+                        // из более чем трех точек
+                        if (marker.entity->getRefPoints().count()>3) {
                             // Многоугольник
-                            RG_VectorSolutions vs = poly->getRefPoints();
-                            RG_Vector pt  = RG_Information::getNearestPointOnLineSegment(mouse,
-                                          vs[marker.index],
-                                          vs[(marker.index+1)%vs.count()],
-                                          nullptr);
                             RG_Modification m(container, graphicView);
-                            m.addVertex({marker, pt});
+                            m.delVertex({marker, marker.coord});
                             graphicView->redraw(RG::RedrawDrawing);
                         }
                     }
-
- //                   if (
-
-                    // добавить ее в список вершин объекта
-
-                    // заменить объект через RG_Modification
-
                 }
             }
         }
     }
 }
 
-void RG_ActionEditAddVertex::mouseReleaseEvent(QMouseEvent *e)
+void RG_ActionEditDelVertex::mouseReleaseEvent(QMouseEvent *e)
 {
     /*
     RG_Vector mouse = graphicView->toGraph(e->x(), e->y());
@@ -241,7 +228,7 @@ void RG_ActionEditAddVertex::mouseReleaseEvent(QMouseEvent *e)
     */
 }
 
-void RG_ActionEditAddVertex::keyPressEvent(QKeyEvent *e)
+void RG_ActionEditDelVertex::keyPressEvent(QKeyEvent *e)
 {
     switch(e->key()) {
     case Qt::Key_Escape:
@@ -254,10 +241,8 @@ void RG_ActionEditAddVertex::keyPressEvent(QKeyEvent *e)
     }
 }
 
-void RG_ActionEditAddVertex::setChildActionExitCode(int cod)
+
+void RG_ActionEditDelVertex::setChildActionExitCode(int cod)
 {
-    if (cod == RG_ActionSelect::ActionCancel) {
-        finish();
-        graphicView->killAllActions();
-    }
+
 }

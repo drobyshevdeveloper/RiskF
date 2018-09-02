@@ -123,6 +123,15 @@ void RG_Modification::addVertex(const RG_AddVertexData &data)
     }
 }
 
+void RG_Modification::delVertex(const RG_DelVertexData &data)
+{
+    if (data.marker.entity->isSelected()) {
+        RG_Entity* en_copy = data.marker.entity->clone();
+        en_copy->delVertex(data.ptDelVertex);
+        applyModification(data.marker.entity, en_copy);
+    }
+}
+
 void RG_Modification::applyModification(std::vector<RG_Entity *> &list)
 {
     document->beginUndoGroup();

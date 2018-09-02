@@ -11,5 +11,8 @@
         <file>Rotate.png</file>
         <file>AddVertex.png</file>
         <file>DelVertex.png</file>
+        <file>Copy.png</file>
+        <file>Redo.png</file>
+        <file>Undo.png</file>
     </qresource>
 </RCC>

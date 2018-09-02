@@ -221,7 +221,7 @@ void RG_Polygon::moveVertex(int index, const RG_Vector &offset, RG_VectorSolutio
 void RG_Polygon::addVertex(const RG_Vector &coord, int index)
 {
     if (isRect()) {
-        // Наш объект имеет вид правильного прямоугольника, приведем его к полигону
+        // Наш объект имеет вид правильного прямоугольника, приведем его к многоугольнику
         RG_VectorSolutions vs = getRefPoints();
         data.vertexes = vs;
         fRect = false;
@@ -231,6 +231,12 @@ void RG_Polygon::addVertex(const RG_Vector &coord, int index)
 
 void RG_Polygon::delVertex(const RG_Vector &coord)
 {
+    if (isRect()) {
+        // Наш объект имеет вид правильного прямоугольника, приведем его к многоугольнику
+        RG_VectorSolutions vs = getRefPoints();
+        data.vertexes = vs;
+        fRect = false;
+    }
     data.vertexes.remove(coord);
 }
 
