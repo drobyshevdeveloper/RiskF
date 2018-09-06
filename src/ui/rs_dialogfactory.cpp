@@ -43,3 +43,10 @@ void RS_DialogFactory::setInformationWidget(RU_InformationWidget *iw)
 {
     informationWidget = iw;
 }
+
+void RS_DialogFactory::updateInformationWidget(const QString &strInfo)
+{
+    if (informationWidget) {
+        informationWidget->setInformation(strInfo);
+    }
+}

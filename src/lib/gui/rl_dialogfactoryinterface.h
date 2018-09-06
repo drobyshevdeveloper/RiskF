@@ -18,6 +18,7 @@
 #ifndef RL_DIALOGFACTORYINTERFACE_H
 #define RL_DIALOGFACTORYINTERFACE_H
 
+class QString;
 class RU_CoordinateWidget;
 class RU_InformationWidget;
 class RG_Vector;
@@ -35,6 +36,8 @@ public:
     virtual void setCoordinateWidget(RU_CoordinateWidget* cw) = 0;
 
     virtual void setInformationWidget(RU_InformationWidget* iw) = 0;
+
+    virtual void updateInformationWidget(const QString& strInfo) = 0;
 };
 
 #endif // RL_DIALOGFACTORYINTERFACE_H

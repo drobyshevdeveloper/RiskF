@@ -130,10 +130,12 @@ void RG_ActionDrawLine::updateMouseCursor()
     if (getStatus()==SetStartpoint) {
         setSnapperType(RG::SnapperDefault);
         graphicView->setMouseCursor(RG::ArrowCursor);
+        RL_DIALOGFACTORY->updateInformationWidget(tr("Установите первую точку"));
     }
     if (getStatus()==SetEndpoint) {
         setSnapperType(RG::SnapperMiddleCross);
         graphicView->setMouseCursor(RG::ArrowCursor);
+        RL_DIALOGFACTORY->updateInformationWidget(tr("Установите вторую точку"));
     }
 
 //    if (oldSt != getSnapperType()) {

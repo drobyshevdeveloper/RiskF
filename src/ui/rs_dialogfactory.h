@@ -21,6 +21,7 @@
 #include "rl_dialogfactoryinterface.h"
 
 class QWidget;
+class QString;
 class QToolBar;
 class RU_CoordinateWidget;
 class RU_InformationWidget;
@@ -38,6 +39,8 @@ public:
     void setCoordinateWidget(RU_CoordinateWidget* cw) override;
 
     void setInformationWidget(RU_InformationWidget *iw) override;
+
+    void updateInformationWidget(const QString& strInfo) override;
 protected:
     RU_CoordinateWidget* coordinateWidget;
     RU_InformationWidget* informationWidget;
