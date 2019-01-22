@@ -18,7 +18,7 @@
 #ifndef RG_PEN_H
 #define RG_PEN_H
 
-#include <QColor>
+#include <QColor.h>
 
 class RG_Pen
 {

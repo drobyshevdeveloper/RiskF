@@ -3,4 +3,5 @@ TARGET = RiskF
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    src
+    src \
+    test/test_RiskF
