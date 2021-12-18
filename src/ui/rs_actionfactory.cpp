@@ -18,13 +18,14 @@
 #include "rs_actionfactory.h"
 
 #include <QAction>
+#include <QActionGroup>
 
 #include "rs_actiongroupmanager.h"
 
 RS_ActionFactory::RS_ActionFactory(QObject *parent, QObject *a_handler)
     : QObject(parent)
-    , main_window(parent)
     , action_handler(a_handler)
+    , main_window(parent)
 {
 
 }

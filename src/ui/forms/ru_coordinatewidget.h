@@ -28,7 +28,7 @@ class RU_CoordinateWidget : public QWidget, public Ui::RU_CoordinateWidget
     Q_OBJECT
 
 public:
-    RU_CoordinateWidget(QWidget* parent = 0, Qt::WindowFlags fl = 0);
+    RU_CoordinateWidget(QWidget* parent = 0, Qt::WindowFlags fl = {});
     ~RU_CoordinateWidget();
 
     void setCoordinate(const RG_Vector& coord1, const RG_Vector& coord2);

@@ -18,7 +18,7 @@
 #include <QDebug>
 #include <QCoreApplication>
 
-#include "RL_settings.h"
+#include "rl_settings.h"
 
 RL_Settings*         RL_Settings::uniqueInstance = nullptr;
 RL_SettingsDestroyer RL_Settings::destroyer;

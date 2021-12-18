@@ -54,7 +54,7 @@ void RG_ActionZoomPan::mouseMoveEvent(QMouseEvent *e)
 {
     switch(getStatus()) {
     case SetPanning:
-        v2.set(e->x(), e->y());
+        v2=makeVector(e->position());
         trigger();
         break;
     }
@@ -64,7 +64,7 @@ void RG_ActionZoomPan::mousePressEvent(QMouseEvent *e)
 {
     if (e->button()==Qt::MiddleButton ||
             e->button()==Qt::LeftButton) {
-        v1.set(e->x(), e->y());
+        v1=makeVector(e->position());
         setStatus(SetPanning);
     }
 }

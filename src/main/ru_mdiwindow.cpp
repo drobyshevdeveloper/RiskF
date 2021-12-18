@@ -43,7 +43,7 @@ RU_MDIWindow::RU_MDIWindow(RG_Document *doc, QWidget *parent, Qt::WindowFlags wf
         owner = false;
     }
 
-    graphicView = new RS_GraphicView(this, 0, document);
+    graphicView = new RS_GraphicView(this, {}, document);
     setWidget(graphicView);
 
     id = ++idCounter;

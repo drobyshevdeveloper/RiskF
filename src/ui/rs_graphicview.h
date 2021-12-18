@@ -31,7 +31,7 @@ class RS_GraphicView : public RG_GraphicView
 {
 //    Q_OBJECT
 public:
-    explicit RS_GraphicView(QWidget* parent = 0, Qt::WindowFlags f = 0, RG_Document* doc = 0);
+    explicit RS_GraphicView(QWidget* parent = 0, Qt::WindowFlags f = {}, RG_Document* doc = 0);
     virtual ~RS_GraphicView();
 
     void redraw(RG::RedrawMethod method = RG::RedrawAll) override;
@@ -58,7 +58,7 @@ protected:
     void keyPressEvent(QKeyEvent* e) override;
     void keyReleaseEvent(QKeyEvent* e) override;
 
-    void enterEvent(QEvent* event) override;
+    void enterEvent(QEnterEvent* event) override;
     void leaveEvent(QEvent* event) override;
 
     void paintEvent(QPaintEvent* event) override;

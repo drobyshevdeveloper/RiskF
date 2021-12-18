@@ -133,7 +133,7 @@ protected:
     // Масштаб отображения
     RG_Vector scale;
 private:
-    QMap<RG::OverlayGraphics, RG_EntityContainer*> overlayEntities;
+    std::map<RG::OverlayGraphics, RG_EntityContainer> overlayEntities;
     // Переменные механизма стабилизации представления при изменении масштаба
     RG_Vector vGui   = RG_Vector(false);
     RG_Vector vGraph = RG_Vector(false);

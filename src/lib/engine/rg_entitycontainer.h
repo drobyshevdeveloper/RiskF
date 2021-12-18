@@ -27,10 +27,10 @@ class RG_EntityContainer;
 class RG_EntityContainer : public RG_Entity
 {
 public:
-    RG_EntityContainer(RG_EntityContainer* parent, bool owner = true);
+    RG_EntityContainer(RG_EntityContainer* parent = nullptr, bool owner = true);
     virtual ~RG_EntityContainer();
 
-    virtual RG_Entity* clone();
+    virtual RG_Entity* clone() override;
 
     virtual RG::EntityType rtti() const override{return RG::EntityContainer;}
     virtual bool isContainer() const override {return true;}

@@ -57,8 +57,8 @@ public slots:
     void slotRedo();
 
 private:
-    RG_GraphicView* graphicView;
-    RG_Document*    document;
+    RG_GraphicView* graphicView{};
+    RG_Document*    document{};
 };
 
 #endif // RS_ACTIONHANDLER_H

@@ -25,6 +25,7 @@ class RG_Entity;
 class RG_EntityContainer;
 class RG_GraphicView;
 class QMouseEvent;
+class QPointF;
 
 class RG_Snapper
 {
@@ -57,6 +58,15 @@ public:
      */
     RG_Vector setSnapPoint(const RG_Vector& coord);
     RG_Vector snapPoint(QMouseEvent* e);
+
+protected:
+    /**
+     * @brief setSnapPoint - Создает объект RG_Vector из точки QT
+     * @param p - точка QT из которой нужно сделать вектор
+     * @return объект RG_Vector
+     */
+    static RG_Vector makeVector(const QPointF &p);
+
 protected:
     RG_EntityContainer* container;
     RG_GraphicView* graphicView;

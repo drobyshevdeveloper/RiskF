@@ -20,6 +20,7 @@
 
 #include <QObject>
 #include <QList>
+#include <qevent.h>
 
 class RG_ActionInterface;
 
