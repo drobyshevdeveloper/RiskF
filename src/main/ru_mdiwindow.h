@@ -30,7 +30,7 @@ class RU_MDIWindow : public QMdiSubWindow
 public:
     RU_MDIWindow(RG_Document* doc,
                  QWidget* parent,
-                 Qt::WindowFlags wflags=0);
+                 Qt::WindowFlags wflags={});
     virtual ~RU_MDIWindow();
 
 

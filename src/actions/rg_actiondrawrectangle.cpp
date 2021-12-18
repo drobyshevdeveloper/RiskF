@@ -14,6 +14,7 @@
 ** находится в файле licenses.txt
 **
 ****************************************************************************/
+#include <QMouseEvent>
 
 #include "rg_actiondrawrectangle.h"
 

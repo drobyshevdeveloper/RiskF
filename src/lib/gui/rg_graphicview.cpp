@@ -34,15 +34,7 @@ RG_GraphicView::RG_GraphicView(QWidget *parent)
 
 RG_GraphicView::~RG_GraphicView()
 {
-    if (!overlayEntities.empty()) {
-        for (auto a : overlayEntities) {
-            delete a;
-        }
-        overlayEntities.clear();
-    }
-    if (eventHandler) {
-        delete eventHandler;
-    }
+    delete eventHandler;
 }
 
 void RG_GraphicView::setContainer(RG_EntityContainer *c)
@@ -285,12 +277,7 @@ void RG_GraphicView::onChangedAction()
 
 RG_EntityContainer* RG_GraphicView::getOverlayContainer(RG::OverlayGraphics position)
 {
-    if (overlayEntities[position]) {
-        return overlayEntities[position];
-    }
-
-    overlayEntities[position] = new RG_EntityContainer(nullptr);
-    return overlayEntities[position];
+    return &overlayEntities[position];
 }
 
 /**
@@ -340,14 +327,14 @@ void RG_GraphicView::drawLayer3(RG_Painter *painter)
         return;
     }
 
-    foreach (RG_EntityContainer* oe, overlayEntities) {
+    for (auto& [type, oe] : overlayEntities) {
         // Debug
-        if (oe==overlayEntities[RG::ActionPreviewEntity]) {
-            if (!oe->getEntityList().empty()) {
+        if (type==RG::ActionPreviewEntity) {
+            if (!oe.getEntityList().empty()) {
                 RL_DEBUG << "ActionPreviewEntity";
             }
         }
-        foreach (RG_Entity* e, oe->getEntityList()) {
+        foreach (RG_Entity* e, oe.getEntityList()) {
             RL_DEBUG << e;
             e->draw(painter, this);
         }

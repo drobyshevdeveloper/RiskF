@@ -136,7 +136,7 @@ void RG_ActionEditAddVertex::mouseMoveEvent(QMouseEvent *e)
 
 void RG_ActionEditAddVertex::mousePressEvent(QMouseEvent *e)
 {
-    RG_Vector mouse = graphicView->toGraph(e->x(), e->y());
+    RG_Vector mouse = graphicView->toGraph(makeVector(e->position()));
 
     if (e->button() == Qt::LeftButton) {
         RG_Marker marker = container->getNearestSelectedRef(mouse);

@@ -71,7 +71,7 @@ void RG_ActionEditRotate::coordinateEvent(RG_CoordinateEvent *ce)
 void RG_ActionEditRotate::mouseMoveEvent(QMouseEvent *e)
 {
 //    RG_Marker marker;
-    RG_Vector mouse = graphicView->toGraph(e->x(), e->y());
+    RG_Vector mouse = graphicView->toGraph(makeVector(e->position()));
 //    points.v2 = mouse;
 
     switch (getStatus()) {
@@ -135,7 +135,7 @@ void RG_ActionEditRotate::mousePressEvent(QMouseEvent *e)
 
 void RG_ActionEditRotate::mouseReleaseEvent(QMouseEvent *e)
 {
-    RG_Vector mouse = graphicView->toGraph(e->x(), e->y());
+    RG_Vector mouse = graphicView->toGraph(makeVector(e->position()));
 //    points->v2 = mouse;
 //    RG_Entity* en = nullptr;
 

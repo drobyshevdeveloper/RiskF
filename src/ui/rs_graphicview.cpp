@@ -153,7 +153,6 @@ void RS_GraphicView::addScrollbars()
     vScrollbar = new RS_ScrollBar(Qt::Vertical, this);
     layout = new QGridLayout(this);
 
-    layout->setMargin(0);
     layout->setSpacing(0);
     layout->setColumnStretch(0, 1);
     layout->setColumnStretch(1, 0);
@@ -210,13 +209,12 @@ void RS_GraphicView::mouseReleaseEvent(QMouseEvent *e)
 
 void RS_GraphicView::wheelEvent(QWheelEvent *e)
 {
-    double zoom;
-//    RL_DEBUG << "RS_GraphicView::wheelEvent() ========= delta =" << e->delta();
+//    RL_DEBUG << "RS_GraphicView::wheelEvent() ========= delta =" << e->angleDelta().y();
 //    RL_DEBUG << "source = " << e->source();
 //    RL_DEBUG << "phase =" << e->phase();
 
     // Если движения отсутстует то ничего не делаем
-    if (e->delta() == 0) {
+    if (e->angleDelta().y() == 0) {
         e->accept();
         return;
     }
@@ -225,24 +223,22 @@ void RS_GraphicView::wheelEvent(QWheelEvent *e)
 //
 //    }
 
-    if (e->delta() > 0) {
+    double zoom = 1.0 + 0.137 / 120.0 * std::abs(e->angleDelta().y());
+    RG_Vector vec(e->position().x(),e->position().y());
+    if (e->angleDelta().y() > 0) {
         // Колесико мыши повернулось вперед, от пользователя
         // Уменьшим масштаб
-        zoom = 1.0 + 0.137 / 120.0 * std::abs(e->delta());
-        setCurrentAction(new RG_ActionZoom(*container, *this, RG::Out, RG_Vector(e->x(), e->y()),zoom));
-//        zoom = 1.137;
+        setCurrentAction(new RG_ActionZoom(*container, *this, RG::Out, vec, zoom));
     } else {
         // Колесико мыши повернулось назад, к пользователю
         // Увеличим масштаб
-//        zoom = 1.137;
-        zoom = 1.0 + 0.137 / 120.0 * std::abs(e->delta());
-        setCurrentAction(new RG_ActionZoom(*container, *this, RG::In, RG_Vector(e->x(), e->y()),zoom));
+        setCurrentAction(new RG_ActionZoom(*container, *this, RG::In, vec, zoom));
     }
 
     // Из-за погрешности вычислений позиция нарисованного курсора может меняться,
     // поэтому сместим его на текущую позицию системного курсора
     QMouseEvent* event = new QMouseEvent(QEvent::MouseMove,
-                                         QPoint(e->x(), e->y()),
+                                         e->position(),
                                          Qt::NoButton, Qt::NoButton,
                                          Qt::NoModifier);
     eventHandler->mouseMoveEvent(event);
@@ -261,7 +257,7 @@ void RS_GraphicView::keyReleaseEvent(QKeyEvent *e)
     eventHandler->keyReleaseEvent(e);
 }
 
-void RS_GraphicView::enterEvent(QEvent *event)
+void RS_GraphicView::enterEvent(QEnterEvent *event)
 {
     QWidget::enterEvent(event);
 }

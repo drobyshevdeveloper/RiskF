@@ -40,10 +40,10 @@ RG_Vector::RG_Vector(double vx, double vy, double vz)
 }*/
 
 RG_Vector::RG_Vector(bool valid)
-    :valid(valid)
-    , x(0.0)
+    : x(0.0)
     , y(0.0)
     , z(0.0)
+    , valid(valid)
 {
 }
 

@@ -14,6 +14,7 @@
 ** находится в файле licenses.txt
 **
 ****************************************************************************/
+#include <qevent.h>
 
 #include "rg_actiondrawpolygon.h"
 
@@ -48,8 +49,7 @@ void RG_ActionDrawPolygon::init(int status)
 
 void RG_ActionDrawPolygon::trigger()
 {
-    RG_PolygonData polyData;
-    polyData.vertexes = points.vs;
+    RG_PolygonData polyData{points.vs};
     RG_Polygon* poly = new RG_Polygon(container, polyData, isRect);
     container->addEntity(poly);
     document->beginUndoGroup();
@@ -107,8 +107,7 @@ void RG_ActionDrawPolygon::mouseMoveEvent(QMouseEvent *e)
     if (getStatus() == SetNextPoint) {
         // Выводим многоугольник на просмотр если текущий режим - установка следующей точки многоугольника
         deletePreview();
-        RG_PolygonData polyData;
-        polyData.vertexes = points.vs;
+        RG_PolygonData polyData{points.vs};
         polyData.vertexes.push_Back(mouse);
         RG_Polygon* poly = new RG_Polygon(nullptr, polyData, isRect);
         preview->addEntity(poly);
@@ -120,8 +119,7 @@ void RG_ActionDrawPolygon::mouseMoveEvent(QMouseEvent *e)
     if (getStatus() == SetEndPoint) {
         // Выводим прямоугольник на просмотр если текущий режим - установка второй точки прямоугольника
         deletePreview();
-        RG_PolygonData polyData;
-        polyData.vertexes = points.vs;
+        RG_PolygonData polyData{points.vs};
         polyData.vertexes.push_Back(mouse);
         RG_Polygon* poly = new RG_Polygon(nullptr, polyData, isRect);
         preview->addEntity(poly);

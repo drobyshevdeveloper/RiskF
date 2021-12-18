@@ -171,3 +171,9 @@ RG_Entity* RG_Snapper::catchEntity(const RG_Vector &pos)
     RL_DEBUG << "RG_Snapper::catchEntity en=" << en << "; dist=" << dist;
     return en;
 }
+
+// Создает объект RG_Vector из точки QT
+RG_Vector RG_Snapper::makeVector(const QPointF &p)
+{
+    return{p.x(),p.y()};
+}

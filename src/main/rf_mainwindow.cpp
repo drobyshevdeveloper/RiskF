@@ -34,8 +34,8 @@
 RF_MainWindow::RF_MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , action_handler( new RS_ActionHandler(this) )
-    , ag_manager( new RS_ActionGroupManager(this) )
     , dialogFactory (nullptr)
+    , ag_manager( new RS_ActionGroupManager(this) )
 {
     setCorner(Qt::TopLeftCorner, Qt::LeftDockWidgetArea);
     setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);

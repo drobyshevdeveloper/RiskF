@@ -222,8 +222,7 @@ void RG_Polygon::addVertex(const RG_Vector &coord, int index)
 {
     if (isRect()) {
         // Наш объект имеет вид правильного прямоугольника, приведем его к многоугольнику
-        RG_VectorSolutions vs = getRefPoints();
-        data.vertexes = vs;
+        data.vertexes = getRefPoints();
         fRect = false;
     }
     data.vertexes.insert(coord, index);
@@ -233,8 +232,7 @@ void RG_Polygon::delVertex(const RG_Vector &coord)
 {
     if (isRect()) {
         // Наш объект имеет вид правильного прямоугольника, приведем его к многоугольнику
-        RG_VectorSolutions vs = getRefPoints();
-        data.vertexes = vs;
+        data.vertexes = getRefPoints();
         fRect = false;
     }
     data.vertexes.remove(coord);
